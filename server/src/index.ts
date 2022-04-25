@@ -7,12 +7,28 @@ const app = express()
 async function main() {
     app.use(express.json())
 
-    app.get('/feed', async (req, res) => {
+    app.get('/', async (_, res) => {
+        res.status(200).send('ok')
+    })
+
+    app.get('/feed', async (_, res) => {
         const posts = await prisma.post.findMany({
             where: { published: true },
             include: { author: true },
         })
+        console.log(posts)
         res.json(posts)
+    })
+
+    app.get(`/posts`, async (req, res) => {
+        const post = await prisma.post.create({
+            data: {
+                title: 'My first post',
+                content: 'Hello world',
+                published: true,
+            },
+        })
+        res.json(post)
     })
 
     app.get(`/post/:id`, async (req, res) => {
@@ -60,7 +76,9 @@ async function main() {
         res.json(post)
     })
 
-    app.listen(3000, () => console.log('REST API server ready at: http://localhost:3000'))
+    app.listen(3000, () =>
+        console.log('REST API server ready at: http://localhost:3000')
+    )
 }
 
 console.log('hej')

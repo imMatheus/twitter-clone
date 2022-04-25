@@ -19,12 +19,26 @@ const app = (0, express_1.default)();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         app.use(express_1.default.json());
-        app.get('/feed', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        app.get('/', (_, res) => __awaiter(this, void 0, void 0, function* () {
+            res.status(200).send('ok');
+        }));
+        app.get('/feed', (_, res) => __awaiter(this, void 0, void 0, function* () {
             const posts = yield prisma.post.findMany({
                 where: { published: true },
                 include: { author: true },
             });
+            console.log(posts);
             res.json(posts);
+        }));
+        app.get(`/posts`, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const post = yield prisma.post.create({
+                data: {
+                    title: 'My first post',
+                    content: 'Hello world',
+                    published: true,
+                },
+            });
+            res.json(post);
         }));
         app.get(`/post/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -69,6 +83,7 @@ function main() {
         app.listen(3000, () => console.log('REST API server ready at: http://localhost:3000'));
     });
 }
+console.log('hej');
 main()
     .catch((e) => console.error(e))
     .finally(() => __awaiter(void 0, void 0, void 0, function* () { return yield prisma.$disconnect(); }));
