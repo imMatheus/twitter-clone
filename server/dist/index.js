@@ -14,8 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         app.use(express_1.default.json());
@@ -23,62 +25,40 @@ function main() {
             res.status(200).send('ok');
         }));
         app.get('/feed', (_, res) => __awaiter(this, void 0, void 0, function* () {
-            const posts = yield prisma.post.findMany({
-                where: { published: true },
-                include: { author: true },
-            });
-            console.log(posts);
-            res.json(posts);
-        }));
-        app.get(`/posts`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const post = yield prisma.post.create({
-                data: {
-                    title: 'My first post',
-                    content: 'Hello world',
-                    published: true,
+            const posts = yield prisma.tweet.findMany({
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    owner: true,
                 },
             });
-            res.json(post);
+            res.json(posts);
         }));
-        app.get(`/post/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const post = yield prisma.post.findFirst({
-                where: { id: Number(id) },
-            });
-            res.json(post);
+        app.get(`/tweets`, (_, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield prisma.tweet.findMany({});
+            res.json(result);
         }));
-        app.post(`/user`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const result = yield prisma.user.create({
+        app.post(`/tweets`, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield prisma.tweet.create({
                 data: Object.assign({}, req.body),
             });
             res.json(result);
         }));
-        app.post(`/post`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { title, content, authorEmail } = req.body;
-            const result = yield prisma.post.create({
-                data: {
-                    title,
-                    content,
-                    published: false,
-                    author: { connect: { email: authorEmail } },
-                },
+        app.get(`/tweets/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const post = yield prisma.tweet.findFirst({
+                where: { id },
+            });
+            res.json(post);
+        }));
+        app.get('/users', (_, res) => __awaiter(this, void 0, void 0, function* () {
+            const users = yield prisma.user.findMany({});
+            res.json(users);
+        }));
+        app.post('/user', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield prisma.user.create({
+                data: Object.assign({}, req.body),
             });
             res.json(result);
-        }));
-        app.put('/post/publish/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const post = yield prisma.post.update({
-                where: { id: Number(id) },
-                data: { published: true },
-            });
-            res.json(post);
-        }));
-        app.delete(`/post/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const post = yield prisma.post.delete({
-                where: { id: Number(id) },
-            });
-            res.json(post);
         }));
         app.listen(3000, () => console.log('REST API server ready at: http://localhost:3000'));
     });

@@ -10,21 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Tweet {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  text      String
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+}
+
 model User {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  color     String
+  updatedAt DateTime @default(now()) @updatedAt
+  handle    String   @unique
   email     String   @unique
-  posts     Post[]
-}
-
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+  name      String
+  password  String   @default("hej")
+  tweets    Tweet[]
 }

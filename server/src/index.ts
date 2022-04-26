@@ -1,8 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
+import cors from 'cors'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 const app = express()
+
+app.use(cors())
 
 async function main() {
     app.use(express.json())
@@ -12,69 +16,66 @@ async function main() {
     })
 
     app.get('/feed', async (_, res) => {
-        const posts = await prisma.post.findMany({
-            where: { published: true },
-            include: { author: true },
+        const posts = await prisma.tweet.findMany({
+            orderBy: { createdAt: 'desc' },
+            include: {
+                owner: true,
+            },
         })
-        console.log(posts)
+
         res.json(posts)
     })
 
-    app.get(`/posts`, async (req, res) => {
-        const post = await prisma.post.create({
+    app.get(`/tweets`, async (_, res) => {
+        const result = await prisma.tweet.findMany({})
+        res.json(result)
+    })
+
+    app.post(`/tweets`, async (req, res) => {
+        const result = await prisma.tweet.create({
             data: {
-                title: 'My first post',
-                content: 'Hello world',
-                published: true,
+                ...req.body,
             },
         })
-        res.json(post)
+        res.json(result)
     })
 
-    app.get(`/post/:id`, async (req, res) => {
+    app.get(`/tweets/:id`, async (req, res) => {
         const { id } = req.params
-        const post = await prisma.post.findFirst({
-            where: { id: Number(id) },
+        const post = await prisma.tweet.findFirst({
+            where: { id },
         })
         res.json(post)
     })
 
-    app.post(`/user`, async (req, res) => {
+    app.get('/users', async (_, res) => {
+        const users = await prisma.user.findMany({})
+        res.json(users)
+    })
+
+    app.post('/user', async (req, res) => {
         const result = await prisma.user.create({
             data: { ...req.body },
         })
         res.json(result)
     })
 
-    app.post(`/post`, async (req, res) => {
-        const { title, content, authorEmail } = req.body
-        const result = await prisma.post.create({
-            data: {
-                title,
-                content,
-                published: false,
-                author: { connect: { email: authorEmail } },
-            },
-        })
-        res.json(result)
-    })
+    // app.put('/post/publish/:id', async (req, res) => {
+    //     const { id } = req.params
+    //     const post = await prisma.post.update({
+    //         where: { id: Number(id) },
+    //         data: { published: true },
+    //     })
+    //     res.json(post)
+    // })
 
-    app.put('/post/publish/:id', async (req, res) => {
-        const { id } = req.params
-        const post = await prisma.post.update({
-            where: { id: Number(id) },
-            data: { published: true },
-        })
-        res.json(post)
-    })
-
-    app.delete(`/post/:id`, async (req, res) => {
-        const { id } = req.params
-        const post = await prisma.post.delete({
-            where: { id: Number(id) },
-        })
-        res.json(post)
-    })
+    // app.delete(`/post/:id`, async (req, res) => {
+    //     const { id } = req.params
+    //     const post = await prisma.post.delete({
+    //         where: { id: Number(id) },
+    //     })
+    //     res.json(post)
+    // })
 
     app.listen(3000, () =>
         console.log('REST API server ready at: http://localhost:3000')
