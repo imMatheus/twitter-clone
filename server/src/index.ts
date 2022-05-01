@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
 import cors from 'cors'
-import bcrypt from 'bcrypt'
-
+// import bcrypt from 'bcrypt'
+const PORT = 4000
 const prisma = new PrismaClient()
 const app = express()
 
@@ -77,7 +77,7 @@ async function main() {
     //     res.json(post)
     // })
 
-    app.listen(3000, () =>
+    app.listen(PORT, () =>
         console.log('REST API server ready at: http://localhost:3000')
     )
 }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const PORT = 4000;
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -60,7 +61,7 @@ function main() {
             });
             res.json(result);
         }));
-        app.listen(3000, () => console.log('REST API server ready at: http://localhost:3000'));
+        app.listen(PORT, () => console.log('REST API server ready at: http://localhost:3000'));
     });
 }
 console.log('hej');
