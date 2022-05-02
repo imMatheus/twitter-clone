@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --theme: #1d9bf0;
+    --bg: #000;
+    --bg-grayed: #202327;
+    --bg-grayed-dark: #16181c;
+    --text: #e7e9ea;
+    --text-grayed: #71767b;
+    --border: #2f3336;
+}

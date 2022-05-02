@@ -13,5 +13,5 @@ export function getDateSincePost(d: string) {
     if (diff < 60) return diff + ' secs' // within 1 minute
     if (diff < 60 * 60) return Math.floor(diff / 60) + ' min' // within 1 hour
     if (diff < 60 * 60 * 24) return Math.floor(diff / 3600) + ' hours' // within 1 day
-    return dateConverter.format(timePost, 'YYYY-MM-DD') // just returns date
+    return dateConverter.format(timePost, 'DD MMM') // just returns date
 }

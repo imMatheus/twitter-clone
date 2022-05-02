@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const getAvatarUrl_1 = require("./utils/getAvatarUrl");
 const PORT = 4000;
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
@@ -34,10 +36,6 @@ function main() {
             });
             res.json(posts);
         }));
-        app.get(`/tweets`, (_, res) => __awaiter(this, void 0, void 0, function* () {
-            const result = yield prisma.tweet.findMany({});
-            res.json(result);
-        }));
         app.post(`/tweets`, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const result = yield prisma.tweet.create({
                 data: Object.assign({}, req.body),
@@ -55,11 +53,23 @@ function main() {
             const users = yield prisma.user.findMany({});
             res.json(users);
         }));
-        app.post('/user', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const result = yield prisma.user.create({
-                data: Object.assign({}, req.body),
-            });
-            res.json(result);
+        app.get('/users/:handle', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { handle } = req.params;
+            const user = yield prisma.user.findFirst({ where: { handle } });
+            res.json(user);
+        }));
+        app.post('/users', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { password } = req.body;
+                const hash = bcrypt_1.default.hashSync(password, 10);
+                const result = yield prisma.user.create({
+                    data: Object.assign(Object.assign({}, req.body), { password: hash, profileImage: (0, getAvatarUrl_1.getAvatarUrl)(req.body.handle) }),
+                });
+                res.json(result);
+            }
+            catch (error) {
+                res.status(400).json({ error: 'Could not create user' });
+            }
         }));
         app.listen(PORT, () => console.log('REST API server ready at: http://localhost:3000'));
     });

@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
 import cors from 'cors'
-// import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
+import { getAvatarUrl } from './utils/getAvatarUrl'
 const PORT = 4000
 const prisma = new PrismaClient()
 const app = express()
@@ -26,11 +27,6 @@ async function main() {
         res.json(posts)
     })
 
-    app.get(`/tweets`, async (_, res) => {
-        const result = await prisma.tweet.findMany({})
-        res.json(result)
-    })
-
     app.post(`/tweets`, async (req, res) => {
         const result = await prisma.tweet.create({
             data: {
@@ -53,11 +49,27 @@ async function main() {
         res.json(users)
     })
 
-    app.post('/user', async (req, res) => {
-        const result = await prisma.user.create({
-            data: { ...req.body },
-        })
-        res.json(result)
+    app.get('/users/:handle', async (req, res) => {
+        const { handle } = req.params
+        const user = await prisma.user.findFirst({ where: { handle } })
+        res.json(user)
+    })
+
+    app.post('/users', async (req, res) => {
+        try {
+            const { password } = req.body
+            const hash = bcrypt.hashSync(password, 10)
+            const result = await prisma.user.create({
+                data: {
+                    ...req.body,
+                    password: hash,
+                    profileImage: getAvatarUrl(req.body.handle),
+                },
+            })
+            res.json(result)
+        } catch (error) {
+            res.status(400).json({ error: 'Could not create user' })
+        }
     })
 
     // app.put('/post/publish/:id', async (req, res) => {

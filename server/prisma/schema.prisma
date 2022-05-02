@@ -20,12 +20,13 @@ model Tweet {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  handle    String   @unique
-  email     String   @unique
-  name      String
-  password  String   @default("hej")
-  tweets    Tweet[]
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  handle       String   @unique
+  email        String   @unique
+  name         String
+  profileImage String   
+  password     String   
+  tweets       Tweet[]
 }
