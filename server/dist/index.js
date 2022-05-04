@@ -55,8 +55,17 @@ function main() {
         }));
         app.get('/users/:handle', (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { handle } = req.params;
-            const user = yield prisma.user.findFirst({ where: { handle } });
-            res.json(user);
+            const user = yield prisma.user.findFirst({
+                where: { handle },
+                include: { tweets: { orderBy: { createdAt: 'desc' }, include: { owner: true } } },
+            });
+            if (!user)
+                return res.json(null);
+            const numberOfTweets = yield prisma.tweet.count({
+                where: { owner: { id: user.id } },
+            });
+            console.log(numberOfTweets);
+            res.json(Object.assign(Object.assign({}, user), { numberOfTweets }));
         }));
         app.post('/users', (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -71,7 +80,7 @@ function main() {
                 res.status(400).json({ error: 'Could not create user' });
             }
         }));
-        app.listen(PORT, () => console.log('REST API server ready at: http://localhost:3000'));
+        app.listen(PORT, () => console.log('REST API server ready at: http://localhost:' + PORT));
     });
 }
 console.log('hej');

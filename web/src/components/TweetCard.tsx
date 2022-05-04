@@ -3,11 +3,12 @@ import { Tweet as ITweet } from '@/types/Tweet'
 import { getDateSincePost } from '@/utils/getDateSincePost'
 import Image from 'next/image'
 import Link from 'next/link'
-interface TweetProps {
+
+interface TweetCardProps {
     tweet: ITweet
 }
 
-const Tweet: React.FC<TweetProps> = ({ tweet }) => {
+const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
     return (
         <article className='p-4 flex gap-2 items-start'>
             <Link href={`/users/${tweet.owner.handle}`} passHref>
@@ -28,17 +29,9 @@ const Tweet: React.FC<TweetProps> = ({ tweet }) => {
                             <h2 className='font-bold'>{tweet.owner.name}</h2>
                         </a>
                     </Link>
-                    <h3 className='text-text-grayed text-sm'>
-                        @{tweet.owner.handle}
-                    </h3>
-                    <div
-                        className='w-0.5 h-0.5 rounded-full bg-text-grayed'
-                        aria-hidden
-                    ></div>
-                    <time
-                        className='text-text-grayed text-sm'
-                        dateTime={tweet.createdAt}
-                    >
+                    <h3 className='text-text-grayed text-sm'>@{tweet.owner.handle}</h3>
+                    <div className='w-0.5 h-0.5 rounded-full bg-text-grayed' aria-hidden></div>
+                    <time className='text-text-grayed text-sm' dateTime={tweet.createdAt}>
                         {getDateSincePost(tweet.createdAt)}
                         {/* {tweet.createdAt + ''} */}
                     </time>
@@ -49,4 +42,4 @@ const Tweet: React.FC<TweetProps> = ({ tweet }) => {
     )
 }
 
-export default Tweet
+export default TweetCard

@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { getAvatarUrl } from './utils/getAvatarUrl'
+
 const PORT = 4000
 const prisma = new PrismaClient()
 const app = express()
@@ -51,8 +52,21 @@ async function main() {
 
     app.get('/users/:handle', async (req, res) => {
         const { handle } = req.params
-        const user = await prisma.user.findFirst({ where: { handle } })
-        res.json(user)
+
+        const user = await prisma.user.findFirst({
+            where: { handle },
+            include: { tweets: { orderBy: { createdAt: 'desc' }, include: { owner: true } } },
+        })
+
+        if (!user) return res.json(null)
+
+        // count number of tweets for user
+        const numberOfTweets = await prisma.tweet.count({
+            where: { owner: { id: user.id } },
+        })
+        console.log(numberOfTweets)
+
+        res.json({ ...user, numberOfTweets })
     })
 
     app.post('/users', async (req, res) => {
@@ -89,9 +103,7 @@ async function main() {
     //     res.json(post)
     // })
 
-    app.listen(PORT, () =>
-        console.log('REST API server ready at: http://localhost:3000')
-    )
+    app.listen(PORT, () => console.log('REST API server ready at: http://localhost:' + PORT))
 }
 
 console.log('hej')

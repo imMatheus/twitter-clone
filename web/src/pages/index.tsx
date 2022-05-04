@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import TweetsContainer from '@/components/TweetsContainer'
-import Tweet from '@/components/Tweet'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { useSWR } from '@/hooks/useSWR'
 
@@ -14,11 +13,7 @@ const Home: NextPage = () => {
         <div>
             <h2>hej</h2>
 
-            <TweetsContainer>
-                {tweets?.map((tweet) => (
-                    <Tweet key={tweet.id} tweet={tweet} />
-                ))}
-            </TweetsContainer>
+            {tweets && <TweetsContainer tweets={tweets} />}
         </div>
     )
 }
