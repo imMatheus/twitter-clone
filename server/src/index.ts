@@ -29,12 +29,28 @@ async function main() {
     })
 
     app.post(`/tweets`, async (req, res) => {
-        const result = await prisma.tweet.create({
-            data: {
-                ...req.body,
-            },
-        })
-        res.json(result)
+        console.log(req.body)
+        const { ownerId } = req.body
+
+        try {
+            const result = await prisma.tweet.create({
+                data: {
+                    ...req.body,
+                },
+            })
+
+            console.log('klarade det')
+
+            await prisma.user.update({
+                where: { id: ownerId },
+                data: {
+                    numberOfTweets: { increment: 1 },
+                },
+            })
+            res.json(result)
+        } catch (error) {
+            res.json({ error: 'Could not create tweet' })
+        }
     })
 
     app.get(`/tweets/:id`, async (req, res) => {
@@ -46,7 +62,25 @@ async function main() {
     })
 
     app.get('/users', async (_, res) => {
-        const users = await prisma.user.findMany({})
+        const updatedUser = await prisma.user.findMany()
+        // {
+        // where: {
+        //     id: '056be091-b1af-4c3f-ae64-29365e87d884',
+        // }
+        // data: {
+        //     followers: {
+        //         connect: {
+        //             followerId_followingId:
+        //                 '056be091-b1af-4c3f-ae64-29365e87d884',
+        //         },
+        //     },
+        // },
+
+        console.log(updatedUser)
+
+        const users = await prisma.user.findMany({
+            include: { followers: true },
+        })
         res.json(users)
     })
 
@@ -55,7 +89,12 @@ async function main() {
 
         const user = await prisma.user.findFirst({
             where: { handle },
-            include: { tweets: { orderBy: { createdAt: 'desc' }, include: { owner: true } } },
+            include: {
+                tweets: {
+                    orderBy: { createdAt: 'desc' },
+                    include: { owner: true },
+                },
+            },
         })
 
         if (!user) return res.json(null)
@@ -103,7 +142,9 @@ async function main() {
     //     res.json(post)
     // })
 
-    app.listen(PORT, () => console.log('REST API server ready at: http://localhost:' + PORT))
+    app.listen(PORT, () =>
+        console.log('REST API server ready at: http://localhost:' + PORT)
+    )
 }
 
 console.log('hej')

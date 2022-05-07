@@ -6,6 +6,7 @@
     "scripts": {
         "build": "tsc",
         "migrate": "npx prisma migrate dev --name 'init' --preview-feature",
+        "studio": "npx prisma studio",
         "docker:build": "docker-compose up -d",
         "docker:check": "docker ps",
         "watch": "tsc -w",

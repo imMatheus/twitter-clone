@@ -37,10 +37,24 @@ function main() {
             res.json(posts);
         }));
         app.post(`/tweets`, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const result = yield prisma.tweet.create({
-                data: Object.assign({}, req.body),
-            });
-            res.json(result);
+            console.log(req.body);
+            const { ownerId } = req.body;
+            try {
+                const result = yield prisma.tweet.create({
+                    data: Object.assign({}, req.body),
+                });
+                console.log('klarade det');
+                yield prisma.user.update({
+                    where: { id: ownerId },
+                    data: {
+                        numberOfTweets: { increment: 1 },
+                    },
+                });
+                res.json(result);
+            }
+            catch (error) {
+                res.json({ error: 'Could not create tweet' });
+            }
         }));
         app.get(`/tweets/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -50,14 +64,23 @@ function main() {
             res.json(post);
         }));
         app.get('/users', (_, res) => __awaiter(this, void 0, void 0, function* () {
-            const users = yield prisma.user.findMany({});
+            const updatedUser = yield prisma.user.findMany();
+            console.log(updatedUser);
+            const users = yield prisma.user.findMany({
+                include: { followers: true },
+            });
             res.json(users);
         }));
         app.get('/users/:handle', (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { handle } = req.params;
             const user = yield prisma.user.findFirst({
                 where: { handle },
-                include: { tweets: { orderBy: { createdAt: 'desc' }, include: { owner: true } } },
+                include: {
+                    tweets: {
+                        orderBy: { createdAt: 'desc' },
+                        include: { owner: true },
+                    },
+                },
             });
             if (!user)
                 return res.json(null);

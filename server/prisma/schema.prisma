@@ -10,6 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  handle         String    @unique
+  email          String    @unique
+  name           String
+  profileImage   String
+  password       String
+  tweets         Tweet[]
+  numberOfTweets Int       @default(0)
+  followers      Follows[] @relation("follower")
+  followersCount Int       @default(0)
+  following      Follows[] @relation("following")
+  followingCount Int       @default(0)
+}
+
 model Tweet {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
@@ -19,14 +36,11 @@ model Tweet {
   owner     User     @relation(fields: [ownerId], references: [id])
 }
 
-model User {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
-  handle       String   @unique
-  email        String   @unique
-  name         String
-  profileImage String   
-  password     String   
-  tweets       Tweet[]
+model Follows {
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+
+  @@id([followerId, followingId])
 }
