@@ -1,32 +1,33 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noEmit": true,
-        "esModuleInterop": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "preserve",
-        "incremental": true,
-        "baseUrl": "./src",
-        "paths": {
-            "@/components/*": ["components/*"],
-            "@/constants": ["constants/index.ts"],
-            "@/constants/*": ["constants/*"],
-            "@/context/*": ["context/*"],
-            "@/utils/*": ["utils/*"],
-            "@/types/*": ["types/*"],
-            "@/hooks/*": ["hooks/*"],
-            "@/models/*": ["models/*"],
-            "styles/*": ["styles/*"]
-        }
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"baseUrl": "./src",
+		"paths": {
+			"@/components/*": ["components/*"],
+			"@/constants": ["constants/index.ts"],
+			"@/constants/*": ["constants/*"],
+			"@/context/*": ["context/*"],
+			"@/public/*": ["../public/*"],
+			"@/utils/*": ["utils/*"],
+			"@/types/*": ["types/*"],
+			"@/hooks/*": ["hooks/*"],
+			"@/models/*": ["models/*"],
+			"styles/*": ["styles/*"]
+		}
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
 }
