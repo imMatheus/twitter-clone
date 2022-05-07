@@ -103,7 +103,6 @@ async function main() {
         const numberOfTweets = await prisma.tweet.count({
             where: { owner: { id: user.id } },
         })
-        console.log(numberOfTweets)
 
         res.json({ ...user, numberOfTweets })
     })

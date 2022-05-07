@@ -4,6 +4,9 @@ module.exports = {
 		extend: {
 			colors: {
 				theme: 'var(--theme)',
+				carolina: '#1D9BF0',
+				olive: '#00ba7c',
+				'candy-pink': '#f91880',
 				bg: 'var(--bg)',
 				'bg-grayed': 'var(--bg-grayed)',
 				'bg-grayed-dark': 'var(--bg-grayed-dark)',
