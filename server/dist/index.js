@@ -87,8 +87,7 @@ function main() {
             const numberOfTweets = yield prisma.tweet.count({
                 where: { owner: { id: user.id } },
             });
-            console.log(numberOfTweets);
-            res.json(Object.assign(Object.assign({}, user), { numberOfTweets }));
+            return res.json(Object.assign(Object.assign({}, user), { numberOfTweets }));
         }));
         app.post('/users', (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
