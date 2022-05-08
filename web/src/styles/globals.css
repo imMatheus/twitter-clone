@@ -11,3 +11,7 @@
 	--text-grayed: #71767b;
 	--border: #2f3336;
 }
+
+body {
+	font-size: 15px;
+}

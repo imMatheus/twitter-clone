@@ -61,27 +61,64 @@ async function main() {
         res.json(post)
     })
 
-    app.get('/users', async (_, res) => {
-        const updatedUser = await prisma.user.findMany()
-        // {
-        // where: {
-        //     id: '056be091-b1af-4c3f-ae64-29365e87d884',
-        // }
-        // data: {
-        //     followers: {
-        //         connect: {
-        //             followerId_followingId:
-        //                 '056be091-b1af-4c3f-ae64-29365e87d884',
-        //         },
-        //     },
-        // },
-
-        console.log(updatedUser)
-
-        const users = await prisma.user.findMany({
-            include: { followers: true },
+    app.put(`/tweets/:id/like`, async (req, res) => {
+        const { id } = req.params
+        console.log(id)
+        const x = await prisma.tweet.update({
+            where: { id },
+            data: {
+                numberOfLikes: { increment: 1 },
+                likes: {
+                    createMany: {
+                        data: {
+                            userId: '5a21fd5c-6695-4cf1-8d6c-50d143256c71',
+                        },
+                    },
+                },
+            },
         })
-        res.json(users)
+        console.log(x)
+
+        res.send(id)
+
+        // const post = await prisma.tweet.update({
+        //     where: { id },
+        //     data:{li}
+        // })
+        // res.json(post)
+    })
+
+    app.get('/users', async (_, res) => {
+        try {
+            const updatedUser = await prisma.user.update({
+                where: { id: '5a21fd5c-6695-4cf1-8d6c-50d143256c71' },
+                data: {
+                    followersCount: { increment: 1 },
+                    followers: {
+                        createMany: {
+                            data: {
+                                followingId:
+                                    '05e46dd5-440e-43b6-a99e-256d42f599e5',
+                            },
+                        },
+                    },
+                },
+            })
+
+            // followerId_followingId: {
+            //     followerId: 'd7f7de60-3404-474f-a5d6-3cec7010ea34',
+            //     followingId: '5a21fd5c-6695-4cf1-8d6c-50d143256c71',
+            // },
+
+            console.log(updatedUser)
+
+            const users = await prisma.user.findMany({
+                include: { followers: true },
+            })
+            res.json(users)
+        } catch (error) {
+            res.json({ error: 'Could not get users' })
+        }
     })
 
     app.get('/users/:handle', async (req, res) => {
@@ -124,14 +161,25 @@ async function main() {
         }
     })
 
-    // app.put('/post/publish/:id', async (req, res) => {
-    //     const { id } = req.params
-    //     const post = await prisma.post.update({
-    //         where: { id: Number(id) },
-    //         data: { published: true },
-    //     })
-    //     res.json(post)
-    // })
+    // login and set cookie for client
+    app.post('/login', async (req, res) => {
+        const { handle, password } = req.body
+        const user = await prisma.user.findFirst({
+            where: { handle },
+        })
+        if (!user) {
+            return res.status(400).json({ error: 'User does not exist' })
+        }
+        const isValid = bcrypt.compareSync(password, user.password)
+        if (!isValid) {
+            return res.status(400).json({ error: 'Invalid password' })
+        }
+        res.cookie('userId', user.id, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+        })
+        return res.json(user)
+    })
 
     // app.delete(`/post/:id`, async (req, res) => {
     //     const { id } = req.params

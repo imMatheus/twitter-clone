@@ -1,0 +1,95 @@
+.box {
+	background: red;
+
+	textarea {
+		outline: none;
+		background-color: blue;
+		resize: none;
+		height: min-content;
+		min-height: none;
+	}
+}
+
+// .box {
+// 	display: inline-grid;
+// 	vertical-align: top;
+// 	position: relative;
+// 	border: solid 1px;
+// 	margin: 5px;
+// 	padding: 0.5em;
+// 	align-items: stretch;
+
+// 	&::after,
+// 	input,
+// 	textarea {
+// 		width: auto;
+// 		min-width: 1em;
+// 		grid-area: 2 / 1;
+// 		font: inherit;
+// 		padding: 0.25em;
+// 		margin: 0;
+// 		resize: none;
+// 		background: none;
+// 		appearance: none;
+// 		border: none;
+// 	}
+
+// 	span {
+// 		padding: 0.25em;
+// 	}
+
+// 	&::after {
+// 		content: attr(data-value) ' ';
+// 		visibility: hidden;
+// 		white-space: pre-wrap;
+// 	}
+
+// 	&:focus-within {
+// 		outline: solid 1px blue;
+// 		box-shadow: 4px 4px 0px blue;
+
+// 		> span {
+// 			color: blue;
+// 		}
+
+// 		textarea:focus,
+// 		input:focus {
+// 			outline: none;
+// 		}
+// 	}
+// }
+
+// .box {
+// 	display: grid;
+
+// 	&::after {
+// 		/* Note the weird space! Needed to preventy jumpy behavior */
+// 		content: attr(data-replicated-value) ' ';
+
+// 		/* This is how textarea text behaves */
+// 		white-space: pre-wrap;
+
+// 		/* Hidden from view, clicks, and screen readers */
+// 		// visibility: hidden;
+// 	}
+
+// 	> textarea {
+// 		/* You could leave this, but after a user resizes, then it ruins the auto sizing */
+// 		resize: none;
+
+// 		/* Firefox shows scrollbar on growth, you can hide like this. */
+// 		overflow: hidden;
+// 	}
+
+// 	> textarea,
+// 	&::after {
+// 		/* Identical styling required!! */
+// 		border: 1px solid black;
+// 		padding: 0.5rem;
+// 		background: rgb(41, 41, 41);
+// 		font: inherit;
+
+// 		/* Place on top of each other */
+// 		grid-area: 1 / 1 / 2 / 2;
+// 	}
+// }

@@ -4,6 +4,7 @@ import { getDateSincePost } from '@/utils/getDateSincePost'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MessageCircle, Repeat, Heart } from 'react-feather'
+import ProfileImage from '@/components/ProfileImage'
 
 interface TweetCardProps {
 	tweet: ITweet
@@ -15,17 +16,8 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 				<a className="block">
 					<div className="flex items-start gap-2 p-4">
-						<Link href={`/users/${tweet.owner.handle}`} passHref>
-							<a className="cursor-pointer">
-								<div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-white">
-									<Image
-										layout="fill"
-										src={tweet.owner.profileImage}
-										alt={`${tweet.owner.name} profile image`}
-									/>
-								</div>
-							</a>
-						</Link>
+						<ProfileImage user={tweet.owner} />
+
 						<div className="w-full flex-1">
 							<div className="flex items-center gap-1.5">
 								<Link href={`/users/${tweet.owner.handle}`} passHref>

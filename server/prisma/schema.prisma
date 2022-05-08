@@ -21,19 +21,11 @@ model User {
   password       String
   tweets         Tweet[]
   numberOfTweets Int       @default(0)
+  likes          Like[]    @relation("likedBy")
   followers      Follows[] @relation("follower")
   followersCount Int       @default(0)
   following      Follows[] @relation("following")
   followingCount Int       @default(0)
-}
-
-model Tweet {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  text      String
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
 }
 
 model Follows {
@@ -43,4 +35,25 @@ model Follows {
   followingId String
 
   @@id([followerId, followingId])
+}
+
+model Tweet {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+  text          String
+  likes         Like[]   @relation("like")
+  numberOfLikes Int      @default(0)
+  ownerId       String
+  owner         User     @relation(fields: [ownerId], references: [id])
+}
+
+// relationship beetween a user liking a post
+model Like {
+  tweet   Tweet  @relation("like", fields: [tweetId], references: [id])
+  tweetId String
+  user    User   @relation("likedBy", fields: [userId], references: [id])
+  userId  String
+
+  @@id([tweetId, userId])
 }
