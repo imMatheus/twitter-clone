@@ -104,7 +104,7 @@ async function main() {
             where: { owner: { id: user.id } },
         })
 
-        res.json({ ...user, numberOfTweets })
+        return res.json({ ...user, numberOfTweets })
     })
 
     app.post('/users', async (req, res) => {
