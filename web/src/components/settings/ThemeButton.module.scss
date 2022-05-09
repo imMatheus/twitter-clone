@@ -2,12 +2,42 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
+	cursor: pointer;
+	min-height: 64px;
 
-	@apply cursor-pointer gap-2 rounded-md border-2 border-border bg-bg px-5 py-2 text-text;
+	@apply gap-4 rounded-md border-2 border-border bg-bg px-5 py-2 text-text;
+
+	.circle-wrapper {
+		position: relative;
+		z-index: 10;
+		@apply flex h-5 w-5 items-center justify-center;
+
+		&::before {
+			content: '';
+			z-index: -1;
+			position: absolute;
+			@apply h-10 w-10 rounded-full bg-transparent transition-colors;
+		}
+
+		.circle {
+			position: relative;
+			z-index: 10;
+			@apply flex h-5 w-5 items-center justify-center rounded-full border-2 border-border;
+		}
+	}
+
+	&:hover .circle-wrapper::before {
+		@apply bg-gray-600/30;
+	}
 }
 
 .selected {
 	@apply border-2 border-accent;
+
+	.circle {
+		border-color: var(--accent-color) !important;
+		background-color: var(--accent-color);
+	}
 }
 
 .button-light {
