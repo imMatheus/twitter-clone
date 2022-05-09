@@ -40,8 +40,8 @@ const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 				</div> */}
 					{/* </form> */}
 					<button
-						className="ml-auto min-h-[2.25rem] rounded-full bg-theme px-4 disabled:opacity-50"
-						disabled={!text}
+						className="ml-auto min-h-[2.25rem] rounded-full bg-accent px-4 disabled:opacity-50"
+						disabled={false}
 					>
 						Tweet
 					</button>

@@ -3,7 +3,7 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				theme: 'var(--theme)',
+				accent: 'var(--accent-color)',
 				carolina: '#1D9BF0',
 				olive: '#00ba7c',
 				'candy-pink': '#f91880',

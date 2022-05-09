@@ -1,44 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.button {
+	display: flex;
+	align-items: center;
+	width: 100%;
 
-:root {
-	--accent-color: #1d9bf0;
-	--bg: #000;
-	--bg-grayed: #202327;
-	--bg-grayed-dark: #16181c;
-	--text: #e7e9ea;
-	--text-grayed: #71767b;
-	--border: #2f3336;
+	@apply cursor-pointer gap-2 rounded-md border-2 border-border bg-bg px-5 py-2 text-text;
 }
 
-body {
-	font-size: 15px;
+.selected {
+	@apply border-2 border-accent;
 }
 
-html[data-theme='light'] {
+.button-light {
 	--bg: #fff;
 	--bg-grayed: #f7f9f9;
 	--bg-grayed-dark: #f0f3f4;
 	--text: #0f1419;
 	--text-grayed: #536471;
 	--border: #eff3f4;
+	@extend .button;
 }
 
-html[data-theme='dark'] {
+.button-dark {
 	--bg: #000;
 	--bg-grayed: #202327;
 	--bg-grayed-dark: #16181c;
 	--text: #e7e9ea;
 	--text-grayed: #71767b;
 	--border: #2f3336;
+	@extend .button;
 }
 
-html[data-theme='dimmed'] {
+.button-dimmed {
 	--bg: #15202b;
 	--bg-grayed: #263440;
 	--bg-grayed-dark: #1e2732;
 	--text: #f7f9f9;
 	--text-grayed: #8b98a5;
 	--border: #38444d;
+	@extend .button;
 }
