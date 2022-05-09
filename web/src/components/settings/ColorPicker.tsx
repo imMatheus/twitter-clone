@@ -22,7 +22,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ color }) => {
 			onClick={onClickHandle}
 			style={{ backgroundColor: color }}
 		>
-			{color === accentColor && <Check className="h-7 w-7" />}
+			{color === accentColor && <Check className="h-7 w-7 text-white" />}
 		</div>
 	)
 }

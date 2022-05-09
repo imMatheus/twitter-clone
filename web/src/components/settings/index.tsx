@@ -6,7 +6,7 @@ const Settings: React.FC = () => {
 	return (
 		<div>
 			<div className="border-b border-b-border p-4">
-				<h2 className="mb-3 text-2xl font-bold text-accent">Accent color</h2>
+				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
 				<div className="flex flex-wrap justify-between gap-4">
 					<ColorPicker color="#1d9bf0" />
 					<ColorPicker color="#ffd400" />
