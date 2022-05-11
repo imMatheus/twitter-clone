@@ -1,0 +1,23 @@
+.sidebar {
+	@apply sticky top-0 h-screen space-y-6 py-4 pr-4;
+
+	a {
+		display: block;
+	}
+	&__row {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-end;
+
+		@apply mr-4 text-xl font-normal;
+
+		&__selected {
+			@extend .sidebar__row;
+			font-weight: 500;
+		}
+	}
+
+	&__icon {
+		@apply mr-5 h-7 w-7;
+	}
+}
