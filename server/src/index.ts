@@ -189,6 +189,8 @@ async function main() {
     //     res.json(post)
     // })
 
+    console.log('start')
+
     app.listen(PORT, () =>
         console.log('REST API server ready at: http://localhost:' + PORT)
     )

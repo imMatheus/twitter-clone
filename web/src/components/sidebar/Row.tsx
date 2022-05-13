@@ -13,16 +13,13 @@ interface RowProps {
 const Row: React.FC<RowProps> = ({ Icon, text, href }) => {
 	const router = useRouter()
 
-	console.log(router)
-
 	const isActive = router.pathname === href
-	console.log(isActive)
 
 	return (
 		<Link href={href} passHref>
 			<a>
-				<li className={isActive ? styles.sidebar__row__selected : styles.sidebar__row}>
-					<Icon className={styles.sidebar__icon} strokeWidth={isActive ? '2.5px' : '2px'} />
+				<li className={isActive ? styles.sidebar__list__row__selected : styles.sidebar__list__row}>
+					<Icon className={styles.sidebar__list__icon} strokeWidth={isActive ? '2.5px' : '2px'} />
 					{text && <p>{text}</p>}
 				</li>
 			</a>

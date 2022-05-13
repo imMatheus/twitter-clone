@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-	--accent-color: #1d9bf0;
+	--accent-color: rgb(29, 155, 240);
 	--bg: #000;
 	--bg-grayed: #202327;
 	--bg-grayed-dark: #16181c;

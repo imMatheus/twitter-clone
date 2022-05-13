@@ -8,12 +8,12 @@ const Settings: React.FC = () => {
 			<div className="border-b border-b-border p-4">
 				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
 				<div className="flex flex-wrap justify-between gap-4">
-					<ColorPicker color="#1d9bf0" />
-					<ColorPicker color="#ffd400" />
-					<ColorPicker color="#f91980" />
-					<ColorPicker color="#7855ff" />
-					<ColorPicker color="#fe7a00" />
-					<ColorPicker color="#0aba7c" />
+					<ColorPicker color="rgb(29, 155, 240)" />
+					<ColorPicker color="rgb(255, 212, 0)" />
+					<ColorPicker color="rgb(249, 25, 128)" />
+					<ColorPicker color="rgb(120, 85, 255)" />
+					<ColorPicker color="rgb(254, 122, 0)" />
+					<ColorPicker color="rgb(10, 186, 124)" />
 				</div>
 			</div>
 			<ThemeButtonWrapper />
