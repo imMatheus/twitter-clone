@@ -1,0 +1,11 @@
+.layout {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	margin: 0 auto;
+
+	@apply max-w-5xl;
+
+	> *:nth-child(2) {
+		// background-color: green;
+	}
+}
