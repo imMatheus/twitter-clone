@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import TweetsContainer from '@/components/TweetsContainer'
 import { Tweet as ITweet } from '@/types/Tweet'
-import { useSWR } from '@/hooks/useSWR'
+import { useQuery } from '@/hooks/useQuery'
 import TweetBox from '@/components/TweetBox'
 
 const Home: NextPage = () => {
-	const [tweets, error, isLoading] = useSWR<ITweet[]>('/feed')
+	const [tweets, error, isLoading] = useQuery<ITweet[]>('/feed')
 
 	console.log(tweets)
 	console.log('error', error)

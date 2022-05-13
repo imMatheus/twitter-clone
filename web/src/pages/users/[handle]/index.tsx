@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import type { NextPage } from 'next'
-import { useSWR } from '@/hooks/useSWR'
+import { useQuery } from '@/hooks/useQuery'
 import { UserWithTweets } from '@/types/UserWithTweets'
 import TweetsContainer from '@/components/TweetsContainer'
 import UserBanner from '@/components/UserBanner'
@@ -11,7 +11,7 @@ import Spinner from '@/components/Spinner'
 const UserPage: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
-	const [user, error, loading] = useSWR<UserWithTweets>(`/users/${handle}`)
+	const [user, error, loading] = useQuery<UserWithTweets>(`/users/${handle}`)
 	console.log(user)
 
 	return (

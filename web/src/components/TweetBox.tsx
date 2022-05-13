@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import ProfileImage from '@/components/ProfileImage'
 import { User as IUser } from '@/types/User'
-import { useSWR } from '@/hooks/useSWR'
+import { useQuery } from '@/hooks/useQuery'
 import styles from 'styles/TweetBox.module.scss'
 
 interface TweetBoxProps {}
 
 const TweetBox: React.FC<TweetBoxProps> = ({}) => {
-	const [user, error, isLoading] = useSWR<IUser>('/users/yonny')
+	const [user, error, isLoading] = useQuery<IUser>('/users/yonny')
 	const [text, setText] = useState('')
 
 	return (
