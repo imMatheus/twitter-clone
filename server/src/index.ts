@@ -4,7 +4,7 @@ import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { getAvatarUrl } from './utils/getAvatarUrl'
 
-const PORT = 4000
+const PORT = 4001
 const prisma = new PrismaClient()
 const app = express()
 

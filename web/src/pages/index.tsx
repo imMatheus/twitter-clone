@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 
 	return (
 		<div>
-			{/* <TweetBox /> */}
+			<TweetBox />
 			{tweets && <TweetsContainer tweets={tweets} />}
 		</div>
 	)

@@ -11,6 +11,9 @@
 		"format-check": "npx prettier --check ."
 	},
 	"dependencies": {
+		"@mantine/core": "^4.2.5",
+		"@mantine/hooks": "^4.2.5",
+		"@mantine/next": "^4.2.5",
 		"axios": "^0.27.2",
 		"date-and-time": "^2.3.1",
 		"next": "12.1.5",

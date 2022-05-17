@@ -10,6 +10,7 @@ module.exports = {
 				carolina: '#1D9BF0',
 				olive: '#00ba7c',
 				'candy-pink': '#f91880',
+				danger: 'rgb(244, 33, 46)',
 				bg: 'var(--bg)',
 				'bg-grayed': 'var(--bg-grayed)',
 				'bg-grayed-dark': 'var(--bg-grayed-dark)',

@@ -4,6 +4,7 @@
 
 :root {
 	--accent-color: rgb(29, 155, 240);
+	--danger-color: rgb(244, 33, 46);
 	--bg: #000;
 	--bg-grayed: #202327;
 	--bg-grayed-dark: #16181c;
