@@ -2,10 +2,6 @@
 	@apply sticky top-0 flex h-screen w-64 flex-col space-y-2 py-4 pr-4;
 
 	&__list {
-		a {
-			display: block;
-		}
-
 		&__row {
 			display: flex;
 			justify-content: flex-start;

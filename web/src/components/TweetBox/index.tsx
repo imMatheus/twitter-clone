@@ -4,7 +4,7 @@ import { User as IUser } from '@/types/User'
 import { useQuery } from '@/hooks/useQuery'
 import styles from 'styles/TweetBox.module.scss'
 import { Textarea } from '@mantine/core'
-import { Image, BarChart2, Smile, Calendar, MapPin } from 'react-feather'
+import { Image as ImageIcon, BarChart2, Smile, Calendar, MapPin } from 'react-feather'
 import LengthCircleTracker from './LengthCircleTracker'
 
 interface TweetBoxProps {}
@@ -26,7 +26,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 					<Textarea
 						placeholder="Whats happening"
 						autosize
-						value={[text, '<p>hej</p>']}
+						value={text}
 						onChange={(e) => setText(e.currentTarget.value)}
 						minRows={1}
 						variant="unstyled"
@@ -40,7 +40,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 					<div className="flex gap-4">
 						<div className="group relative flex h-5 w-5 items-center justify-center">
 							<div className="absolute h-9 w-9 rounded-full bg-transparent opacity-10 transition-colors group-hover:bg-accent"></div>
-							<Image className="h-full w-full text-accent" />
+							<ImageIcon className="h-full w-full text-accent" />
 						</div>
 						<div className="group relative flex h-5 w-5 items-center justify-center">
 							<div className="absolute h-9 w-9 rounded-full bg-transparent opacity-10 transition-colors group-hover:bg-accent"></div>
