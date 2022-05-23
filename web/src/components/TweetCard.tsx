@@ -12,10 +12,10 @@ interface TweetCardProps {
 
 const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 	return (
-		<article className="cursor-pointer">
+		<article className="cursor-pointer transition-colors hover:bg-bg-grayed">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 				<a className="block">
-					<div className="flex items-start gap-2 p-4">
+					<div className="flex items-start gap-4 p-4">
 						<ProfileImage user={tweet.owner} />
 
 						<div className="w-full flex-1">
