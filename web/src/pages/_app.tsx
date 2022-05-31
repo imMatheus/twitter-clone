@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<div className="w-screen bg-bg px-4 font-inter text-text">
 				<Layout>
 					<Sidebar />
-					<div className="min-h-screen w-full border-x border-x-border py-4">
+					<div className="min-h-screen w-full border-x border-x-border">
 						<Component {...pageProps} />
 					</div>
 					<Sidebar />

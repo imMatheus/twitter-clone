@@ -14,19 +14,6 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 
 	return (
 		<div>
-			<div className="flex items-center gap-6 px-4 pb-2">
-				<Link href="/" passHref>
-					<a>
-						<div className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent transition-colors hover:bg-border">
-							<ArrowLeft className="text-text" />
-						</div>
-					</a>
-				</Link>
-				<div>
-					<h2 className="text-xl font-bold">{user.handle}</h2>
-					<p className="text-sm text-text-grayed">{user.numberOfTweets} tweets</p>
-				</div>
-			</div>
 			<div className="relative h-52">
 				<Image src={UserBannerImage} alt="User profile banner" layout="fill" objectFit="cover" />
 			</div>

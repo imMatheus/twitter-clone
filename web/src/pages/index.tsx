@@ -3,6 +3,7 @@ import TweetsContainer from '@/components/TweetsContainer'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { useQuery } from '@/hooks/useQuery'
 import TweetBox from '@/components/TweetBox'
+import HeaderBox from '@/components/HeaderBox'
 
 const Home: NextPage = () => {
 	const [tweets, error, isLoading] = useQuery<ITweet[]>('/feed')
@@ -12,6 +13,7 @@ const Home: NextPage = () => {
 
 	return (
 		<div>
+			<HeaderBox title="Home" />
 			<TweetBox />
 			{tweets && <TweetsContainer tweets={tweets} />}
 		</div>

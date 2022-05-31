@@ -7,6 +7,7 @@ import TweetsContainer from '@/components/TweetsContainer'
 import UserBanner from '@/components/UserBanner'
 import UserNotFoundBanner from '@/components/UserNotFoundBanner'
 import Spinner from '@/components/Spinner'
+import HeaderBox from '@/components/HeaderBox'
 
 const UserPage: NextPage = () => {
 	const router = useRouter()
@@ -20,6 +21,7 @@ const UserPage: NextPage = () => {
 				<Spinner />
 			) : user ? (
 				<>
+					<HeaderBox goBack title={user.name} subtitle={user.numberOfTweets + ' tweets'} />
 					<UserBanner user={user} />
 					{user.tweets && user.tweets.length && <TweetsContainer tweets={user.tweets} />}
 				</>

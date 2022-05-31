@@ -29,7 +29,6 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								<div className="h-0.5 w-0.5 rounded-full bg-text-grayed" aria-hidden></div>
 								<time className="text-sm text-text-grayed" dateTime={tweet.createdAt}>
 									{getDateSincePost(tweet.createdAt)}
-									{/* {tweet.createdAt + ''} */}
 								</time>
 							</div>
 							<p>{tweet.text}</p>
@@ -57,7 +56,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								</div>
 								<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-carolina">
 									<div className="relative">
-										<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-olive/20"></div>
+										<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>
 										<Heart className="relative h-4 w-4" />
 									</div>
 								</div>
