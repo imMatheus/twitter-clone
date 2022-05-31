@@ -3,12 +3,32 @@ import express from 'express'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { getAvatarUrl } from './utils/getAvatarUrl'
+// import cookie from 'cookie'
+import session from 'express-session'
+
+declare module 'express-session' {
+    export interface SessionData {
+        user_id: string
+    }
+}
 
 const PORT = 4000
 const prisma = new PrismaClient()
 const app = express()
 
 app.use(cors())
+
+app.use(
+    session({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        },
+    })
+)
 
 async function main() {
     app.use(express.json())
@@ -90,38 +110,45 @@ async function main() {
 
     app.get('/users', async (_, res) => {
         try {
-            const updatedUser = await prisma.user.update({
-                where: { id: '5a21fd5c-6695-4cf1-8d6c-50d143256c71' },
-                data: {
-                    followersCount: { increment: 1 },
-                    followers: {
-                        createMany: {
-                            data: {
-                                followingId:
-                                    '05e46dd5-440e-43b6-a99e-256d42f599e5',
-                            },
-                        },
-                    },
-                },
-            })
+            // const updatedUser = await prisma.user.update({
+            //     where: { id: '5a21fd5c-6695-4cf1-8d6c-50d143256c71' },
+            //     data: {
+            //         followersCount: { increment: 1 },
+            //         followers: {
+            //             createMany: {
+            //                 data: {
+            //                     followingId:
+            //                         '05e46dd5-440e-43b6-a99e-256d42f599e5',
+            //                 },
+            //             },
+            //         },
+            //     },
+            // })
 
             // followerId_followingId: {
             //     followerId: 'd7f7de60-3404-474f-a5d6-3cec7010ea34',
             //     followingId: '5a21fd5c-6695-4cf1-8d6c-50d143256c71',
             // },
 
-            console.log(updatedUser)
+            // console.log(updatedUser)
 
             const users = await prisma.user.findMany({
                 include: { followers: true },
             })
             res.json(users)
         } catch (error) {
+            console.log(error)
+
             res.json({ error: 'Could not get users' })
         }
     })
 
     app.get('/users/:handle', async (req, res) => {
+        console.log('req')
+        console.log(req.session)
+
+        console.log(req.session.user_id)
+
         const { handle } = req.params
 
         const user = await prisma.user.findFirst({
@@ -144,23 +171,6 @@ async function main() {
         return res.json({ ...user, numberOfTweets })
     })
 
-    app.post('/users', async (req, res) => {
-        try {
-            const { password } = req.body
-            const hash = bcrypt.hashSync(password, 10)
-            const result = await prisma.user.create({
-                data: {
-                    ...req.body,
-                    password: hash,
-                    profileImage: getAvatarUrl(req.body.handle),
-                },
-            })
-            res.json(result)
-        } catch (error) {
-            res.status(400).json({ error: 'Could not create user' })
-        }
-    })
-
     // login and set cookie for client
     app.post('/login', async (req, res) => {
         const { handle, password } = req.body
@@ -179,6 +189,41 @@ async function main() {
             maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         return res.json(user)
+    })
+
+    // signup and set signed cookie on client
+    app.post('/signup', async (req, res) => {
+        console.log('shhee')
+        console.log(req.session)
+
+        const { handle, password } = req.body
+        console.log('body, ', req.body)
+
+        const user = await prisma.user.findFirst({
+            where: { handle },
+        })
+        console.log(user)
+
+        if (user) {
+            return res.status(400).json({ error: 'User already exists' })
+        }
+
+        const hash = bcrypt.hashSync(password, 10)
+        const result = await prisma.user.create({
+            data: {
+                ...req.body,
+                password: hash,
+                profileImage: getAvatarUrl(req.body.handle),
+            },
+        })
+        console.log('finna set it')
+
+        req.session.user_id = result.id
+        req.session.save()
+        console.log('i did set it')
+        console.log(req.session)
+
+        return res.json(result)
     })
 
     // app.delete(`/post/:id`, async (req, res) => {
