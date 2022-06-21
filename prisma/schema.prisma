@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Account {
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String?
+    refresh_token_expires_in Int?
+    access_token             String?
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String?
+    session_state            String?
+    oauth_token_secret       String?
+    oauth_token              String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model User {
+    id            String    @id @default(cuid())
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @default(now()) @updatedAt
+    name          String
+    image         String
+    handle        String    @unique
+    email         String?   @unique
+    emailVerified DateTime?
+    bio           String?
+
+    tweets         Tweet[]
+    numberOfTweets Int       @default(0)
+    likes          Like[]    @relation("likedBy")
+    followers      Follows[] @relation("follower")
+    followersCount Int       @default(0)
+    following      Follows[] @relation("following")
+    followingCount Int       @default(0)
+
+    accounts Account[]
+    sessions Session[]
+}
+
+model Follows {
+    follower    User   @relation("follower", fields: [followerId], references: [id])
+    followerId  String
+    following   User   @relation("following", fields: [followingId], references: [id])
+    followingId String
+
+    @@id([followerId, followingId])
+}
+
+model Tweet {
+    id            String   @id @default(uuid())
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @default(now()) @updatedAt
+    text          String
+    likes         Like[]   @relation("like")
+    numberOfLikes Int      @default(0)
+    ownerId       String
+    owner         User     @relation(fields: [ownerId], references: [id])
+}
+
+// relationship beetween a user liking a post
+model Like {
+    tweet   Tweet  @relation("like", fields: [tweetId], references: [id])
+    tweetId String
+    user    User   @relation("likedBy", fields: [userId], references: [id])
+    userId  String
+
+    @@id([tweetId, userId])
+}
