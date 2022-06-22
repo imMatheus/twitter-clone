@@ -26,8 +26,8 @@ const Sidebar: React.FC = ({}) => {
 			</button>
 			{currentUser && (
 				<Link href={`/users/${currentUser.handle}`} passHref>
-					<a className="!mt-auto block">
-						<div className="flex cursor-pointer items-center rounded-full p-3 transition-colors hover:bg-bg-grayed-dark">
+					<a className="!mt-auto block lg:w-full">
+						<div className="flex cursor-pointer items-center rounded-full p-3 transition-colors hover:bg-bg-grayed-dark lg:w-full">
 							<div className="relative h-10 w-10 flex-shrink-0 rounded-full bg-white lg:mr-2">
 								<Image
 									src={currentUser.image}
@@ -36,7 +36,7 @@ const Sidebar: React.FC = ({}) => {
 									className="rounded-full"
 								/>
 							</div>
-							<div className="overflow-hidden">
+							<div className="flex-1 overflow-hidden">
 								<h3 className="hidden truncate font-bold lg:block">{currentUser.name}</h3>
 								<p className="hidden font-normal text-text-grayed lg:block">@{currentUser.handle}</p>
 							</div>
