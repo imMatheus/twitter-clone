@@ -11,8 +11,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ color }) => {
 	const { accentColor, setAccentColor } = useTheme()
 
 	function onClickHandle() {
-		console.log(color)
-
 		setAccentColor(color)
 	}
 

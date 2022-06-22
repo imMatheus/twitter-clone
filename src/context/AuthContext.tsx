@@ -37,10 +37,6 @@ export const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
 	const { data, isLoading: fetchingUser } = trpc.useQuery(['me'])
 	const currentUser = data?.user || null
 
-	console.log('final user is here ~~~~')
-
-	console.log(currentUser)
-
 	const value = {
 		currentUser,
 		fetchingUser,

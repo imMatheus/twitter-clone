@@ -15,7 +15,6 @@ export const tweetRouter = createRouter()
 					createdAt: 'desc'
 				}
 			})
-			console.log('tweets: ', tweets)
 
 			return {
 				tweets

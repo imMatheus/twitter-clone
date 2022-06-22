@@ -1,16 +1,18 @@
 import React from 'react'
-import { UserWithTweets } from '@/types/UserWithTweets'
 import { ArrowLeft, MoreHorizontal } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
-import UserBannerImage from '@/public/user-banner-white.svg'
+import UserBannerImage from '@/../public/user-banner-white.svg'
+import type { inferQueryResponse } from '@/utils/inferQueryResponse'
 
 interface UserBannerProps {
-	user: UserWithTweets
+	user: inferQueryResponse<'users.byId'>['user']
 }
 
 const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	console.log(user)
+
+	if (!user) return null
 
 	return (
 		<div>
@@ -21,7 +23,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 				<div className="flex items-start justify-between">
 					<div className="h-[5.5rem]">
 						<div className="relative h-[11rem] w-[11rem] -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white">
-							<Image layout="fill" src={user.profileImage} alt={`${user.name} profile image`} />
+							<Image layout="fill" src={user.image} alt={`${user.name} profile image`} />
 						</div>
 					</div>
 					<div className="flex gap-2">

@@ -1,23 +1,29 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import type { NextPage } from 'next'
-import { useQuery } from '@/hooks/useQuery'
-import { UserWithTweets } from '@/types/UserWithTweets'
 import TweetsContainer from '@/components/TweetsContainer'
 import UserBanner from '@/components/UserBanner'
 import UserNotFoundBanner from '@/components/UserNotFoundBanner'
 import Spinner from '@/components/Spinner'
 import HeaderBox from '@/components/HeaderBox'
+import { trpc } from '@/utils/trpc'
 
 const UserPage: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
-	const [user, error, loading] = useQuery<UserWithTweets>(`/users/${handle}`)
-	console.log(user)
+	console.log('hhhhhhhh', handle)
+
+	const { data, isLoading } = trpc.useQuery([
+		'users.byId',
+		{ handle: Array.isArray(handle) ? handle[0] : (handle as string) }
+	])
+
+	console.log(data?.user)
+	const user = data?.user
 
 	return (
 		<div className="">
-			{loading ? (
+			{isLoading ? (
 				<Spinner />
 			) : user ? (
 				<>

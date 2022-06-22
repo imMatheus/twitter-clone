@@ -32,8 +32,6 @@ const Sidebar: React.FC = ({}) => {
 								<Image
 									src={currentUser.image}
 									alt={`${currentUser.name} profile image`}
-									width={40}
-									height={40}
 									layout="fill"
 									className="rounded-full"
 								/>

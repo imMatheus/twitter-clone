@@ -8,9 +8,9 @@ export const protectedTweetRouter = createProtectedRouter().mutation('post', {
 		text: z.string()
 	}),
 	resolve: async ({ ctx, input }) => {
-		console.log('hello from private tweet route mutation')
-		console.log(ctx)
 		if (!ctx.session.userId) return
+
+		// create the tweet
 		const tweetCreated = await prisma.tweet.create({
 			data: {
 				text: input.text,
@@ -18,7 +18,13 @@ export const protectedTweetRouter = createProtectedRouter().mutation('post', {
 			}
 		})
 
-		console.log(tweetCreated)
+		// increment number of tweets for user
+		await prisma.user.update({
+			where: { id: ctx.session.userId },
+			data: {
+				numberOfTweets: { increment: 1 }
+			}
+		})
 
 		return {
 			tweet: tweetCreated
