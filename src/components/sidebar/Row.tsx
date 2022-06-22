@@ -28,7 +28,7 @@ const Row: React.FC<RowProps> = ({ Icon, text, src, href }) => {
 					) : (
 						<></>
 					)}
-					{text && <p>{text}</p>}
+					{text && <p className="hidden lg:block">{text}</p>}
 				</a>
 			</Link>
 		</li>

@@ -14,7 +14,11 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeError', () => NProgress.done())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, ...appProps }: AppProps) {
+	const isLayoutNeeded = [`/messages`].includes(appProps.router.pathname)
+
+	const LayoutComponent = !isLayoutNeeded ? Layout : React.Fragment
+
 	return (
 		<SessionProvider session={pageProps.session}>
 			<AuthProvider>
@@ -23,13 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 						<link rel="shortcut icon" href="/twitter.2.ico" />
 					</Head>
 					<div className="w-screen bg-bg px-4 font-inter text-text">
-						<Layout>
+						<LayoutComponent>
 							<Sidebar />
 							<div className="min-h-screen w-full border-x border-x-border">
 								<Component {...pageProps} />
 							</div>
 							<Sidebar />
-						</Layout>
+						</LayoutComponent>
 					</div>
 				</ThemeProvider>
 			</AuthProvider>

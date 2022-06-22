@@ -50,6 +50,11 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+enum Privacy {
+    PRIVATE
+    PUBLIC
+}
+
 model User {
     id            String    @id @default(cuid())
     createdAt     DateTime  @default(now())
@@ -60,6 +65,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     bio           String?
+    privacy       Privacy   @default(PUBLIC)
 
     tweets         Tweet[]
     numberOfTweets Int       @default(0)

@@ -10,10 +10,27 @@ export const protectedTweetRouter = createProtectedRouter().mutation('post', {
 	resolve: async ({ ctx, input }) => {
 		if (!ctx.session.userId) return
 
+		console.log('in')
+		console.log(input.text)
+		console.log('::::::::=========:::::::::::')
+
+		console.log(
+			input.text
+				.split(/\n/)
+				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
+				.join('\r\n')
+		)
+
+		// removes all dubble \n from the text, maxes the number of continues line breaks to 1
+		const cleanedText = input.text
+			.split(/\n/)
+			.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
+			.join('\r\n')
+
 		// create the tweet
 		const tweetCreated = await prisma.tweet.create({
 			data: {
-				text: input.text,
+				text: cleanedText,
 				ownerId: ctx.session.userId
 			}
 		})
