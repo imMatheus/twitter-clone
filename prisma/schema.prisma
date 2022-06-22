@@ -63,11 +63,12 @@ model User {
 
     tweets         Tweet[]
     numberOfTweets Int       @default(0)
-    likes          Like[]    @relation("likedBy")
     followers      Follows[] @relation("follower")
     followersCount Int       @default(0)
     following      Follows[] @relation("following")
     followingCount Int       @default(0)
+
+    likedTweets Like[] @relation("likedBy")
 
     accounts Account[]
     sessions Session[]

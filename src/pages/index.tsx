@@ -7,7 +7,7 @@ import { trpc } from '@/utils/trpc'
 
 const Home: NextPage = () => {
 	const { currentUser } = useAuth()
-	const { data, isLoading } = trpc.useQuery(['tweets.get'])
+	const { data, isLoading } = trpc.useQuery(['tweets.feed'])
 
 	return (
 		<div>
