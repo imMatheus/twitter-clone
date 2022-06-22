@@ -27,7 +27,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								</Link>
 								<h3 className="text-sm text-text-grayed">@{tweet.owner.handle}</h3>
 								<div className="h-0.5 w-0.5 rounded-full bg-text-grayed" aria-hidden></div>
-								<time className="text-sm text-text-grayed" dateTime={tweet.createdAt}>
+								<time className="text-sm text-text-grayed" dateTime={tweet.createdAt + ''}>
 									{getDateSincePost(tweet.createdAt)}
 								</time>
 							</div>

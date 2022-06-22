@@ -5,8 +5,6 @@ import type { Session } from 'next-auth'
 
 export async function createAuthenticatedTrpcContext({ req }: CreateNextContextOptions) {
 	const session: (Session & { userId?: string }) | null = await getSession({ req })
-	console.log('ugga bugga')
-	console.log(session)
 
 	return {
 		session: session

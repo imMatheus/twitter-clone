@@ -8,6 +8,7 @@ import Layout from '@/components/layout/index'
 import Sidebar from '@/components/sidebar'
 import Head from 'next/head'
 import { SessionProvider } from 'next-auth/react'
+import { AuthProvider } from '@/context/AuthContext'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeError', () => NProgress.done())
@@ -16,20 +17,22 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<SessionProvider session={pageProps.session}>
-			<ThemeProvider>
-				<Head>
-					<link rel="shortcut icon" href="/twitter.2.ico" />
-				</Head>
-				<div className="w-screen bg-bg px-4 font-inter text-text">
-					<Layout>
-						<Sidebar />
-						<div className="min-h-screen w-full border-x border-x-border">
-							<Component {...pageProps} />
-						</div>
-						<Sidebar />
-					</Layout>
-				</div>
-			</ThemeProvider>
+			<AuthProvider>
+				<ThemeProvider>
+					<Head>
+						<link rel="shortcut icon" href="/twitter.2.ico" />
+					</Head>
+					<div className="w-screen bg-bg px-4 font-inter text-text">
+						<Layout>
+							<Sidebar />
+							<div className="min-h-screen w-full border-x border-x-border">
+								<Component {...pageProps} />
+							</div>
+							<Sidebar />
+						</Layout>
+					</div>
+				</ThemeProvider>
+			</AuthProvider>
 		</SessionProvider>
 	)
 }

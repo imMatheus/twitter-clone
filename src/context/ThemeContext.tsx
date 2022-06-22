@@ -12,7 +12,7 @@ interface Context {
 
 const ThemeContext = createContext<Context>({
 	theme: 'light',
-	accentColor: '#1d9bf0',
+	accentColor: 'rgb(29, 155, 240)',
 	setTheme: () => null,
 	setAccentColor: () => null
 })
@@ -27,7 +27,7 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 	const [theme, setTheme] = useLocalStorage<Theme>('theme', 'light')
-	const [accentColor, setAccentColor] = useLocalStorage<AccentColor>('accent-color', '#1d9bf0')
+	const [accentColor, setAccentColor] = useLocalStorage<AccentColor>('accent-color', 'rgb(29, 155, 240)')
 
 	useEffect(() => {
 		document.documentElement.setAttribute('data-theme', theme)

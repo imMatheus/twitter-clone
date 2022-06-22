@@ -1,17 +1,14 @@
 import React from 'react'
 import ColorPicker from './ColorPicker'
 import ThemeButtonWrapper from './ThemeButtonWrapper'
-import { useSession, signIn } from 'next-auth/react'
-import { trpc } from '@/utils/trpc'
+import { signIn } from 'next-auth/react'
 
 const Settings: React.FC = () => {
-	const { data } = trpc.useQuery(['me'])
-
 	return (
 		<div>
 			<div className="border-b border-b-border p-4">
 				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
-				<h1 className="text-xl">{JSON.stringify(data)}</h1>
+
 				<button onClick={() => signIn('github')} className="bg-red-500 p-2">
 					Sign in
 				</button>

@@ -16,7 +16,7 @@ export default NextAuth({
 				console.log(profile)
 				return {
 					id: '', // will be sett by prisma
-					handle: profile.name || 'matheus1',
+					handle: profile.name.split(' ').join('') || 'matheus1',
 					email: profile.email,
 					image: profile.avatar_url,
 					name: profile.name || profile.login

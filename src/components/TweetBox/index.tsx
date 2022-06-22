@@ -5,33 +5,28 @@ import { Textarea } from '@mantine/core'
 import { Image as ImageIcon, BarChart2, Smile, Calendar, MapPin } from 'react-feather'
 import LengthCircleTracker from './LengthCircleTracker'
 import { trpc } from '@/utils/trpc'
-import { useSession } from 'next-auth/react'
+import { useAuth } from '@/context/AuthContext'
 
 interface TweetBoxProps {}
 
 const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 	const MAX_TEXT_LENGTH = 280
-	const { data: meData } = trpc.useQuery(['me'])
-	const { data: session, status } = useSession()
-	console.log('inside tweetbox')
-	console.log(meData)
-	console.log(session)
-	console.log(status)
+	const { currentUser } = useAuth()
+	const postMutation = trpc.useMutation(['tweets.post'])
 
-	// const [user, error, isLoading] = useQuery<IUser>('/users/yonny')
 	const [text, setText] = useState('')
 	const lettersLeft = MAX_TEXT_LENGTH - text.length
 	const textLengthHasSurpassedMax = lettersLeft < 1
-	// const postMutation = useMutation()
 
 	async function sendTweet() {
-		// const x = postMutation('/tweets', { text: 'hej', ownerId: 'd7f7de60-3404-474f-a5d6-3cec7010ea34' })
+		setText('')
+		const response = postMutation.mutate({ text })
 	}
 
 	return (
 		<div className="flex gap-4 border-b border-b-border p-4">
 			<div className="flex-shrink-0">
-				{/* {user ? <ProfileImage user={user} /> : <div className="h-12 w-12"></div>} */}
+				{currentUser ? <ProfileImage user={currentUser} /> : <div className="h-12 w-12"></div>}
 			</div>
 			<div className="w-full">
 				<div className="text-xl">

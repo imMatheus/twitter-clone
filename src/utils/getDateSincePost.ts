@@ -1,6 +1,6 @@
 import dateConverter from 'date-and-time'
 
-export function getDateSincePost(d: string) {
+export function getDateSincePost(d: string | Date) {
 	let timeNow: any = new Date()
 	let timePost: any = new Date(d)
 	const secsNow = Math.floor(timeNow / 1000)
