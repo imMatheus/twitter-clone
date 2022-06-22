@@ -1,11 +1,15 @@
 import { CreateNextContextOptions } from '@trpc/server/adapters/next'
 import { getSession } from 'next-auth/react'
 import { inferAsyncReturnType } from '@trpc/server'
+import type { Session } from 'next-auth'
 
 export async function createAuthenticatedTrpcContext({ req }: CreateNextContextOptions) {
-	const session = await getSession({ req })
+	const session: (Session & { userId?: string }) | null = await getSession({ req })
+	console.log('ugga bugga')
+	console.log(session)
+
 	return {
-		session
+		session: session
 	}
 }
 

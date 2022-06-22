@@ -14,10 +14,9 @@ export default NextAuth({
 			profile(profile) {
 				console.log('proifle made it here')
 				console.log(profile)
-
 				return {
-					id: 'ssss',
-					handle: profile.name + 'handle' || 'matheus1',
+					id: '', // will be sett by prisma
+					handle: profile.name || 'matheus1',
 					email: profile.email,
 					image: profile.avatar_url,
 					name: profile.name || profile.login

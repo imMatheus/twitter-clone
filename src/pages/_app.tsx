@@ -63,5 +63,5 @@ export default withTRPC<AppRouter>({
 			]
 		}
 	},
-	ssr: true
+	ssr: false // TODO: make sure this dosent break on true
 })(MyApp)
