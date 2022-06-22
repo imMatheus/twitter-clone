@@ -18,7 +18,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ color }) => {
 		<div
 			className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full"
 			onClick={onClickHandle}
-			style={{ backgroundColor: color }}
+			style={{ backgroundColor: `rgb(${color})` }}
 		>
 			{color === accentColor && <Check className="h-7 w-7 text-white" />}
 		</div>

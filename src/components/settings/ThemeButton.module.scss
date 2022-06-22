@@ -35,37 +35,37 @@
 	@apply border-2 border-accent;
 
 	.circle {
-		border-color: var(--accent-color) !important;
-		background-color: var(--accent-color);
+		border-color: rgb(var(--accent-color) / 1) !important;
+		@apply bg-accent;
 	}
 }
 
 .button-light {
-	--bg: #fff;
-	--bg-grayed: #f7f9f9;
-	--bg-grayed-dark: #f0f3f4;
-	--text: #0f1419;
-	--text-grayed: #536471;
-	// --border: #eff3f4;
+	--bg: 255 255 255;
+	--bg-grayed: 247 249 249;
+	--bg-grayed-dark: 240 243 244;
+	--text: 15 20 25;
+	--text-grayed: 83 100 113;
+
 	@extend .button;
 }
 
 .button-dark {
-	--bg: #000;
-	--bg-grayed: #202327;
-	--bg-grayed-dark: #16181c;
-	--text: #e7e9ea;
-	--text-grayed: #71767b;
-	// --border: #2f3336;
+	--bg: 0 0 0;
+	--bg-grayed: 32 35 39;
+	--bg-grayed-dark: 22 24 28;
+	--text: 231 233 234;
+	--text-grayed: 113 118 123;
+
 	@extend .button;
 }
 
 .button-dimmed {
-	--bg: #15202b;
-	--bg-grayed: #263440;
-	--bg-grayed-dark: #1e2732;
-	--text: #f7f9f9;
-	--text-grayed: #8b98a5;
-	// --border: #38444d;
+	--bg: 21 32 43;
+	--bg-grayed: 38 52 64;
+	--bg-grayed-dark: 30 39 50;
+	--text: 247 249 249;
+	--text-grayed: 139 152 165;
+
 	@extend .button;
 }

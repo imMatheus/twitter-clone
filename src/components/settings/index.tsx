@@ -13,12 +13,12 @@ const Settings: React.FC = () => {
 					Sign in
 				</button>
 				<div className="flex flex-wrap justify-between gap-4">
-					<ColorPicker color="rgb(29, 155, 240)" />
-					<ColorPicker color="rgb(255, 212, 0)" />
-					<ColorPicker color="rgb(249, 25, 128)" />
-					<ColorPicker color="rgb(120, 85, 255)" />
-					<ColorPicker color="rgb(254, 122, 0)" />
-					<ColorPicker color="rgb(10, 186, 124)" />
+					<ColorPicker color="29 155 240" />
+					<ColorPicker color="255 212 0" />
+					<ColorPicker color="249 25 128" />
+					<ColorPicker color="120 85 255" />
+					<ColorPicker color="254 122 0" />
+					<ColorPicker color="10 186 124" />
 				</div>
 			</div>
 			<ThemeButtonWrapper />

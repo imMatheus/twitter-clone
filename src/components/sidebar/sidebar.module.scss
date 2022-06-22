@@ -9,9 +9,8 @@
 			justify-content: flex-start;
 			align-items: flex-end;
 			position: relative;
-			background: red;
 
-			@apply left-1/2 w-max -translate-x-1/2 gap-3 rounded-full py-3 px-3 text-xl font-normal lg:mr-4;
+			@apply hover:bg-text/10 left-1/2 w-max -translate-x-1/2 gap-3 rounded-full py-3 px-3 text-xl font-normal lg:left-0 lg:mr-4 lg:translate-x-0;
 
 			// &::before {
 			// 	content: '';
@@ -34,7 +33,7 @@
 				@apply text-accent;
 
 				&:hover {
-					@apply bg-accent opacity-10;
+					@apply bg-accent/10;
 				}
 			}
 		}
