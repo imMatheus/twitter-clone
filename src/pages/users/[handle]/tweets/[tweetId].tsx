@@ -28,10 +28,9 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 					<>
 						<div className="flex gap-2">
 							<ProfileImage user={tweet?.owner} />
-
 							<div className="w-full flex-1">
 								<div className="flex flex-col">
-									<Link href={`/users/abc`} passHref>
+									<Link href={`/users/${tweet.owner.handle}`} passHref>
 										<a className="cursor-pointer">
 											<h2 className="font-bold">{tweet.owner.name}</h2>
 										</a>

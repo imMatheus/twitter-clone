@@ -12,7 +12,12 @@ interface TweetBoxProps {}
 const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 	const MAX_TEXT_LENGTH = 280
 	const { currentUser } = useAuth()
-	const postMutation = trpc.useMutation(['tweets.post'])
+	const utils = trpc.useContext()
+	const postMutation = trpc.useMutation('tweets.post', {
+		onSuccess() {
+			utils.invalidateQueries(['tweets.feed'])
+		}
+	})
 
 	const [text, setText] = useState('')
 	const lettersLeft = MAX_TEXT_LENGTH - text.length
