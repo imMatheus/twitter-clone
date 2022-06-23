@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { getDateSincePost } from '@/utils/getDateSincePost'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MessageCircle, Repeat, Heart } from 'react-feather'
+import { MessageCircle, Repeat, Heart, MoreHorizontal } from 'react-feather'
 import ProfileImage from '@/components/ProfileImage'
+import { useRouter } from 'next/router'
+import Popup from './Popup'
 
 interface TweetCardProps {
 	tweet: ITweet
 }
 
 const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
+	const [showPopUp, setShowPopUp] = useState(false)
+	const router = useRouter()
+
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-bg-grayed">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
@@ -29,6 +34,22 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 							<time className="text-sm text-text-grayed" dateTime={tweet.createdAt + ''}>
 								{getDateSincePost(tweet.createdAt)}
 							</time>
+							{/* Just to capture the group link to the tweet */}
+							{/* <Link href={router.asPath} passHref> */}
+							<div
+								className="relative ml-auto"
+								onClick={(e) => {
+									e.stopPropagation()
+									setShowPopUp(!showPopUp)
+								}}
+							>
+								<div className="group relative">
+									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>
+									<MoreHorizontal className="relative h-4 w-4 text-text-grayed group-hover:text-carolina" />
+								</div>
+								{showPopUp && <Popup toggle={setShowPopUp} />}
+							</div>
+							{/* </Link> */}
 						</div>
 						<pre className="font-inter">{tweet.text}</pre>
 						<div className="mt-3 flex max-w-md justify-between text-text-grayed">
