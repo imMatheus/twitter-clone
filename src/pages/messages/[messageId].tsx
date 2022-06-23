@@ -6,4 +6,4 @@ const Message: React.FC<MessageProps> = ({}) => {
 	return <div>hej</div>
 }
 
-export default MessageProps
+export default Message

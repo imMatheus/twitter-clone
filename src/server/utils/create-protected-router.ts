@@ -3,6 +3,9 @@ import { AuthenticatedTrpcRouterContextType } from './context'
 
 export function createProtectedRouter() {
 	return trpc.router<AuthenticatedTrpcRouterContextType>().middleware(({ ctx, next }) => {
+		console.log('in this biatch ')
+		console.log(ctx)
+
 		if (!ctx.session || !ctx.session.userId) {
 			throw new trpc.TRPCError({ code: 'UNAUTHORIZED' })
 		}

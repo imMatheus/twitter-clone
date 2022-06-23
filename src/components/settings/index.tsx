@@ -1,16 +1,20 @@
 import React from 'react'
 import ColorPicker from './ColorPicker'
 import ThemeButtonWrapper from './ThemeButtonWrapper'
-import { signIn } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 const Settings: React.FC = () => {
+	const { data } = useSession()
 	return (
 		<div>
 			<div className="border-b border-b-border p-4">
 				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
-
-				<button onClick={() => signIn('github')} className="bg-red-500 p-2">
+				<p>{JSON.stringify(data)}</p>
+				<button onClick={() => signOut()} className="bg-blue-500 p-2">
 					Sign in
+				</button>
+				<button onClick={() => signIn('github')} className="bg-red-500 p-2">
+					Sign out
 				</button>
 				<div className="flex flex-wrap justify-between gap-4">
 					<ColorPicker color="29 155 240" />
