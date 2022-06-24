@@ -8,7 +8,7 @@ interface PopupRowProps {
 
 const PopupRow: React.FC<PopupRowProps> = ({ Icon, children }) => {
 	return (
-		<li className="flex gap-3 p-4 transition-colors hover:bg-bg-grayed">
+		<li className="flex gap-3 p-4 transition-colors hover:bg-text/[0.03]">
 			<Icon className="h-5 w-5" />
 			<p className="font-normal text-text">{children}</p>
 		</li>

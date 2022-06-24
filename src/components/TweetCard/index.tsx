@@ -17,7 +17,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 	const router = useRouter()
 
 	return (
-		<article className="cursor-pointer transition-colors hover:bg-bg-grayed">
+		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 				<div className="flex items-start gap-4 p-4">
 					<ProfileImage user={tweet.owner} />
@@ -47,7 +47,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>
 									<MoreHorizontal className="relative h-4 w-4 text-text-grayed group-hover:text-carolina" />
 								</div>
-								{showPopUp && <Popup toggle={setShowPopUp} />}
+								{showPopUp && <Popup toggle={setShowPopUp} tweet={tweet} />}
 							</div>
 						</div>
 						<pre className="font-inter">{tweet.text}</pre>
