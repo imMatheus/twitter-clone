@@ -10,10 +10,10 @@ const Settings: React.FC = () => {
 			<div className="border-b border-b-border p-4">
 				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
 				<p>{JSON.stringify(data)}</p>
-				<button onClick={() => signOut()} className="bg-blue-500 p-2">
+				<button onClick={() => signIn()} className="bg-blue-500 p-2">
 					Sign in
 				</button>
-				<button onClick={() => signIn('github')} className="bg-red-500 p-2">
+				<button onClick={() => signOut()} className="bg-red-500 p-2">
 					Sign out
 				</button>
 				<div className="flex flex-wrap justify-between gap-4">

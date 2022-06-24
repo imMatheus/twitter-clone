@@ -35,7 +35,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								{getDateSincePost(tweet.createdAt)}
 							</time>
 							{/* Just to capture the group link to the tweet */}
-							{/* <Link href={router.asPath} passHref> */}
+
 							<div
 								className="relative ml-auto"
 								onClick={(e) => {
@@ -49,7 +49,6 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								</div>
 								{showPopUp && <Popup toggle={setShowPopUp} />}
 							</div>
-							{/* </Link> */}
 						</div>
 						<pre className="font-inter">{tweet.text}</pre>
 						<div className="mt-3 flex max-w-md justify-between text-text-grayed">

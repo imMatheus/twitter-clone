@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
-
+import EmailProvider from 'next-auth/providers/email'
 import CredentialProvider from 'next-auth/providers/credentials'
 
 const prisma = new PrismaClient()
@@ -25,38 +25,49 @@ export default NextAuth({
 			// 	}
 			// }
 		}),
-
-		CredentialProvider({
-			name: 'credentials',
-			credentials: {
-				username: {
-					label: 'Email',
-					type: 'text',
-					placeholder: 'johndoe@test.com'
-				},
-				password: { label: 'Password', type: 'password' }
-			},
-			authorize: async (credentials) => {
-				console.log(credentials)
-
-				// database look up
-				if (!credentials) return null
-				const userFromDb = await prisma.user.findUnique({
-					where: {
-						handle: credentials.username
-					}
-				})
-				console.log('got over here')
-				console.log(userFromDb)
-
-				if (userFromDb) {
-					return userFromDb
+		EmailProvider({
+			server: {
+				host: process.env.EMAIL_SERVER_HOST,
+				port: process.env.EMAIL_SERVER_PORT,
+				auth: {
+					user: process.env.EMAIL_SERVER_USER,
+					pass: process.env.EMAIL_SERVER_PASSWORD
 				}
-
-				// login failed
-				return null
-			}
+			},
+			from: process.env.EMAIL_FROM
 		})
+
+		// CredentialProvider({
+		// 	name: 'credentials',
+		// 	credentials: {
+		// 		username: {
+		// 			label: 'Email',
+		// 			type: 'text',
+		// 			placeholder: 'johndoe@test.com'
+		// 		},
+		// 		password: { label: 'Password', type: 'password' }
+		// 	},
+		// 	authorize: async (credentials) => {
+		// 		console.log(credentials)
+
+		// 		// database look up
+		// 		if (!credentials) return null
+		// 		const userFromDb = await prisma.user.findUnique({
+		// 			where: {
+		// 				handle: credentials.username
+		// 			}
+		// 		})
+		// 		console.log('got over here')
+		// 		console.log(userFromDb)
+
+		// 		if (userFromDb) {
+		// 			return userFromDb
+		// 		}
+
+		// 		// login failed
+		// 		return null
+		// 	}
+		// })
 	],
 	callbacks: {
 		session: async ({ session, user }) => {

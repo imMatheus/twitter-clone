@@ -1,9 +1,10 @@
 import React from 'react'
-import { ArrowLeft, MoreHorizontal } from 'react-feather'
+import { ArrowLeft, MoreHorizontal, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
 import type { inferQueryResponse } from '@/utils/inferQueryResponse'
+import dateFormat from 'dateformat'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -35,7 +36,19 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 				</div>
 				<div className="px-1">
 					<h1 className="text-xl font-extrabold">{user.name}</h1>
-					<p className="font-normal text-text-grayed">@{user.handle}</p>
+					<p className="text-sm font-normal text-text-grayed">@{user.handle}</p>
+					<pre className="font-inter">{user.bio}</pre>
+					<div className="flex flex-wrap items-center gap-4 py-2 text-sm text-text-grayed">
+						<div className="flex items-center gap-1">
+							<MapPin className="h-4 w-4" /> Seattle, WA
+						</div>
+						<div className="flex items-center gap-1">
+							<LinkIcon className="h-4 w-4" /> Seattle, WA
+						</div>
+						<div className="flex items-center gap-1 capitalize">
+							<Calendar className="h-4 w-4" /> Joined {dateFormat(user.createdAt, 'mmmm yyyy')}
+						</div>
+					</div>
 					<div className="my-2 flex gap-4 text-sm">
 						<div className="flex gap-1">
 							<span className="font-bold">43</span> <span className="text-text-grayed">follows</span>
