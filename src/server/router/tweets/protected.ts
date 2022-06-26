@@ -46,9 +46,10 @@ export const protectedTweetRouter = createProtectedRouter()
 			if (!ctx.session.userId) return
 
 			// create the tweet
-			const tweetCreated = await prisma.tweet.delete({
+			const tweetCreated = await prisma.tweet.deleteMany({
 				where: {
-					id: input.id
+					id: input.id,
+					ownerId: ctx.session.userId
 				}
 			})
 

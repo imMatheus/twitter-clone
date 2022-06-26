@@ -15,6 +15,7 @@
 
 body {
 	font-size: 15px;
+	@apply bg-bg;
 }
 
 html[data-theme='light'] {
