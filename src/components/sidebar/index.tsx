@@ -15,7 +15,7 @@ const Sidebar: React.FC = ({}) => {
 			<ul className={styles.sidebar__list}>
 				<Row src="/twitter.svg" href="/" />
 				<Row Icon={Home} text="Home" href="/" />
-				<Row Icon={Hash} text="Explore" href="/" />
+				<Row Icon={Hash} text="Explore" href="/explore" />
 				<Row Icon={Bell} text="Notifications" href="/" />
 				<Row Icon={Mail} text="Messages" href="/messages" />
 				<Row Icon={User} text="Profile" href="/users/yonny" />

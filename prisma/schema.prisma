@@ -98,6 +98,11 @@ model Tweet {
     numberOfLikes Int      @default(0)
     ownerId       String
     owner         User     @relation(fields: [ownerId], references: [id])
+    // repliedToId   String
+    // repliedTo     Tweet    @relation("repliedTo", fields: [repliedToId], references: [id])
+    // replys        Tweet[]  @relation("replys")
+
+    @@index([text])
 }
 
 // relationship beetween a user liking a post
