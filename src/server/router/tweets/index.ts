@@ -20,22 +20,6 @@ export const tweetRouter = createRouter()
 			}
 		}
 	})
-	.query('get', {
-		resolve: async ({ ctx }) => {
-			const tweets = await prisma.tweet.findMany({
-				include: {
-					owner: true
-				},
-				orderBy: {
-					createdAt: 'desc'
-				}
-			})
-
-			return {
-				tweets
-			}
-		}
-	})
 	.query('byId', {
 		input: z.object({
 			id: z.string()

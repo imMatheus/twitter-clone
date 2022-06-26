@@ -1,9 +1,11 @@
 import React from 'react'
 import PopupRow from './PopupRow'
 import { useClickOutside } from '@mantine/hooks'
-import { Frown, UserPlus, UserX, List } from 'react-feather'
+import { Frown, UserPlus, UserX, List, Trash2 } from 'react-feather'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { useSession } from 'next-auth/react'
+import { trpc } from '@/utils/trpc'
+
 interface PopupProps {
 	toggle: React.Dispatch<React.SetStateAction<boolean>>
 	tweet: ITweet
@@ -11,8 +13,12 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ toggle, tweet }) => {
 	const ref = useClickOutside(() => toggle(false))
+	const deleteTweetMutation = trpc.useMutation('tweets.deleteById')
 	const { data: session } = useSession()
-	console.log(session?.userId)
+
+	const deleteHandler = () => {
+		deleteTweetMutation.mutate({ id: tweet.id })
+	}
 
 	return (
 		<ul
@@ -25,14 +31,20 @@ const Popup: React.FC<PopupProps> = ({ toggle, tweet }) => {
 					box-shadow: rgb(var(--text) / 20%) 0px 0px 15px, rgb(var(--text) / 15%) 0px 0px 3px 1px;
 				}
 			`}</style>
-			{session && session.userId === tweet.ownerId ? 'hej' : 'då'}
+			{session && session.userId === tweet.ownerId && (
+				<li
+					className="flex gap-3 p-4 text-danger transition-colors hover:bg-text/[0.03]"
+					onClick={deleteHandler}
+				>
+					<Trash2 className="h-5 w-5" />
+					<p className="font-normal">Delete Tweet</p>
+				</li>
+			)}
 			<PopupRow Icon={Frown}>Not interested in this Tweet</PopupRow>
 			<PopupRow Icon={UserPlus}>Follow@kylegawley</PopupRow>
 			<PopupRow Icon={List}>Add/remove @kylegawley from Lists</PopupRow>
 			<PopupRow Icon={UserPlus}>Mute @kylegawley</PopupRow>
 			<PopupRow Icon={UserPlus}>Block @kylegawley</PopupRow>
-			<PopupRow Icon={UserPlus}>Embed Tweet</PopupRow>
-			<PopupRow Icon={UserPlus}>Report Tweet</PopupRow>
 		</ul>
 	)
 }
