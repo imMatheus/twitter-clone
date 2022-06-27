@@ -79,7 +79,8 @@ model User {
     accounts Account[]
     sessions Session[]
 
-
+    message   Message[]
+    chatRooms ChatRoom[]
     @@fulltext([name, handle, bio])
 }
 
@@ -107,7 +108,7 @@ model Tweet {
     // repliedTo     Tweet    @relation("repliedTo", fields: [repliedToId], references: [id])
     // replys        Tweet[]  @relation("replys")
 
-    //@@index([text])
+    // @@index([text])
     @@fulltext([text])
 }
 
@@ -119,4 +120,24 @@ model Like {
     userId  String
 
     @@id([tweetId, userId])
+}
+
+model ChatRoom {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now()) @updatedAt
+    members   User[]
+    messages  Message[]
+}
+
+model Message {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+    text      String   @db.Text()
+    ownerId   String
+    owner     User     @relation(fields: [ownerId], references: [id])
+
+    chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+    chatRoomId String
 }

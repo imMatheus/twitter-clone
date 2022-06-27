@@ -17,6 +17,10 @@ export const protectedTweetRouter = createProtectedRouter()
 				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
 				.join('\r\n')
 
+			if (cleanedText.length > 191) {
+				return new Error('Text length to long')
+			}
+
 			// create the tweet
 			const tweetCreated = await prisma.tweet.create({
 				data: {
