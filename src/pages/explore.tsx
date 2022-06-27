@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
 import SearchBar from '@/components/explore/search'
+import { trpc } from '@/utils/trpc'
+import { useRouter } from 'next/router'
 
-const explore: NextPage = () => {
+const Explore: NextPage = () => {
+	const router = useRouter()
+	const { q } = router.query
+	console.log('querys')
+	console.log(router.asPath)
+
+	// console.log(q)
+
+	const tweets = trpc.useQuery(['tweets.search', { text: Array.isArray(q) ? q[0] : q || '' }])
+
+	// console.log('57')
+	// console.log(tweets)
+
 	return (
 		<div>
 			<div className="sticky top-0 z-50 min-h-[3.5rem]">
@@ -13,6 +27,7 @@ const explore: NextPage = () => {
 				</div>
 			</div>
 			hej
+			<p className="break-al">{JSON.stringify(tweets.data)}</p>
 			<div className="h-screen bg-red-500"></div>
 			<div className="h-screen bg-green-500"></div>
 			<div className="h-screen bg-red-500"></div>
@@ -20,4 +35,4 @@ const explore: NextPage = () => {
 	)
 }
 
-export default explore
+export default Explore

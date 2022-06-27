@@ -11,7 +11,6 @@ import { trpc } from '@/utils/trpc'
 const UserPage: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
-	console.log('hhhhhhhh', handle)
 
 	const { data, isLoading } = trpc.useQuery([
 		'users.byId',

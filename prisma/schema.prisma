@@ -9,7 +9,7 @@ datasource db {
 
 generator client {
     provider        = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+    previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
 }
 
 model Session {
@@ -78,6 +78,9 @@ model User {
 
     accounts Account[]
     sessions Session[]
+
+
+    @@fulltext([name, handle, bio])
 }
 
 model Follows {
@@ -104,7 +107,8 @@ model Tweet {
     // repliedTo     Tweet    @relation("repliedTo", fields: [repliedToId], references: [id])
     // replys        Tweet[]  @relation("replys")
 
-    @@index([text])
+    //@@index([text])
+    @@fulltext([text])
 }
 
 // relationship beetween a user liking a post

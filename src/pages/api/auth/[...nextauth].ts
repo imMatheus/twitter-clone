@@ -11,12 +11,6 @@ const prisma = new PrismaClient()
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
 
-	events: {
-		async createUser(x) {
-			console.log('in creating a user looool')
-			console.log(x)
-		}
-	},
 	providers: [
 		GithubProvider({
 			clientId: process.env.GITHUB_CLIENT_ID,
@@ -27,7 +21,7 @@ export default NextAuth({
 				return {
 					id: '', // will be set by prisma
 					handle: profile.name.split(' ').join('') || 'matheus1',
-					email: profile.email || 'matheus1@gmail.com',
+					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',
 					image: profile.avatar_url || 'http://',
 					name: profile.name || profile.login || 'freeddeee'
 				}
@@ -40,10 +34,10 @@ export default NextAuth({
 				console.log('proifle made it here ööööö')
 				console.log(profile)
 				return {
-					id: 'cl4os8dbw0020rhhjlh9nufab', // will be set by prisma
+					id: '', // will be set by prisma
 					// id: profile.at_hash, // will be set by prisma
 					handle: profile.email,
-					email: profile.email || 'matheus1@gmail.com',
+					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',
 					image: profile.picture || 'http://',
 					name: profile.given_name || profile.login || 'freeddeee'
 				}
