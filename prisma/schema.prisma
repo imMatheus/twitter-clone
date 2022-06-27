@@ -34,13 +34,13 @@ model Account {
     type                     String
     provider                 String
     providerAccountId        String
-    refresh_token            String?
+    refresh_token            String? @db.Text
     refresh_token_expires_in Int?
-    access_token             String?
+    access_token             String? @db.Text
     expires_at               Int?
     token_type               String?
     scope                    String?
-    id_token                 String?
+    id_token                 String? @db.Text
     session_state            String?
     oauth_token_secret       String?
     oauth_token              String?
@@ -90,14 +90,16 @@ model Follows {
 }
 
 model Tweet {
-    id            String   @id @default(uuid())
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @default(now()) @updatedAt
-    text          String
-    likes         Like[]   @relation("like")
-    numberOfLikes Int      @default(0)
-    ownerId       String
-    owner         User     @relation(fields: [ownerId], references: [id])
+    id               String   @id @default(uuid())
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @default(now()) @updatedAt
+    text             String
+    likes            Like[]   @relation("like")
+    numberOfLikes    Int      @default(0)
+    numberOfReplys   Int      @default(0)
+    numberOfReTweets Int      @default(0)
+    ownerId          String
+    owner            User     @relation(fields: [ownerId], references: [id])
     // repliedToId   String
     // repliedTo     Tweet    @relation("repliedTo", fields: [repliedToId], references: [id])
     // replys        Tweet[]  @relation("replys")

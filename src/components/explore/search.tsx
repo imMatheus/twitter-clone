@@ -12,6 +12,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 			role="search"
 			className="group w-full rounded-full border border-transparent bg-bg-grayed-dark focus-within:border-accent focus-within:bg-bg focus-within:text-accent"
 		>
+
 			<label htmlFor="search-input" className="flex w-full flex-1 items-center">
 				<Search className="ml-3 h-5 w-5 flex-shrink-0 text-text-grayed group-focus-within:text-accent" />
 				<input
