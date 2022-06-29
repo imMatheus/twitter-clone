@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ArrowLeft, MoreHorizontal, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,6 +7,7 @@ import type { inferQueryResponse } from '@/utils/inferQueryResponse'
 import dateFormat from 'dateformat'
 import { useAuth } from '@/context/AuthContext'
 import { trpc } from '@/utils/trpc'
+import Button from '@/components/button'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -14,11 +15,33 @@ interface UserBannerProps {
 
 const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	const { currentUser } = useAuth()
+	const utils = trpc.useContext()
 	const followMutation = trpc.useMutation(['users.follow'])
+	const {
+		data: follows,
+		isLoading,
+		isFetching
+	} = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
+	const [loading, setLoading] = useState(false)
 	console.log(user)
+	// In component:
 
 	if (!user) return null
 	const isOwnPage = user.id === currentUser?.id
+
+	const handleFollowMutation = () => {
+		setLoading(true)
+		followMutation.mutate(
+			{ id: user.id },
+			{
+				onSuccess(input) {
+					utils.invalidateQueries(['users.byId'])
+					utils.invalidateQueries(['users.currentUserFollowsUser'])
+					setLoading(false)
+				}
+			}
+		)
+	}
 
 	return (
 		<div>
@@ -36,14 +59,16 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 						<button className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg">
 							<MoreHorizontal className="h-5 w-5 text-text" />
 						</button>
-						{!isOwnPage && (
-							<button
-								className="h-9 rounded-full bg-text px-4 font-bold text-bg"
-								onClick={() => followMutation.mutate({ id: user.id })}
-							>
-								Följ
-							</button>
-						)}
+						{!isOwnPage &&
+							(follows ? (
+								<Button variant="light" onClick={handleFollowMutation} loading={loading}>
+									Unfollow
+								</Button>
+							) : (
+								<Button variant="dark" onClick={handleFollowMutation} loading={loading}>
+									Följ
+								</Button>
+							))}
 					</div>
 				</div>
 				<div className="px-1">

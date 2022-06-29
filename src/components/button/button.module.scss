@@ -1,0 +1,16 @@
+.button {
+	@apply h-9 rounded-full px-4 font-bold;
+	&:disabled {
+		@apply opacity-80;
+	}
+}
+
+.light {
+	@extend .button;
+	@apply border border-border;
+}
+
+.dark {
+	@extend .button;
+	@apply bg-text text-bg;
+}
