@@ -30,11 +30,13 @@ export default NextAuth({
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID as string,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-			profile(profile) {
+			profile(profile, tokens) {
 				console.log('proifle made it here ööööö')
 				console.log(profile)
+				console.log(tokens)
+
 				return {
-					id: '', // will be set by prisma
+					id: 'cl4os8dbw0020rhhjlh9nufgg', // will be set by prisma
 					// id: profile.at_hash, // will be set by prisma
 					handle: profile.email,
 					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',

@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { User } from '@/types/User'
+import type { PreviewUser } from '@/types/User'
 
 interface ProfileImageProps {
-	user: User
+	user: PreviewUser
 }
 
 const ProfileImage: React.FC<ProfileImageProps> = ({ user }) => {

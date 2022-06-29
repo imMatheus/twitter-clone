@@ -6,14 +6,75 @@ import { protectedTweetRouter } from './protected'
 export const tweetRouter = createRouter()
 	.query('feed', {
 		resolve: async ({ ctx }) => {
+			console.log('gggg')
+
+			if (!ctx.session?.userId)
+				return {
+					tweets: await prisma.tweet.findMany({
+						select: {
+							id: true,
+							text: true,
+							numberOfLikes: true,
+							numberOfReTweets: true,
+							numberOfReplies: true,
+							createdAt: true,
+							owner: {
+								select: {
+									id: true,
+									handle: true,
+									image: true,
+									name: true
+								}
+							}
+						},
+						orderBy: {
+							createdAt: 'asc'
+						}
+					})
+				}
+
 			const tweets = await prisma.tweet.findMany({
-				include: {
-					owner: true
+				where: {
+					OR: [
+						{
+							owner: {
+								followers: {
+									some: {
+										followerId: ctx.session.userId
+									}
+								}
+							}
+						},
+						{
+							ownerId: ctx.session.userId
+						}
+					]
+				},
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					}
 				},
 				orderBy: {
 					createdAt: 'desc'
 				}
 			})
+
+			console.log('hb')
+			console.log(ctx.session.userId)
+
+			console.log(JSON.stringify(tweets, null, 2))
 
 			return {
 				tweets
