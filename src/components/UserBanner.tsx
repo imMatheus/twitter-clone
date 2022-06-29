@@ -5,15 +5,20 @@ import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
 import type { inferQueryResponse } from '@/utils/inferQueryResponse'
 import dateFormat from 'dateformat'
+import { useAuth } from '@/context/AuthContext'
+import { trpc } from '@/utils/trpc'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
 }
 
 const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
+	const { currentUser } = useAuth()
+	const followMutation = trpc.useMutation(['users.follow'])
 	console.log(user)
 
 	if (!user) return null
+	const isOwnPage = user.id === currentUser?.id
 
 	return (
 		<div>
@@ -31,7 +36,14 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 						<button className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg">
 							<MoreHorizontal className="h-5 w-5 text-text" />
 						</button>
-						<button className="h-9 rounded-full bg-text px-4 font-bold text-bg">Följ</button>
+						{!isOwnPage && (
+							<button
+								className="h-9 rounded-full bg-text px-4 font-bold text-bg"
+								onClick={() => followMutation.mutate({ id: user.id })}
+							>
+								Följ
+							</button>
+						)}
 					</div>
 				</div>
 				<div className="px-1">
@@ -51,10 +63,12 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 					</div>
 					<div className="my-2 flex gap-4 text-sm">
 						<div className="flex gap-1">
-							<span className="font-bold">43</span> <span className="text-text-grayed">follows</span>
+							<span className="font-bold">{user.followingCount}</span>
+							<span className="text-text-grayed">follows</span>
 						</div>
 						<div className="flex gap-1">
-							<span className="font-bold">812</span> <span className="text-text-grayed">followers</span>
+							<span className="font-bold">{user.followersCount}</span>
+							<span className="text-text-grayed">followers</span>
 						</div>
 					</div>
 				</div>

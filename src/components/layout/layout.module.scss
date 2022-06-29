@@ -11,10 +11,9 @@
 	grid-template-columns: auto auto 1fr;
 	margin: 0 auto;
 
-	@apply max-w-7xl divide-x divide-red-500;
+	@apply max-w-7xl divide-x divide-border;
 
 	> *:nth-child(2) {
-		background-color: #f00;
 		@apply w-96;
 	}
 }

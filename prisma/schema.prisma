@@ -81,6 +81,7 @@ model User {
 
     message   Message[]
     chatRooms ChatRoom[]
+    @@index([handle])
     @@fulltext([name, handle, bio])
 }
 
@@ -104,17 +105,17 @@ model Tweet {
     numberOfReTweets Int      @default(0)
     ownerId          String
     owner            User     @relation(fields: [ownerId], references: [id])
-    // repliedToId   String
-    // repliedTo     Tweet    @relation("repliedTo", fields: [repliedToId], references: [id])
-    // replys        Tweet[]  @relation("replys")
+    repliedToId      String?
+    repliedTo        Tweet?   @relation("repliedTo", fields: [repliedToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    replys           Tweet[]  @relation("repliedTo")
 
-    // @@index([text])
+    @@index([createdAt, ownerId])
     @@fulltext([text])
 }
 
 // relationship beetween a user liking a post
 model Like {
-    tweet   Tweet  @relation("like", fields: [tweetId], references: [id])
+    tweet   Tweet  @relation("like", fields: [tweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     tweetId String
     user    User   @relation("likedBy", fields: [userId], references: [id])
     userId  String
@@ -128,6 +129,8 @@ model ChatRoom {
     updatedAt DateTime  @default(now()) @updatedAt
     members   User[]
     messages  Message[]
+
+
 }
 
 model Message {
@@ -138,6 +141,6 @@ model Message {
     ownerId   String
     owner     User     @relation(fields: [ownerId], references: [id])
 
-    chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
     chatRoomId String
+    chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
 }
