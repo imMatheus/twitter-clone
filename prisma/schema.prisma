@@ -122,6 +122,7 @@ model Like {
     userId  String
 
     @@id([tweetId, userId])
+    @@index([tweetId, userId])
 }
 
 model ChatRoom {

@@ -106,3 +106,30 @@ export const protectedUserRouter = createProtectedRouter()
 			return !!follows
 		}
 	})
+	.query('followSuggestion', {
+		resolve: async ({ ctx }) => {
+			const users = await prisma.user.findMany({
+				where: {
+					id: {
+						not: ctx.session.userId
+					},
+					privacy: 'PUBLIC',
+					followers: {
+						none: { followerId: ctx.session.userId }
+					}
+				},
+				select: {
+					id: true,
+					name: true,
+					handle: true,
+					image: true,
+					bio: true
+				},
+				orderBy: {
+					followersCount: 'desc'
+				},
+				take: 3
+			})
+			return { users }
+		}
+	})

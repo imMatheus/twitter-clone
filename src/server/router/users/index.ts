@@ -9,9 +9,6 @@ export const usersRouter = createRouter()
 			handle: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			console.log('byId')
-			console.log(input)
-
 			const user = await prisma.user.findFirst({
 				where: {
 					handle: input.handle

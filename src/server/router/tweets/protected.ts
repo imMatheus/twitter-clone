@@ -8,8 +8,6 @@ export const protectedTweetRouter = createProtectedRouter()
 			text: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			if (!ctx.session.userId) return
-
 			// removes all dubble \n from the text, maxes the number of continues line breaks to 1
 			const cleanedText = input.text
 				.split(/\n/)
@@ -46,8 +44,6 @@ export const protectedTweetRouter = createProtectedRouter()
 			id: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			if (!ctx.session.userId) return
-
 			// create the tweet
 			const tweetCreated = await prisma.tweet.deleteMany({
 				where: {
@@ -66,6 +62,55 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			return {
 				tweet: tweetCreated
+			}
+		}
+	})
+	.mutation('like', {
+		input: z.object({
+			id: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const likesTweet = await prisma.like.findUnique({
+				where: {
+					tweetId_userId: {
+						tweetId: input.id,
+						userId: ctx.session.userId
+					}
+				}
+			})
+
+			console.log('liking the tweet')
+			console.log(likesTweet)
+
+			// like the tweet
+			if (likesTweet) {
+				await prisma.like.delete({
+					where: {
+						tweetId_userId: {
+							tweetId: input.id,
+							userId: ctx.session.userId
+						}
+					}
+				})
+			} else {
+				await prisma.like.create({
+					data: {
+						tweetId: input.id,
+						userId: ctx.session.userId
+					}
+				})
+			}
+
+			// increment number of likes on tweet
+			await prisma.tweet.update({
+				where: { id: input.id },
+				data: {
+					numberOfLikes: { increment: likesTweet ? -1 : 1 }
+				}
+			})
+
+			return {
+				success: true
 			}
 		}
 	})

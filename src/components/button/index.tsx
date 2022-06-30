@@ -4,8 +4,8 @@ import styles from './button.module.scss'
 interface ButtonProps {
 	children: React.ReactNode
 	variant: 'light' | 'dark' | 'theme'
-	onClick: () => void
-	loading: boolean
+	onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+	loading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({ children, variant, onClick, loading }) => {

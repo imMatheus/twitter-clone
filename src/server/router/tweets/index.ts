@@ -10,27 +10,7 @@ export const tweetRouter = createRouter()
 
 			if (!ctx.session?.userId)
 				return {
-					tweets: await prisma.tweet.findMany({
-						select: {
-							id: true,
-							text: true,
-							numberOfLikes: true,
-							numberOfReTweets: true,
-							numberOfReplies: true,
-							createdAt: true,
-							owner: {
-								select: {
-									id: true,
-									handle: true,
-									image: true,
-									name: true
-								}
-							}
-						},
-						orderBy: {
-							createdAt: 'asc'
-						}
-					})
+					tweets: []
 				}
 
 			const tweets = await prisma.tweet.findMany({
@@ -64,17 +44,17 @@ export const tweetRouter = createRouter()
 							image: true,
 							name: true
 						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session.userId
+						}
 					}
 				},
 				orderBy: {
 					createdAt: 'desc'
 				}
 			})
-
-			console.log('hb')
-			console.log(ctx.session.userId)
-
-			console.log(JSON.stringify(tweets, null, 2))
 
 			return {
 				tweets
@@ -105,9 +85,6 @@ export const tweetRouter = createRouter()
 			text: z.string()
 		}),
 		resolve: async ({ input }) => {
-			console.log('abc')
-			console.log(input)
-
 			const maxResults = 10
 
 			// Have to use queryRaw because "LIKE" is not supported in prisma yet

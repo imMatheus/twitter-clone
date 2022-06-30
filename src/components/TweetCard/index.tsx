@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { getDateSincePost } from '@/utils/getDateSincePost'
-import Image from 'next/image'
 import Link from 'next/link'
-import { MessageCircle, Repeat, Heart, MoreHorizontal } from 'react-feather'
+import { MoreHorizontal } from 'react-feather'
 import ProfileImage from '@/components/ProfileImage'
 import { useRouter } from 'next/router'
 import Popup from './Popup'
+import MetaData from './MetaData'
 
 interface TweetCardProps {
 	tweet: ITweet
@@ -35,7 +35,6 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								{getDateSincePost(tweet.createdAt)}
 							</time>
 							{/* Just to capture the group link to the tweet */}
-
 							<div
 								className="relative ml-auto"
 								onClick={(e) => {
@@ -51,35 +50,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 							</div>
 						</div>
 						<pre className="font-inter">{tweet.text}</pre>
-						<div className="mt-3 flex max-w-md justify-between text-text-grayed">
-							<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-carolina">
-								<div className="relative">
-									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>
-									<MessageCircle className="relative h-4 w-4" />
-								</div>
-								<span className="text-sm">{tweet.numberOfReplies}</span>
-							</div>
-							<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-olive">
-								<div className="relative">
-									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-olive/20"></div>
-									<Repeat className="relative h-4 w-4" />
-								</div>
-								<span className="text-sm">{tweet.numberOfReTweets}</span>
-							</div>
-							<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-candy-pink">
-								<div className="relative">
-									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-candy-pink/20"></div>
-									<Heart className="relative h-4 w-4" />
-								</div>
-								<span className="text-sm">{tweet.numberOfLikes}</span>
-							</div>
-							<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-carolina">
-								<div className="relative">
-									<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>
-									<Heart className="relative h-4 w-4" />
-								</div>
-							</div>
-						</div>
+						<MetaData tweet={tweet} />
 					</div>
 				</div>
 			</Link>
