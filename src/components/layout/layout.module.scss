@@ -16,4 +16,7 @@
 	> *:nth-child(2) {
 		@apply w-96;
 	}
+	> *:nth-child(3) {
+		border-right-width: 1px !important;
+	}
 }

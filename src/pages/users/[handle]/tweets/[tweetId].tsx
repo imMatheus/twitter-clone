@@ -5,16 +5,13 @@ import ProfileImage from '@/components/ProfileImage'
 import HeaderBox from '@/components/HeaderBox'
 import { trpc } from '@/utils/trpc'
 import Spinner from '@/components/Spinner'
-
+import { unCastArray } from '@/utils/unCastArray'
 interface TweetScreenProps {}
 
 const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 	const router = useRouter()
 	const { tweetId } = router.query
-	const { data, isLoading } = trpc.useQuery([
-		'tweets.byId',
-		{ id: Array.isArray(tweetId) ? tweetId[0] : (tweetId as string) }
-	])
+	const { data, isLoading } = trpc.useQuery(['tweets.byId', { id: unCastArray(tweetId) }])
 	const tweet = data?.tweet
 	return (
 		<div>
@@ -27,7 +24,7 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 				) : tweet ? (
 					<>
 						<div className="flex gap-2">
-							<ProfileImage user={tweet?.owner} />
+							<ProfileImage user={tweet?.owner} size="12" />
 							<div className="w-full flex-1">
 								<div className="flex flex-col">
 									<Link href={`/users/${tweet.owner.handle}`} passHref>

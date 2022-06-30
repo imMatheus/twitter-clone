@@ -20,7 +20,7 @@ const Sidebar: React.FC = ({}) => {
 				<Row Icon={Hash} text="Explore" href="/explore" />
 				<Row Icon={Bell} text="Notifications" href="/" />
 				<Row Icon={Mail} text="Messages" href="/messages" />
-				{currentUser && <Row Icon={User} text="Profile" href={`users/${currentUser.handle}`} />}
+				{currentUser && <Row Icon={User} text="Profile" href={`/users/${currentUser.handle}`} />}
 				<Row Icon={Settings} text="Settings" href="/settings" />
 			</ul>
 			<button className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-lg font-bold text-white transition-opacity hover:opacity-80 lg:w-full lg:px-4 lg:py-3">

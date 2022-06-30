@@ -17,11 +17,10 @@ const RoomList: React.FC<RoomListProps> = ({}) => {
 					<IconButton Icon={Mail} onClick={() => {}} />
 				</div>
 			</div>
-			{JSON.stringify(data) || 'hej'}
-			<RoomRow />
-			<RoomRow />
-			<RoomRow />
-			<RoomRow />
+
+			{data?.rooms.map((room) => {
+				return <RoomRow key={room.id} room={room} />
+			})}
 		</div>
 	)
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowLeft, MoreHorizontal, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
+import { MoreHorizontal, Mail, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
@@ -8,6 +8,7 @@ import dateFormat from 'dateformat'
 import { useAuth } from '@/context/AuthContext'
 import { trpc } from '@/utils/trpc'
 import Button from '@/components/button'
+import { useRouter } from 'next/router'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -16,13 +17,11 @@ interface UserBannerProps {
 const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	const { currentUser } = useAuth()
 	const utils = trpc.useContext()
-	const followMutation = trpc.useMutation(['users.follow'])
-	const {
-		data: follows,
-		isLoading,
-		isFetching
-	} = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
+	const followMutation = trpc.useMutation('users.follow')
+	const getChatRoomMutation = trpc.useMutation(['messages.createOrJoinChatRoom'])
+	const { data: follows } = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
 	const [loading, setLoading] = useState(false)
+	const router = useRouter()
 	console.log(user)
 	// In component:
 
@@ -34,10 +33,30 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 		followMutation.mutate(
 			{ id: user.id },
 			{
-				onSuccess(input) {
+				onSuccess() {
 					utils.invalidateQueries(['users.byId'])
 					utils.invalidateQueries(['users.currentUserFollowsUser'])
 					setLoading(false)
+				}
+			}
+		)
+	}
+
+	const handleJoinChatRoomMutation = async () => {
+		console.log('insede handler')
+
+		getChatRoomMutation.mutate(
+			{
+				id: user.id
+			},
+			{
+				onSuccess(response, ...args) {
+					console.log('made it inside here')
+					console.log(response)
+					console.log(...args)
+					if (response) {
+						router.push(`/messages/${response.chatRoom.id}`)
+					}
 				}
 			}
 		)
@@ -56,19 +75,29 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 						</div>
 					</div>
 					<div className="flex gap-2">
-						<button className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg">
+						<button className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg transition-colors hover:bg-bg-grayed-dark">
 							<MoreHorizontal className="h-5 w-5 text-text" />
 						</button>
-						{!isOwnPage &&
-							(follows ? (
-								<Button variant="light" onClick={handleFollowMutation} loading={loading}>
-									Unfollow
-								</Button>
-							) : (
-								<Button variant="dark" onClick={handleFollowMutation} loading={loading}>
-									Följ
-								</Button>
-							))}
+
+						{!isOwnPage && currentUser && (
+							<>
+								<button
+									onClick={handleJoinChatRoomMutation}
+									className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg transition-colors hover:bg-bg-grayed-dark"
+								>
+									<Mail className="h-5 w-5 text-text" />
+								</button>
+								{follows ? (
+									<Button variant="light" onClick={handleFollowMutation} loading={loading}>
+										Unfollow
+									</Button>
+								) : (
+									<Button variant="dark" onClick={handleFollowMutation} loading={loading}>
+										Följ
+									</Button>
+								)}
+							</>
+						)}
 					</div>
 				</div>
 				<div className="px-1">

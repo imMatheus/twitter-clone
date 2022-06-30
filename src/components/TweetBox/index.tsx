@@ -31,7 +31,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({}) => {
 	return (
 		<div className="flex gap-4 border-b border-b-border p-4">
 			<div className="flex-shrink-0">
-				{currentUser ? <ProfileImage user={currentUser} /> : <div className="h-12 w-12"></div>}
+				{currentUser ? <ProfileImage user={currentUser} size="12" /> : <div className="h-12 w-12"></div>}
 			</div>
 			<div className="w-full">
 				<div className="text-xl">

@@ -15,7 +15,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${user.handle}`} passHref>
 				<div className="flex items-start gap-3 p-4">
-					<ProfileImage user={user} />
+					<ProfileImage user={user} size="12" />
 
 					<div className="w-full flex-1">
 						<div className="flex justify-between">

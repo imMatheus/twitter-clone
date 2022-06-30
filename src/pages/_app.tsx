@@ -17,7 +17,7 @@ Router.events.on('routeChangeError', () => NProgress.done())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 
 function MyApp({ Component, pageProps, ...appProps }: AppProps) {
-	const isFocusedLayout = [`/messages`].includes(appProps.router.pathname)
+	const isFocusedLayout = appProps.router.pathname.startsWith(`/messages`)
 
 	const LayoutComponent = isFocusedLayout ? FocusedLayout : Layout
 
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
 						<LayoutComponent>
 							<Sidebar />
 							{isFocusedLayout && <RoomList />}
-							<div className="min-h-screen w-full border-x border-x-border">
+							<div className="min-h-screen w-full min-w-0 border-x border-x-border">
 								<Component {...pageProps} />
 							</div>
 							{!isFocusedLayout && <Sidebar />}

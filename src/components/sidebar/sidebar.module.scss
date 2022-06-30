@@ -30,11 +30,7 @@
 			&__selected {
 				@extend .sidebar__list__row;
 				font-weight: 500;
-				@apply text-accent;
-
-				&:hover {
-					@apply bg-accent/10;
-				}
+				@apply font-semibold;
 			}
 		}
 

@@ -10,6 +10,7 @@ export const protectedUserRouter = createProtectedRouter()
 		resolve: async ({ ctx, input }) => {
 			console.log('finna follow some people')
 			console.log(ctx)
+			if (ctx.session.userId === input.id) return
 
 			const follows = await prisma.follows.findUnique({
 				where: {

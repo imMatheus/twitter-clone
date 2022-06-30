@@ -20,7 +20,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 				<div className="flex items-start gap-4 p-4">
-					<ProfileImage user={tweet.owner} />
+					<ProfileImage user={tweet.owner} size="12" />
 
 					<div className="w-full flex-1">
 						<div className="flex items-center gap-1.5">
