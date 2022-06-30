@@ -16,7 +16,6 @@ const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
 	const router = useRouter()
 	const { roomId } = router.query
 	const isActive = room.id === roomId
-	console.log(router.query)
 
 	if (!room.members[0]) return null
 	return (

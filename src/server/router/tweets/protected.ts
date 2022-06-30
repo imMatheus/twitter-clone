@@ -79,9 +79,6 @@ export const protectedTweetRouter = createProtectedRouter()
 				}
 			})
 
-			console.log('liking the tweet')
-			console.log(likesTweet)
-
 			// like the tweet
 			if (likesTweet) {
 				await prisma.like.delete({

@@ -9,8 +9,6 @@ import { useAuth } from '@/context/AuthContext'
 
 const Sidebar: React.FC = ({}) => {
 	const { currentUser } = useAuth()
-	console.log('upsidopsi ')
-	console.log(currentUser)
 
 	return (
 		<section className={styles.sidebar}>

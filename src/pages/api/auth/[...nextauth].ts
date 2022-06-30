@@ -16,8 +16,6 @@ export default NextAuth({
 			clientId: process.env.GITHUB_CLIENT_ID,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET,
 			profile(profile) {
-				console.log('proifle made it here')
-				console.log(profile)
 				return {
 					id: '', // will be set by prisma
 					handle: profile.name.split(' ').join('') || 'matheus1',
@@ -31,10 +29,6 @@ export default NextAuth({
 			clientId: process.env.GOOGLE_CLIENT_ID as string,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 			profile(profile, tokens) {
-				console.log('proifle made it here ööööö')
-				console.log(profile)
-				console.log(tokens)
-
 				return {
 					id: 'cl4os8dbw0020rhhjlh9nufgg', // will be set by prisma
 					// id: profile.at_hash, // will be set by prisma
@@ -53,9 +47,6 @@ export default NextAuth({
 			return Promise.resolve(session)
 		},
 		signIn: async (props) => {
-			console.log('made it inside login')
-			console.log(props)
-
 			return true
 			// if (account.provider === 'google') {
 			// 	return profile.email_verified && profile.email.endsWith('@example.com')

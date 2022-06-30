@@ -13,8 +13,6 @@ const MetaData: React.FC<MetaDataProps> = ({ tweet }) => {
 	const likedTheTweetInitially = tweet.likes?.length > 0
 	const [hasLikedTweet, setHasLikedTweet] = useState(likedTheTweetInitially)
 	const likeIncrementor = likedTheTweetInitially ? (hasLikedTweet ? 0 : -1) : hasLikedTweet ? 1 : 0
-	console.log('waaaaag111')
-	console.log(tweet)
 
 	return (
 		<div className="mt-3 flex max-w-md justify-between text-text-grayed">

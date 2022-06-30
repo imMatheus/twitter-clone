@@ -77,9 +77,6 @@ export const messagesRouter = createProtectedRouter()
 				}
 			})
 
-			console.log('a chat ro0m may exist')
-			console.log(foundRoom)
-
 			if (foundRoom)
 				return {
 					chatRoom: foundRoom
@@ -145,9 +142,6 @@ export const messagesRouter = createProtectedRouter()
 					}
 				}
 			})
-
-			console.log('inside this yyyy')
-			console.log(chatRoom)
 
 			return {
 				chatRoom

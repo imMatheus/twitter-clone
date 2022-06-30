@@ -22,7 +22,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	const { data: follows } = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
 	const [loading, setLoading] = useState(false)
 	const router = useRouter()
-	console.log(user)
+
 	// In component:
 
 	if (!user) return null
@@ -43,17 +43,12 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	}
 
 	const handleJoinChatRoomMutation = async () => {
-		console.log('insede handler')
-
 		getChatRoomMutation.mutate(
 			{
 				id: user.id
 			},
 			{
-				onSuccess(response, ...args) {
-					console.log('made it inside here')
-					console.log(response)
-					console.log(...args)
+				onSuccess(response) {
 					if (response) {
 						router.push(`/messages/${response.chatRoom.id}`)
 					}

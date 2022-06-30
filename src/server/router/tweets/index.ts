@@ -6,8 +6,6 @@ import { protectedTweetRouter } from './protected'
 export const tweetRouter = createRouter()
 	.query('feed', {
 		resolve: async ({ ctx }) => {
-			console.log('gggg')
-
 			if (!ctx.session?.userId)
 				return {
 					tweets: []
@@ -112,8 +110,6 @@ export const tweetRouter = createRouter()
 					owner: true
 				}
 			})
-
-			console.log(tweets)
 
 			return {
 				tweets

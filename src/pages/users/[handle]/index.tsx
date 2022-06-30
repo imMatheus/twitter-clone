@@ -7,17 +7,14 @@ import UserNotFoundBanner from '@/components/UserNotFoundBanner'
 import Spinner from '@/components/Spinner'
 import HeaderBox from '@/components/HeaderBox'
 import { trpc } from '@/utils/trpc'
+import { unCastArray } from '@/utils/unCastArray'
 
 const UserPage: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
 
-	const { data, isLoading } = trpc.useQuery([
-		'users.byId',
-		{ handle: Array.isArray(handle) ? handle[0] : (handle as string) }
-	])
+	const { data, isLoading } = trpc.useQuery(['users.byId', { handle: unCastArray(handle) }])
 
-	console.log(data?.user)
 	const user = data?.user
 
 	return (

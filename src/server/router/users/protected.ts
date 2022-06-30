@@ -8,8 +8,6 @@ export const protectedUserRouter = createProtectedRouter()
 			id: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			console.log('finna follow some people')
-			console.log(ctx)
 			if (ctx.session.userId === input.id) return
 
 			const follows = await prisma.follows.findUnique({
@@ -29,9 +27,6 @@ export const protectedUserRouter = createProtectedRouter()
 						}
 					}
 				})
-
-				console.log('made it here 2222')
-				console.log(x)
 
 				// update number of following
 				await prisma.user.update({
@@ -60,9 +55,6 @@ export const protectedUserRouter = createProtectedRouter()
 				}
 			})
 
-			console.log('made it here 555')
-			console.log(x)
-
 			// update number of following
 			await prisma.user.update({
 				where: { id: ctx.session.userId },
@@ -89,8 +81,6 @@ export const protectedUserRouter = createProtectedRouter()
 			id: z.string().nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
-			console.log('kkk')
-
 			if (!input.id) return false
 			const follows = await prisma.follows.findUnique({
 				where: {
@@ -100,9 +90,6 @@ export const protectedUserRouter = createProtectedRouter()
 					}
 				}
 			})
-
-			console.log(follows)
-			console.log(!!follows)
 
 			return !!follows
 		}

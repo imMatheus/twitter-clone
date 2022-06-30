@@ -1,3 +1,4 @@
+import { unCastArray } from '@/utils/unCastArray'
 import { useRouter } from 'next/router'
 import React, { useState, useId, useEffect } from 'react'
 import { Search, X } from 'react-feather'
@@ -8,13 +9,11 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 	const router = useRouter()
 	const id = useId()
 	const { q } = router.query
-	console.log('hjik')
-	console.log(q)
+
 	const [text, setText] = useState(q || '')
 
 	useEffect(() => {
-		// console.log('updating state')
-		setText(Array.isArray(q) ? q[0] : (q as string))
+		setText(unCastArray(q))
 	}, [q])
 
 	return (
@@ -24,8 +23,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 			role="search"
 			onSubmit={(e) => {
 				e.preventDefault()
-				console.log('olalala')
-				console.log(e)
+
 				router.push('/explore', {
 					query: {
 						q: text

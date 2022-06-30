@@ -3,19 +3,13 @@ import type { NextPage } from 'next'
 import SearchBar from '@/components/explore/search'
 import { trpc } from '@/utils/trpc'
 import { useRouter } from 'next/router'
+import { unCastArray } from '@/utils/unCastArray'
 
 const Explore: NextPage = () => {
 	const router = useRouter()
 	const { q } = router.query
-	console.log('querys')
-	console.log(router.asPath)
 
-	// console.log(q)
-
-	const tweets = trpc.useQuery(['tweets.search', { text: Array.isArray(q) ? q[0] : q || '' }])
-
-	// console.log('57')
-	// console.log(tweets)
+	const tweets = trpc.useQuery(['tweets.search', { text: unCastArray(q) }])
 
 	return (
 		<div>

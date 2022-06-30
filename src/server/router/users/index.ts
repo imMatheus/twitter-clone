@@ -15,13 +15,32 @@ export const usersRouter = createRouter()
 				},
 				include: {
 					tweets: {
-						include: { owner: true },
+						select: {
+							id: true,
+							text: true,
+							numberOfLikes: true,
+							numberOfReTweets: true,
+							numberOfReplies: true,
+							createdAt: true,
+							owner: {
+								select: {
+									id: true,
+									handle: true,
+									image: true,
+									name: true
+								}
+							},
+							likes: {
+								where: {
+									userId: ctx.session?.userId
+								}
+							}
+						},
+
 						orderBy: { createdAt: 'desc' }
 					}
 				}
 			})
-
-			console.log(user)
 
 			return {
 				user
