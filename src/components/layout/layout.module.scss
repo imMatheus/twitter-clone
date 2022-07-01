@@ -1,9 +1,13 @@
 .layout {
 	display: grid;
-	grid-template-columns: auto 1fr auto;
+	grid-template-columns: auto 1fr;
 	margin: 0 auto;
 
-	@apply max-w-7xl;
+	@apply max-w-7xl divide-x divide-border md:grid-cols-[auto_1fr_auto];
+
+	> *:nth-child(3) {
+		@apply hidden md:block;
+	}
 }
 
 .focused-layout {
