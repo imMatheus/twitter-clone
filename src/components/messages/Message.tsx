@@ -36,7 +36,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 			</div>
 			<div className={classNames('flex', { 'justify-end': !isReceived })}>
 				{isReceived && <div className="w-12"></div>}
-				<p className="text-xs text-text-grayed">{dateFormat(message.createdAt, 'mmm d, yyyy, h:MM TT')}</p>
+				<p className="pt-1 text-xs text-text-grayed">{dateFormat(message.createdAt, 'mmm d, yyyy, h:MM TT')}</p>
 			</div>
 		</div>
 	)

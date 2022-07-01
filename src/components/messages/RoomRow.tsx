@@ -21,8 +21,8 @@ const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
 	return (
 		<Link href={`/messages/${room.id}`} passHref>
 			<a
-				className={classNames('flex gap-3 overflow-hidden p-4 transition-colors hover:bg-bg-grayed', {
-					'bg-bg-grayed': isActive
+				className={classNames('flex gap-3 overflow-hidden p-4 transition-colors hover:bg-text/10', {
+					'bg-text/10': isActive
 				})}
 			>
 				<div className="relative h-12 w-12 flex-shrink-0">

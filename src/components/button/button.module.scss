@@ -1,16 +1,30 @@
 .button {
-	@apply h-9 rounded-full px-4 font-bold;
+	@apply rounded-full font-bold;
 	&:disabled {
 		@apply opacity-80;
 	}
 }
 
+.small {
+	@apply h-6 px-2 text-sm;
+}
+
+.medium {
+	@apply h-9 px-4;
+}
+
+.large {
+	@apply h-12 px-9;
+}
+
 .light {
-	@extend .button;
 	@apply border border-border;
 }
 
 .dark {
-	@extend .button;
 	@apply bg-text text-bg;
+}
+
+.theme {
+	@apply bg-accent text-white;
 }

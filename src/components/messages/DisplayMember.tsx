@@ -14,7 +14,7 @@ const DisplayMember: React.FC<DisplayMemberProps> = ({ member }) => {
 	if (!member) return null
 	return (
 		<Link href={`/users/${member.handle}`} passHref>
-			<a className="flex flex-col items-center gap-1 border-b border-b-border py-5 px-4 transition-colors hover:bg-bg-grayed">
+			<a className="flex flex-col items-center gap-1 border-b border-b-border py-5 px-4 transition-colors hover:bg-text/10">
 				<div className="flex flex-wrap gap-1">
 					<p className="font-bold">{member.name}</p>
 					<p className="text-text-grayed">@{member.handle}</p>
