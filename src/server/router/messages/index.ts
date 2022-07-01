@@ -148,6 +148,36 @@ export const messagesRouter = createProtectedRouter()
 			}
 		}
 	})
+	.mutation('send', {
+		input: z.object({
+			id: z.string(),
+			text: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			// removes all dubble \n from the text, maxes the number of continues line breaks to 1
+			const cleanedText = input.text
+				.split(/\n/)
+				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
+				.join('\r\n')
+
+			if (cleanedText.length > 1500) {
+				return new Error('Text length to long')
+			}
+
+			// create the tweet
+			const message = await prisma.message.create({
+				data: {
+					text: cleanedText,
+					ownerId: ctx.session.userId,
+					chatRoomId: input.id
+				}
+			})
+
+			return {
+				message
+			}
+		}
+	})
 
 // await prisma.message.create({
 // 	data: {

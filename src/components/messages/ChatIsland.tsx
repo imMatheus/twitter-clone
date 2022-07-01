@@ -1,8 +1,4 @@
 import React from 'react'
-import { trpc } from '@/utils/trpc'
-import { useRouter } from 'next/router'
-import { unCastArray } from '@/utils/unCastArray'
-import { inferQueryResponse } from '@/utils/inferQueryResponse'
 import Header from './Header'
 import DisplayMember from './DisplayMember'
 import type { ChatRoom } from '@/types/ChatRoom'
@@ -14,7 +10,6 @@ interface ChatIslandProps {
 }
 
 const ChatIsland: React.FC<ChatIslandProps> = ({ room }) => {
-	const router = useRouter()
 	const member = room.members[0]
 	if (!member) return <></>
 
@@ -25,7 +20,7 @@ const ChatIsland: React.FC<ChatIslandProps> = ({ room }) => {
 				<DisplayMember member={member} />
 				<MessagesFeed messages={room.messages} />
 			</div>
-			<ChatBox />
+			<ChatBox room={room} />
 		</div>
 	)
 }

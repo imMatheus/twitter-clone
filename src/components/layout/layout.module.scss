@@ -8,13 +8,13 @@
 
 .focused-layout {
 	display: grid;
-	grid-template-columns: auto auto 1fr;
+	grid-template-columns: auto 1fr;
 	margin: 0 auto;
 
-	@apply max-w-7xl divide-x divide-border;
+	@apply max-w-7xl divide-x divide-border md:grid-cols-[auto_auto_1fr];
 
 	> *:nth-child(2) {
-		@apply w-96;
+		@apply hidden w-96 md:block;
 	}
 	> *:nth-child(3) {
 		border-right-width: 1px !important;
