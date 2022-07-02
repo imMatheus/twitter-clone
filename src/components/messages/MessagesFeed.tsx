@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import type { ChatRoomMessage } from '@/types/ChatRoom'
 import Message from './Message'
 
@@ -7,11 +7,18 @@ interface MessagesFeedProps {
 }
 
 const MessagesFeed: React.FC<MessagesFeedProps> = ({ messages }) => {
+	const dummyRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		dummyRef.current?.scrollIntoView()
+	}, [])
+
 	return (
-		<div className="py-4">
+		<div className="flex flex-col py-4">
 			{messages.map((message) => (
 				<Message key={message.id} message={message} />
 			))}
+			<div ref={dummyRef}></div>
 		</div>
 	)
 }

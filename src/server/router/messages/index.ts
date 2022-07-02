@@ -37,7 +37,10 @@ export const messagesRouter = createProtectedRouter()
 										}
 									}
 								},
-								take: 1
+								take: 1,
+								orderBy: {
+									createdAt: 'desc'
+								}
 							}
 						},
 						orderBy: {

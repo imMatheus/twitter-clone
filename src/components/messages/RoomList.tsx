@@ -3,11 +3,12 @@ import React from 'react'
 import { Settings, Mail } from 'react-feather'
 import IconButton from '@/components/IconButton'
 import RoomRow from './RoomRow'
+import Spinner from '@/components/Spinner'
 
 interface RoomListProps {}
 
 const RoomList: React.FC<RoomListProps> = ({}) => {
-	const { data } = trpc.useQuery(['messages.getRooms'])
+	const { data, isLoading } = trpc.useQuery(['messages.getRooms'])
 	return (
 		<div className="">
 			<div className="sticky top-0 flex items-center justify-between p-4">
@@ -17,6 +18,12 @@ const RoomList: React.FC<RoomListProps> = ({}) => {
 					<IconButton Icon={Mail} onClick={() => {}} />
 				</div>
 			</div>
+
+			{(!data || isLoading) && (
+				<div className="flex justify-center">
+					<Spinner />
+				</div>
+			)}
 
 			{data?.rooms.map((room) => {
 				return <RoomRow key={room.id} room={room} />

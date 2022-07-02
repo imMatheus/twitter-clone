@@ -6,6 +6,7 @@ import Link from 'next/link'
 import ProfileImage from '@/components/ProfileImage'
 import classNames from 'classnames'
 import dateFormat from 'dateformat'
+import { getDateSinceMessages } from '@/utils/getDateSinceMessages'
 
 interface MessageProps {
 	message: ChatRoomMessage
@@ -36,7 +37,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 			</div>
 			<div className={classNames('flex', { 'justify-end': !isReceived })}>
 				{isReceived && <div className="w-12"></div>}
-				<p className="pt-1 text-xs text-text-grayed">{dateFormat(message.createdAt, 'mmm d, yyyy, h:MM TT')}</p>
+				<p className="pt-1 text-xs text-text-grayed">{getDateSinceMessages(message.createdAt)}</p>
 			</div>
 		</div>
 	)
