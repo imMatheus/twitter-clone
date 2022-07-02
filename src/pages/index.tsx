@@ -15,12 +15,12 @@ const Home: NextPage = () => {
 	return (
 		<div>
 			<HeaderBox title="Home" />
+			{currentUser && <TweetBox />}
 			{isLoading && (
 				<div className="flex justify-center">
 					<Spinner />
 				</div>
 			)}
-			{currentUser && <TweetBox />}
 			{data?.tweets && <TweetsContainer tweets={data.tweets} />}
 			<div>
 				<h2 className="">Seems like you have no more Tweets </h2>
