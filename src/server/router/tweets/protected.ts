@@ -5,7 +5,8 @@ import prisma from '@/server/utils/prisma'
 export const protectedTweetRouter = createProtectedRouter()
 	.mutation('post', {
 		input: z.object({
-			text: z.string()
+			text: z.string(),
+			tweetId: z.string().nullish()
 		}),
 		resolve: async ({ ctx, input }) => {
 			// removes all dubble \n from the text, maxes the number of continues line breaks to 1
@@ -20,10 +21,16 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			// create the tweet
 			const tweetCreated = await prisma.tweet.create({
-				data: {
-					text: cleanedText,
-					ownerId: ctx.session.userId
-				}
+				data: input.tweetId
+					? {
+							text: cleanedText,
+							ownerId: ctx.session.userId,
+							repliedToId: input.tweetId
+					  }
+					: {
+							text: cleanedText,
+							ownerId: ctx.session.userId
+					  }
 			})
 
 			// increment number of tweets for user

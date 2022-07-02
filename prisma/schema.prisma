@@ -150,4 +150,6 @@ model Message {
 
     chatRoomId String
     chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+
+    @@index([chatRoomId, createdAt])
 }

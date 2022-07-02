@@ -63,13 +63,31 @@ export const tweetRouter = createRouter()
 		input: z.object({
 			id: z.string()
 		}),
-		resolve: async ({ input }) => {
+		resolve: async ({ ctx, input }) => {
 			const tweet = await prisma.tweet.findUnique({
 				where: {
 					id: input.id
 				},
-				include: {
-					owner: true
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session?.userId
+						}
+					}
 				}
 			})
 

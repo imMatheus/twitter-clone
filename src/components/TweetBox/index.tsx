@@ -7,14 +7,17 @@ import LengthCircleTracker from './LengthCircleTracker'
 import { trpc } from '@/utils/trpc'
 import { useAuth } from '@/context/AuthContext'
 
-interface TweetBoxProps {}
+interface TweetBoxProps {
+	tweetId?: string
+}
 
-const TweetBox: React.FC<TweetBoxProps> = ({}) => {
+const TweetBox: React.FC<TweetBoxProps> = ({ tweetId }) => {
 	const MAX_TEXT_LENGTH = 280
 	const { currentUser } = useAuth()
 	const utils = trpc.useContext()
 	const postMutation = trpc.useMutation('tweets.post', {
 		onSuccess() {
+			if (tweetId) return utils.invalidateQueries(['tweets.byId'])
 			utils.invalidateQueries(['tweets.feed'])
 		}
 	})
