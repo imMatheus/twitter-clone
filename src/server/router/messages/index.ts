@@ -130,18 +130,6 @@ export const messagesRouter = createProtectedRouter()
 							followingCount: true,
 							createdAt: true
 						}
-					},
-					messages: {
-						include: {
-							owner: {
-								select: {
-									id: true,
-									name: true,
-									image: true,
-									handle: true
-								}
-							}
-						}
 					}
 				}
 			})
@@ -151,6 +139,60 @@ export const messagesRouter = createProtectedRouter()
 			}
 		}
 	})
+	.query('getMessages', {
+		input: z.object({
+			roomId: z.string(),
+			limit: z.number().min(1).max(100).nullish(),
+			cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
+		}),
+		resolve: async ({ ctx, input }) => {
+			const userId = ctx.session.userId
+			const limit = input.limit ?? 50
+			const { cursor } = input
+
+			const messages = await prisma.message.findMany({
+				where: {
+					chatRoom: {
+						id: input.roomId,
+						members: {
+							some: {
+								id: userId
+							}
+						}
+					}
+				},
+
+				include: {
+					owner: {
+						select: {
+							id: true,
+							name: true,
+							image: true,
+							handle: true
+						}
+					}
+				},
+				take: limit + 1,
+				cursor: cursor ? { id: cursor } : undefined,
+				orderBy: {
+					createdAt: 'desc'
+					// id: 'desc'
+				}
+			})
+
+			let nextCursor: typeof cursor | null = null
+			if (messages?.length > limit) {
+				const nextItem = messages?.pop()
+				nextCursor = nextItem!.id
+			}
+
+			return {
+				messages,
+				nextCursor
+			}
+		}
+	})
+
 	.mutation('send', {
 		input: z.object({
 			id: z.string(),
@@ -163,7 +205,7 @@ export const messagesRouter = createProtectedRouter()
 				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
 				.join('\r\n')
 
-			if (cleanedText.length > 1500) {
+			if (cleanedText.length > 1500 || cleanedText === '') {
 				return new Error('Text length to long')
 			}
 

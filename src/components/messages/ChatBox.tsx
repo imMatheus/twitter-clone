@@ -18,6 +18,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ room }) => {
 
 	const handleSendMutation = () => {
 		setText('')
+
 		sendMutation.mutate(
 			{
 				text: text,
@@ -25,7 +26,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ room }) => {
 			},
 			{
 				onSuccess() {
-					utils.invalidateQueries(['messages.getRoomById'])
+					utils.invalidateQueries(['messages.getMessages'])
 				}
 			}
 		)

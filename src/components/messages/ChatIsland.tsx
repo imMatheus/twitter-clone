@@ -14,11 +14,11 @@ const ChatIsland: React.FC<ChatIslandProps> = ({ room }) => {
 	if (!member) return <></>
 
 	return (
-		<div className="flex h-screen min-w-0 flex-col overflow-hidden">
+		<div className="relative flex h-screen min-w-0 flex-col">
 			<Header member={member} />
-			<div className="flex-1 overflow-y-scroll px-4">
+			<div className="flex-1 overflow-y-scroll px-4 pt-14">
 				<DisplayMember member={member} />
-				<MessagesFeed messages={room.messages} />
+				<MessagesFeed roomId={room.id} />
 			</div>
 			<ChatBox room={room} />
 		</div>

@@ -9,5 +9,5 @@ export function getDateSinceMessages(d: string | Date) {
 
 	if (diff < 60 * 60 * 24) return dateFormat(timePost, 'h:MM TT') // within 1 day
 	if (diff < 60 * 60 * 24 * 7) return dateFormat(timePost, 'dddd, h:MM TT') // within 1 week
-	return dateFormat(timePost, 'mmmm d, yyyy, h:MM TT') // within 1 year
+	return dateFormat(timePost, 'mmmm d, yyyy, h:MM TT')
 }
