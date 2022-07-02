@@ -27,14 +27,14 @@ const LengthCircleTracker: React.FC<LengthCircleTrackerProps> = ({ text, MAX_TEX
 					className="absolute top-1/2 left-1/2 h-full w-full -translate-y-1/2 -translate-x-1/2 -rotate-90"
 					strokeLinecap="round"
 				>
-					<circle r="56" cx="50%" cy="50%" strokeWidth={10} fill="none" stroke="var(--border)"></circle>
+					<circle r="56" cx="50%" cy="50%" strokeWidth={10} fill="none" stroke="rgb(var(--border))"></circle>
 					<circle
 						className={styles.circle}
 						r="56"
 						fill="none"
 						cx="50%"
 						cy="50%"
-						stroke={textLengthHasSurpassedMax ? 'var(--danger-color)' : 'var(--accent-color)'}
+						stroke={textLengthHasSurpassedMax ? 'rgb(var(--danger-color))' : 'rgb(var(--accent-color))'}
 						strokeWidth={10}
 						strokeDasharray={`${(348 * text.length) / MAX_TEXT_LENGTH}, 348`}
 					></circle>

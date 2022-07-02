@@ -6,6 +6,8 @@ import HeaderBox from '@/components/HeaderBox'
 import { trpc } from '@/utils/trpc'
 import Spinner from '@/components/Spinner'
 import { unCastArray } from '@/utils/unCastArray'
+import TweetBox from '@/components/TweetBox'
+
 interface TweetScreenProps {}
 
 const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
@@ -42,6 +44,7 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 							<div className="h-[2px] w-[2px] flex-shrink-0 rounded-full bg-text-grayed"></div>
 							<p>May 12, 2021</p>
 						</div>
+						<TweetBox tweetId={tweet.id} />
 					</>
 				) : (
 					<h2 className="text-center text-base text-text-grayed">
