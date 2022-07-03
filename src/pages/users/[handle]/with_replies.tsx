@@ -9,13 +9,13 @@ import HeaderBox from '@/components/HeaderBox'
 import { trpc } from '@/utils/trpc'
 import { unCastArray } from '@/utils/unCastArray'
 
-const UserPage: NextPage = () => {
+const WithReplies: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
 
 	const { data, isLoading } = trpc.useQuery(['users.byId', { handle: unCastArray(handle) }])
 	const { data: tweetsData, isLoading: loadingTweets } = trpc.useQuery([
-		'users.getTweets',
+		'users.getTweetsAndReplies',
 		{ handle: unCastArray(handle) }
 	])
 
@@ -46,4 +46,4 @@ const UserPage: NextPage = () => {
 	)
 }
 
-export default UserPage
+export default WithReplies

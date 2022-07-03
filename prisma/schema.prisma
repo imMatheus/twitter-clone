@@ -86,10 +86,12 @@ model User {
 }
 
 model Follows {
-    follower    User   @relation("follower", fields: [followerId], references: [id])
+    follower    User     @relation("follower", fields: [followerId], references: [id])
     followerId  String
-    following   User   @relation("following", fields: [followingId], references: [id])
+    following   User     @relation("following", fields: [followingId], references: [id])
     followingId String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now()) @updatedAt
 
     @@id([followerId, followingId])
     @@index([followerId, followingId])
@@ -116,10 +118,12 @@ model Tweet {
 
 // relationship beetween a user liking a post
 model Like {
-    tweet   Tweet  @relation("like", fields: [tweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    tweetId String
-    user    User   @relation("likedBy", fields: [userId], references: [id])
-    userId  String
+    tweet     Tweet    @relation("like", fields: [tweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    tweetId   String
+    user      User     @relation("likedBy", fields: [userId], references: [id])
+    userId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 
     @@id([tweetId, userId])
     @@index([tweetId, userId])

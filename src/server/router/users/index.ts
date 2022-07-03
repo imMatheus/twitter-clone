@@ -13,37 +13,182 @@ export const usersRouter = createRouter()
 				where: {
 					handle: input.handle
 				},
-				include: {
-					tweets: {
-						select: {
-							id: true,
-							text: true,
-							numberOfLikes: true,
-							numberOfReTweets: true,
-							numberOfReplies: true,
-							createdAt: true,
-							owner: {
-								select: {
-									id: true,
-									handle: true,
-									image: true,
-									name: true
-								}
-							},
-							likes: {
-								where: {
-									userId: ctx.session?.userId
-								}
-							}
-						},
-
-						orderBy: { createdAt: 'desc' }
-					}
+				select: {
+					id: true,
+					image: true,
+					name: true,
+					handle: true,
+					bio: true,
+					followersCount: true,
+					followingCount: true,
+					createdAt: true,
+					numberOfTweets: true
 				}
 			})
 
 			return {
 				user
+			}
+		}
+	})
+	.query('getTweets', {
+		input: z.object({
+			handle: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const tweets = await prisma.tweet.findMany({
+				where: {
+					owner: {
+						handle: input.handle
+					},
+					repliedToId: null
+				},
+
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session?.userId
+						}
+					}
+				},
+
+				orderBy: { createdAt: 'desc' }
+			})
+
+			return {
+				tweets
+			}
+		}
+	})
+	.query('getTweetsAndReplies', {
+		input: z.object({
+			handle: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const tweets = await prisma.tweet.findMany({
+				where: {
+					owner: {
+						handle: input.handle
+					}
+				},
+
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					},
+					repliedTo: {
+						select: {
+							id: true,
+							owner: {
+								select: {
+									name: true,
+									handle: true
+								}
+							}
+						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session?.userId
+						}
+					}
+				},
+
+				orderBy: { createdAt: 'desc' }
+			})
+
+			return {
+				tweets
+			}
+		}
+	})
+	.query('getLikedTweets', {
+		input: z.object({
+			handle: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const user = await prisma.user.findUniqueOrThrow({
+				where: {
+					handle: input.handle
+				},
+				select: { id: true }
+			})
+
+			const tweets = await prisma.tweet.findMany({
+				where: {
+					likes: {
+						some: {
+							userId: user.id
+						}
+					},
+					ownerId: {
+						not: user.id
+					}
+				},
+
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					},
+					repliedTo: {
+						select: {
+							id: true,
+							owner: {
+								select: {
+									name: true,
+									handle: true
+								}
+							}
+						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session?.userId
+						}
+					}
+				},
+
+				orderBy: { createdAt: 'desc' }
+			})
+
+			return {
+				tweets
 			}
 		}
 	})

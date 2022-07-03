@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext'
 import { trpc } from '@/utils/trpc'
 import Button from '@/components/button'
 import { useRouter } from 'next/router'
+import SectionPicker from './SectionPicker'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -62,7 +63,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 			<div className="relative h-52">
 				<Image src={UserBannerImage} alt="User profile banner" layout="fill" objectFit="cover" />
 			</div>
-			<div className="border-b border-b-border p-4">
+			<div className="p-4">
 				<div className="flex items-start justify-between">
 					<div className="h-[5.5rem]">
 						<div className="relative h-[11rem] w-[11rem] -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white">
@@ -122,6 +123,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 					</div>
 				</div>
 			</div>
+			<SectionPicker handle={user.handle} />
 		</div>
 	)
 }
