@@ -58,6 +58,11 @@ const TweetBox: React.FC<TweetBoxProps> = ({ tweetId, placeholder }) => {
 						variant="unstyled"
 						className="border-none"
 						aria-label="Write a tweet"
+						styles={{
+							input: {
+								color: 'rgb(var(--text)) !important'
+							}
+						}}
 						size="xl"
 					/>
 				</div>

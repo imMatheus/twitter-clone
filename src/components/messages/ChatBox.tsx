@@ -32,14 +32,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ room }) => {
 		)
 	}
 	return (
-		<form
-			onSubmit={(e) => {
-				console.log('gggg')
-				console.log(e)
-			}}
-			id={formId}
-			className="flex items-center gap-1 border-t border-t-border p-3"
-		>
+		<form id={formId} className="flex items-center gap-1 border-t border-t-border p-3">
 			<div className="flex-1 rounded-3xl bg-bg p-1 outline outline-1 outline-text/25 focus-within:outline-2 focus-within:outline-accent">
 				<div className="relative max-h-44 min-w-0 overflow-y-scroll [&_textarea]:!p-0 [&_textarea]:!py-2">
 					<Textarea
@@ -47,15 +40,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({ room }) => {
 						autosize
 						variant="unstyled"
 						minRows={1}
+						styles={{
+							input: {
+								color: 'rgb(var(--text)) !important'
+							}
+						}}
 						value={text}
 						onChange={(e) => setText(e.target.value)}
-						className="px-2"
+						className="px-2 !text-text"
 						form={formId}
-						// classNames="bg-blue-500"
-						style={{
-							overflow: 'scroll',
-							padding: '0px !important'
-						}}
 					/>
 				</div>
 			</div>
