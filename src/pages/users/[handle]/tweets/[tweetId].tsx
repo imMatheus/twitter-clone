@@ -46,7 +46,9 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 								</div>
 							</div>
 						</div>
-						<p className="text-xl font-medium md:text-xl">{tweet.text}</p>
+						<pre className="min-w-0 whitespace-pre-wrap break-words break-all font-inter text-xl font-medium md:text-xl">
+							{tweet.text}
+						</pre>
 						<div className="flex items-center gap-1 text-text-grayed">
 							<p>12:53 AM</p>
 							<div className="h-[2px] w-[2px] flex-shrink-0 rounded-full bg-text-grayed"></div>

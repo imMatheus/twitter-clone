@@ -101,7 +101,7 @@ model Tweet {
     id               String   @id @default(uuid())
     createdAt        DateTime @default(now())
     updatedAt        DateTime @default(now()) @updatedAt
-    text             String
+    text             String   @db.VarChar(280)
     likes            Like[]   @relation("like")
     numberOfLikes    Int      @default(0)
     numberOfReplies  Int      @default(0)

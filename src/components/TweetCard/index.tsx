@@ -26,7 +26,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 						<ProfileImage user={tweet.owner} size="12" />
 					</div>
 
-					<div className="w-full flex-1">
+					<div className="min-w-0 flex-1">
 						{isReplied && (
 							<Link
 								href={`/users/${tweet.repliedTo?.owner.handle}/tweets/${tweet.repliedTo?.id}`}
@@ -63,7 +63,7 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								{showPopUp && <Popup toggle={setShowPopUp} tweet={tweet} />}
 							</div>
 						</div>
-						<pre className="font-inter">{tweet.text}</pre>
+						<pre className="min-w-0 whitespace-pre-wrap break-words break-all font-inter">{tweet.text}</pre>
 						<MetaData tweet={tweet} />
 					</div>
 				</div>

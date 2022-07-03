@@ -15,7 +15,13 @@ export const protectedTweetRouter = createProtectedRouter()
 				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
 				.join('\r\n')
 
-			if (cleanedText.length > 191) {
+			console.log('made ot sda')
+
+			console.log(cleanedText)
+			console.log(cleanedText.length)
+			if (cleanedText.length > 280) {
+				console.log('too long man')
+
 				return new Error('Text length to long')
 			}
 

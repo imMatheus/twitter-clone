@@ -2,6 +2,7 @@
 	display: grid;
 	grid-template-columns: auto 1fr;
 	margin: 0 auto;
+	// overflow-x: hidden;
 
 	@apply max-w-7xl divide-x divide-border md:grid-cols-[auto_1fr_auto];
 
