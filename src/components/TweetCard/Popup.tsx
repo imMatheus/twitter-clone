@@ -31,7 +31,7 @@ const Popup: React.FC<PopupProps> = ({ toggle, tweet }) => {
 					box-shadow: rgb(var(--text) / 20%) 0px 0px 15px, rgb(var(--text) / 15%) 0px 0px 3px 1px;
 				}
 			`}</style>
-			{session && session.userId === tweet.ownerId && (
+			{session && session.userId === tweet.owner.id && (
 				<li
 					className="flex gap-3 p-4 text-danger transition-colors hover:bg-text/[0.03]"
 					onClick={deleteHandler}
