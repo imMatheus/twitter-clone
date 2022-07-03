@@ -43,6 +43,17 @@ export const tweetRouter = createRouter()
 							name: true
 						}
 					},
+					repliedTo: {
+						select: {
+							id: true,
+							owner: {
+								select: {
+									name: true,
+									handle: true
+								}
+							}
+						}
+					},
 					likes: {
 						where: {
 							userId: ctx.session.userId
@@ -83,6 +94,17 @@ export const tweetRouter = createRouter()
 							name: true
 						}
 					},
+					repliedTo: {
+						select: {
+							id: true,
+							owner: {
+								select: {
+									name: true,
+									handle: true
+								}
+							}
+						}
+					},
 					likes: {
 						where: {
 							userId: ctx.session?.userId
@@ -93,6 +115,43 @@ export const tweetRouter = createRouter()
 
 			return {
 				tweet
+			}
+		}
+	})
+	.query('getRepliesById', {
+		input: z.object({
+			id: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const replies = await prisma.tweet.findMany({
+				where: {
+					repliedToId: input.id
+				},
+				select: {
+					id: true,
+					text: true,
+					numberOfLikes: true,
+					numberOfReTweets: true,
+					numberOfReplies: true,
+					createdAt: true,
+					owner: {
+						select: {
+							id: true,
+							handle: true,
+							image: true,
+							name: true
+						}
+					},
+					likes: {
+						where: {
+							userId: ctx.session?.userId
+						}
+					}
+				}
+			})
+
+			return {
+				replies
 			}
 		}
 	})

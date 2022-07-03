@@ -9,9 +9,10 @@ import { useAuth } from '@/context/AuthContext'
 
 interface TweetBoxProps {
 	tweetId?: string
+	placeholder?: string
 }
 
-const TweetBox: React.FC<TweetBoxProps> = ({ tweetId }) => {
+const TweetBox: React.FC<TweetBoxProps> = ({ tweetId, placeholder }) => {
 	const MAX_TEXT_LENGTH = 280
 	const { currentUser } = useAuth()
 	const utils = trpc.useContext()
@@ -28,7 +29,17 @@ const TweetBox: React.FC<TweetBoxProps> = ({ tweetId }) => {
 
 	async function sendTweet() {
 		setText('')
-		const response = postMutation.mutate({ text })
+		if (tweetId)
+			return postMutation.mutate(
+				{ text, tweetId },
+				{
+					onSuccess() {
+						utils.invalidateQueries(['tweets.getRepliesById'])
+						utils.invalidateQueries(['tweets.byId'])
+					}
+				}
+			)
+		postMutation.mutate({ text })
 	}
 
 	return (
@@ -39,7 +50,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({ tweetId }) => {
 			<div className="w-full">
 				<div className="text-xl">
 					<Textarea
-						placeholder="Whats happening"
+						placeholder={placeholder || 'Whats happening'}
 						autosize
 						value={text}
 						onChange={(e) => setText(e.currentTarget.value)}

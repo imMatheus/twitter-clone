@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Tweet as ITweet } from '@/types/Tweet'
 import { getDateSincePost } from '@/utils/getDateSincePost'
 import Link from 'next/link'
-import { MoreHorizontal } from 'react-feather'
+import { MoreHorizontal, MessageCircle } from 'react-feather'
 import ProfileImage from '@/components/ProfileImage'
 import { useRouter } from 'next/router'
 import Popup from './Popup'
@@ -15,17 +15,31 @@ interface TweetCardProps {
 const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 	const [showPopUp, setShowPopUp] = useState(false)
 	const router = useRouter()
+	const isReplied = 'repliedTo' in tweet && tweet.repliedTo?.owner
 
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 				<div className="flex items-start gap-4 p-4">
-					<ProfileImage user={tweet.owner} size="12" />
+					<div className="flex flex-col items-end">
+						{isReplied && <MessageCircle className="mb-1.5 h-3 w-3 fill-text-grayed text-text-grayed" />}
+						<ProfileImage user={tweet.owner} size="12" />
+					</div>
 
 					<div className="w-full flex-1">
+						{isReplied && (
+							<Link
+								href={`/users/${tweet.repliedTo?.owner.handle}/tweets/${tweet.repliedTo?.id}`}
+								passHref
+							>
+								<a className="mb-1.5 block text-xs font-semibold leading-none text-text-grayed hover:underline">
+									Replied to {tweet.repliedTo?.owner.name}
+								</a>
+							</Link>
+						)}
 						<div className="flex items-center gap-1.5">
 							<Link href={`/users/${tweet.owner.handle}`} passHref>
-								<a className="cursor-pointer">
+								<a className="cursor-pointer hover:underline">
 									<h2 className="font-bold">{tweet.owner.name}</h2>
 								</a>
 							</Link>

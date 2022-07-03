@@ -41,6 +41,16 @@ export const protectedTweetRouter = createProtectedRouter()
 				}
 			})
 
+			if (input.tweetId) {
+				// increment number of replies for the tweet
+				await prisma.tweet.update({
+					where: { id: input.tweetId },
+					data: {
+						numberOfReplies: { increment: 1 }
+					}
+				})
+			}
+
 			return {
 				tweet: tweetCreated
 			}
@@ -51,15 +61,24 @@ export const protectedTweetRouter = createProtectedRouter()
 			id: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			// create the tweet
-			const tweetCreated = await prisma.tweet.deleteMany({
+			const tweet = await prisma.tweet.findFirstOrThrow({
 				where: {
 					id: input.id,
 					ownerId: ctx.session.userId
+				},
+				select: {
+					repliedToId: true
 				}
 			})
 
-			// increment number of tweets for user
+			// delete the tweet
+			const tweetCreated = await prisma.tweet.delete({
+				where: {
+					id: input.id
+				}
+			})
+
+			// decrement number of tweets for user
 			await prisma.user.update({
 				where: { id: ctx.session.userId },
 				data: {

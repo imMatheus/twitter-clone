@@ -110,7 +110,7 @@ model Tweet {
     repliedTo        Tweet?   @relation("repliedTo", fields: [repliedToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     replies          Tweet[]  @relation("repliedTo")
 
-    @@index([createdAt, ownerId])
+    @@index([text, repliedToId, createdAt, ownerId])
     @@fulltext([text])
 }
 
