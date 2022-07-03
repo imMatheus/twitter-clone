@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 			<HeaderBox title="Home" />
 			{currentUser && <TweetBox />}
 			{isLoading && (
-				<div className="flex justify-center">
+				<div className="flex h-screen items-center justify-center">
 					<Spinner />
 				</div>
 			)}

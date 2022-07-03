@@ -111,7 +111,12 @@ export const protectedUserRouter = createProtectedRouter()
 					name: true,
 					handle: true,
 					image: true,
-					bio: true
+					bio: true,
+					followers: {
+						where: {
+							followerId: ctx.session.userId
+						}
+					}
 				},
 				orderBy: {
 					followersCount: 'desc'

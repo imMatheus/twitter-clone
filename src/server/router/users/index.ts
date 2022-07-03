@@ -192,4 +192,82 @@ export const usersRouter = createRouter()
 			}
 		}
 	})
+	.query('getFollowers', {
+		input: z.object({
+			handle: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const user = await prisma.user.findFirst({
+				where: {
+					handle: input.handle
+				},
+				select: {
+					id: true,
+					name: true,
+					handle: true,
+					followers: {
+						select: {
+							follower: {
+								select: {
+									id: true,
+									name: true,
+									handle: true,
+									image: true,
+									bio: true,
+									followers: {
+										where: {
+											followerId: ctx.session?.userId
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			})
+
+			return {
+				user
+			}
+		}
+	})
+	.query('getFollowing', {
+		input: z.object({
+			handle: z.string()
+		}),
+		resolve: async ({ ctx, input }) => {
+			const user = await prisma.user.findFirst({
+				where: {
+					handle: input.handle
+				},
+				select: {
+					id: true,
+					name: true,
+					handle: true,
+					following: {
+						select: {
+							following: {
+								select: {
+									id: true,
+									name: true,
+									handle: true,
+									image: true,
+									bio: true,
+									followers: {
+										where: {
+											followerId: ctx.session?.userId
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			})
+
+			return {
+				user
+			}
+		}
+	})
 	.merge('', protectedUserRouter)

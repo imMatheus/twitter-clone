@@ -9,7 +9,8 @@ import { useAuth } from '@/context/AuthContext'
 import { trpc } from '@/utils/trpc'
 import Button from '@/components/button'
 import { useRouter } from 'next/router'
-import SectionPicker from './SectionPicker'
+import SectionPicker from '@/components/sectionPicker'
+import Option from '@/components/sectionPicker/Option'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -23,8 +24,6 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	const { data: follows } = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
 	const [loading, setLoading] = useState(false)
 	const router = useRouter()
-
-	// In component:
 
 	if (!user) return null
 	const isOwnPage = user.id === currentUser?.id
@@ -112,18 +111,26 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 						</div>
 					</div>
 					<div className="my-2 flex gap-4 text-sm">
-						<div className="flex gap-1">
-							<span className="font-bold">{user.followingCount}</span>
-							<span className="text-text-grayed">follows</span>
-						</div>
-						<div className="flex gap-1">
-							<span className="font-bold">{user.followersCount}</span>
-							<span className="text-text-grayed">followers</span>
-						</div>
+						<Link href={`/users/${user.handle}/following`} passHref>
+							<a className="min-w-0 hover:underline">
+								<span className="font-bold">{user.followingCount}</span>{' '}
+								<span className="text-text-grayed">Following</span>
+							</a>
+						</Link>
+						<Link href={`/users/${user.handle}/followers`} passHref>
+							<a className="min-w-0 hover:underline">
+								<span className="font-bold">{user.followersCount}</span>{' '}
+								<span className="text-text-grayed">Followers</span>
+							</a>
+						</Link>
 					</div>
 				</div>
 			</div>
-			<SectionPicker handle={user.handle} />
+			<SectionPicker>
+				<Option handle={user.handle} href="" text="Tweets" />
+				<Option handle={user.handle} href="/with_replies" text="Tweets & replies" />
+				<Option handle={user.handle} href="/likes" text="Likes" />
+			</SectionPicker>
 		</div>
 	)
 }

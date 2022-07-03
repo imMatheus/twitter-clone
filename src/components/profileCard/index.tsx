@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { inferQueryResponse } from '@/utils/inferQueryResponse'
 import Link from 'next/link'
 import ProfileImage from '../ProfileImage'
 import Button from '@/components/button'
 import { trpc } from '@/utils/trpc'
+import { useSession } from 'next-auth/react'
 
 interface ProfileCardProps {
 	user: inferQueryResponse<'users.followSuggestion'>['users'][number]
@@ -11,6 +12,8 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 	const followMutation = trpc.useMutation('users.follow')
+	const { data } = useSession()
+	const [isFollowing, setIsFollowing] = useState(user.followers.length > 0)
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${user.handle}`} passHref>
@@ -27,17 +30,20 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 								</Link>
 								<h3 className="text-sm text-text-grayed">@{user.handle}</h3>
 							</div>
-							<Button
-								variant="dark"
-								onClick={(e) => {
-									e.stopPropagation()
-									followMutation.mutate({
-										id: user.id
-									})
-								}}
-							>
-								Follow
-							</Button>
+							{data?.userId !== user.id && (
+								<Button
+									variant={isFollowing ? 'light' : 'dark'}
+									onClick={(e) => {
+										e.stopPropagation()
+										followMutation.mutate({
+											id: user.id
+										})
+										setIsFollowing((c) => !c)
+									}}
+								>
+									{isFollowing ? 'Unfollow' : 'Follow'}
+								</Button>
+							)}
 						</div>
 						<pre className="font-inter">{user.bio}</pre>
 					</div>

@@ -1,35 +1,14 @@
-import React from 'react'
+import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import classNames from 'classnames'
 
-interface SectionPickerProps {
-	handle: string
-}
-
-const SectionPicker: React.FC<SectionPickerProps> = ({ handle }) => {
-	return (
-		<div className="flex w-full min-w-0 gap-1 overflow-x-scroll border-b border-b-border">
-			<Option handle={handle} href="">
-				Tweets
-			</Option>
-			<Option handle={handle} href="/with_replies">
-				Tweets & replies
-			</Option>
-			<Option handle={handle} href="/likes">
-				Likes
-			</Option>
-		</div>
-	)
-}
-
-interface OptionProps {
-	children: React.ReactNode
+export interface OptionProps {
+	text: React.ReactNode
 	href: string
 	handle: string
 }
 
-const Option: React.FC<OptionProps> = ({ children, href, handle }) => {
+const Option: React.FC<OptionProps> = ({ text, href, handle }) => {
 	const router = useRouter()
 	const fullHref = `/users/${handle}${href}`
 	const isActive = router.asPath === fullHref
@@ -42,7 +21,7 @@ const Option: React.FC<OptionProps> = ({ children, href, handle }) => {
 						isActive ? 'text-text' : 'text-text-grayed'
 					)}
 				>
-					{children}
+					{text}
 					{isActive && <div className="absolute bottom-0 left-0 right-0 h-1 rounded-md bg-accent"></div>}
 				</div>
 			</a>
@@ -50,4 +29,4 @@ const Option: React.FC<OptionProps> = ({ children, href, handle }) => {
 	)
 }
 
-export default SectionPicker
+export default Option
