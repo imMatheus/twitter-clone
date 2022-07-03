@@ -139,56 +139,58 @@ export const usersRouter = createRouter()
 				select: { id: true }
 			})
 
-			const tweets = await prisma.tweet.findMany({
+			const tweets = await prisma.like.findMany({
 				where: {
-					likes: {
-						some: {
-							userId: user.id
+					userId: user.id,
+					tweet: {
+						ownerId: {
+							not: user.id
 						}
-					},
-					ownerId: {
-						not: user.id
 					}
 				},
-
 				select: {
-					id: true,
-					text: true,
-					numberOfLikes: true,
-					numberOfReTweets: true,
-					numberOfReplies: true,
-					createdAt: true,
-					owner: {
+					tweet: {
 						select: {
 							id: true,
-							handle: true,
-							image: true,
-							name: true
-						}
-					},
-					repliedTo: {
-						select: {
-							id: true,
+							text: true,
+							numberOfLikes: true,
+							numberOfReTweets: true,
+							numberOfReplies: true,
+							createdAt: true,
 							owner: {
 								select: {
-									name: true,
-									handle: true
+									id: true,
+									handle: true,
+									image: true,
+									name: true
+								}
+							},
+							repliedTo: {
+								select: {
+									id: true,
+									owner: {
+										select: {
+											name: true,
+											handle: true
+										}
+									}
+								}
+							},
+							likes: {
+								where: {
+									userId: ctx.session?.userId
 								}
 							}
 						}
-					},
-					likes: {
-						where: {
-							userId: ctx.session?.userId
-						}
 					}
 				},
-
-				orderBy: { createdAt: 'desc' }
+				orderBy: {
+					createdAt: 'desc'
+				}
 			})
 
 			return {
-				tweets
+				tweets: tweets.map((tweet) => tweet.tweet)
 			}
 		}
 	})
