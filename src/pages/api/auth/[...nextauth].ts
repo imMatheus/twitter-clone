@@ -17,7 +17,7 @@ export default NextAuth({
 			clientSecret: process.env.GITHUB_CLIENT_SECRET,
 			profile(profile) {
 				return {
-					id: '', // will be set by prisma
+					id: profile.login, // will be set by prisma
 					handle: profile.name.split(' ').join('') || 'matheus1',
 					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',
 					image: profile.avatar_url || 'http://',
