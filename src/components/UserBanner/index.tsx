@@ -105,14 +105,26 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 				<div className="px-1">
 					<h1 className="text-xl font-extrabold">{user.name}</h1>
 					<p className="text-sm font-normal text-text-grayed">@{user.handle}</p>
-					<pre className="font-inter">{user.bio}</pre>
+					{user.bio && <pre className="font-inter">{user.bio}</pre>}
 					<div className="flex flex-wrap items-center gap-4 py-2 text-sm text-text-grayed">
-						<div className="flex items-center gap-1">
-							<MapPin className="h-4 w-4" /> Seattle, WA
-						</div>
-						<div className="flex items-center gap-1">
-							<LinkIcon className="h-4 w-4" /> Seattle, WA
-						</div>
+						{user.location && (
+							<div className="flex items-center gap-1">
+								<MapPin className="h-4 w-4" /> {user.location}
+							</div>
+						)}
+						{user.website && (
+							<div className="flex items-center gap-1">
+								<LinkIcon className="h-4 w-4" />{' '}
+								<a
+									href={user.website}
+									target="_blank"
+									rel="noreferrer"
+									className="text-accent hover:underline"
+								>
+									{new URL(user.website).hostname}
+								</a>
+							</div>
+						)}
 						<div className="flex items-center gap-1 capitalize">
 							<Calendar className="h-4 w-4" /> Joined {dateFormat(user.createdAt, 'mmmm yyyy')}
 						</div>
