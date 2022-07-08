@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MoreHorizontal, Mail, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
+import { Mail, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
@@ -11,6 +11,7 @@ import Button from '@/components/button'
 import { useRouter } from 'next/router'
 import SectionPicker from '@/components/sectionPicker'
 import Option from '@/components/sectionPicker/Option'
+import { useModal } from '@/context/ModalContext'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
@@ -18,6 +19,7 @@ interface UserBannerProps {
 
 const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 	const { currentUser } = useAuth()
+	const { setShowModal } = useModal()
 	const utils = trpc.useContext()
 	const followMutation = trpc.useMutation('users.follow')
 	const getChatRoomMutation = trpc.useMutation(['messages.createOrJoinChatRoom'])
@@ -65,16 +67,21 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 			<div className="p-4">
 				<div className="flex items-start justify-between">
 					<div className="h-[5.5rem]">
-						<div className="relative h-[11rem] w-[11rem] -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white">
+						<div className="relative h-44 w-44 -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white">
 							<Image layout="fill" src={user.image} alt={`${user.name} profile image`} />
 						</div>
 					</div>
 					<div className="flex gap-2">
-						<button className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg transition-colors hover:bg-bg-grayed-dark">
-							<MoreHorizontal className="h-5 w-5 text-text" />
-						</button>
-
-						{!isOwnPage && currentUser && (
+						{isOwnPage && currentUser ? (
+							<Button
+								variant="light"
+								onClick={() => {
+									setShowModal(true)
+								}}
+							>
+								Edit profile
+							</Button>
+						) : (
 							<>
 								<button
 									onClick={handleJoinChatRoomMutation}
@@ -88,7 +95,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 									</Button>
 								) : (
 									<Button variant="dark" onClick={handleFollowMutation} loading={loading}>
-										Följ
+										Follow
 									</Button>
 								)}
 							</>

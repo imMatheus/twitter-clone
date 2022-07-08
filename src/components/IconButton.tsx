@@ -11,11 +11,11 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({ Icon, accentThemed, onClick }) => {
 	return (
 		<div
+			role="button"
 			className={classNames(
 				'flex h-9 w-9 items-center justify-center rounded-full transition-colors',
 				{ 'cursor-pointer': onClick },
-				{ 'hover:bg-text/10': !accentThemed },
-				{ 'text-accent hover:bg-accent/10 ': accentThemed }
+				accentThemed ? 'text-accent hover:bg-accent/10' : 'hover:bg-text/10'
 			)}
 			onClick={onClick}
 		>

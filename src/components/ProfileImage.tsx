@@ -5,7 +5,7 @@ import type { PreviewUser } from '@/types/User'
 
 interface ProfileImageProps {
 	user: PreviewUser
-	size: '4' |'5'| '6' | '8' | '10' | '12'
+	size: '4' | '5' | '6' | '8' | '10' | '12' | '16' | '20' | '44'
 }
 
 const ProfileImage: React.FC<ProfileImageProps> = ({ user, size }) => {

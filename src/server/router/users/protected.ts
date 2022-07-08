@@ -3,6 +3,33 @@ import { createProtectedRouter } from '@/server/utils/create-protected-router'
 import prisma from '@/server/utils/prisma'
 
 export const protectedUserRouter = createProtectedRouter()
+	.mutation('update', {
+		input: z.object({
+			name: z.string(),
+			bio: z.string().nullable(),
+			location: z.string().nullable(),
+			website: z.string().nullable()
+		}),
+		resolve: async ({ ctx, input }) => {
+			console.log('hello world')
+			console.log(ctx)
+			console.log(input)
+
+			const user = await prisma.user.update({
+				where: {
+					id: ctx.session.userId
+				},
+				data: {
+					...input
+				}
+			})
+			console.log(user)
+
+			return {
+				success: true
+			}
+		}
+	})
 	.mutation('follow', {
 		input: z.object({
 			id: z.string()

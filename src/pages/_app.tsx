@@ -3,14 +3,16 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Router } from 'next/router'
 import NProgress from 'nprogress'
+import { AuthProvider } from '@/context/AuthContext'
+import { ModalProvider } from '@/context/ModalContext'
 import { ThemeProvider } from '@/context/ThemeContext'
 import Layout from '@/components/layout/index'
 import FocusedLayout from '@/components/layout/FocusedLayout'
 import Sidebar from '@/components/sidebar'
 import Head from 'next/head'
 import { SessionProvider } from 'next-auth/react'
-import { AuthProvider } from '@/context/AuthContext'
 import RoomList from '@/components/messages/RoomList'
+import EditProfileModal from '@/components/modal/EditProfile'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeError', () => NProgress.done())
@@ -25,19 +27,21 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
 		<SessionProvider session={pageProps.session}>
 			<AuthProvider>
 				<ThemeProvider>
-					<Head>
-						<link rel="shortcut icon" href="/twitter.2.ico" />
-					</Head>
-					<div className="w-screen bg-bg px-4 font-inter text-text">
-						<LayoutComponent>
-							<Sidebar />
-							{isFocusedLayout && <RoomList />}
-							<div className="min-h-screen w-full min-w-0 border-x border-x-border">
-								<Component {...pageProps} />
-							</div>
-							{!isFocusedLayout && <Sidebar />}
-						</LayoutComponent>
-					</div>
+					<ModalProvider>
+						<Head>
+							<link rel="shortcut icon" href="/twitter.2.ico" />
+						</Head>
+						<div className="w-screen bg-bg px-4 font-inter text-text">
+							<LayoutComponent>
+								<Sidebar />
+								{isFocusedLayout && <RoomList />}
+								<div className="min-h-screen w-full min-w-0 border-x border-x-border">
+									<Component {...pageProps} />
+								</div>
+								{!isFocusedLayout && <Sidebar />}
+							</LayoutComponent>
+						</div>
+					</ModalProvider>
 				</ThemeProvider>
 			</AuthProvider>
 		</SessionProvider>

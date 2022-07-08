@@ -19,7 +19,7 @@ export default NextAuth({
 				return {
 					id: profile.login, // will be set by prisma
 					handle: profile.name.split(' ').join('') || 'matheus1',
-					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',
+					email: profile.email?.toLowerCase(),
 					image: profile.avatar_url || 'http://',
 					name: profile.name || profile.login || 'freeddeee'
 				}
@@ -33,7 +33,7 @@ export default NextAuth({
 					id: 'cl4os8dbw0020rhhjlh9nufgg', // will be set by prisma
 					// id: profile.at_hash, // will be set by prisma
 					handle: profile.email,
-					email: profile.email?.toLowerCase() || 'matheus1@gmail.com',
+					email: profile.email?.toLowerCase(),
 					image: profile.picture || 'http://',
 					name: profile.given_name || profile.login || 'freeddeee'
 				}

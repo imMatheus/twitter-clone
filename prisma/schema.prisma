@@ -59,12 +59,14 @@ model User {
     id            String    @id @default(cuid())
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @default(now()) @updatedAt
-    name          String
+    name          String    @db.VarChar(50)
     image         String
     handle        String    @unique
-    email         String?   @unique
+    email         String    @unique
     emailVerified DateTime?
-    bio           String?
+    bio           String?   @db.VarChar(191)
+    location      String?   @db.VarChar(30)
+    website       String?   @db.VarChar(100)
     privacy       Privacy   @default(PUBLIC)
 
     tweets         Tweet[]
