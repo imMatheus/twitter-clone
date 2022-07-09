@@ -75,7 +75,7 @@ export const protectedUserRouter = createProtectedRouter()
 				}
 			}
 			// create following connection
-			const x = await prisma.follows.create({
+			await prisma.follows.create({
 				data: {
 					followerId: ctx.session.userId,
 					followingId: input.id
@@ -128,10 +128,10 @@ export const protectedUserRouter = createProtectedRouter()
 					id: {
 						not: ctx.session.userId
 					},
-					privacy: 'PUBLIC',
-					followers: {
-						none: { followerId: ctx.session.userId }
-					}
+					privacy: 'PUBLIC'
+					// followers: {
+					// 	none: { followerId: ctx.session.userId }
+					// }
 				},
 				select: {
 					id: true,
@@ -148,7 +148,7 @@ export const protectedUserRouter = createProtectedRouter()
 				orderBy: {
 					followersCount: 'desc'
 				},
-				take: 3
+				take: 4
 			})
 			return { users }
 		}

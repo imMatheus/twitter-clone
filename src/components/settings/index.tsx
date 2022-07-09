@@ -9,13 +9,6 @@ const Settings: React.FC = () => {
 		<div>
 			<div className="border-b border-b-border p-4">
 				<h2 className="mb-3 text-2xl font-bold">Accent color</h2>
-				<p>{JSON.stringify(data)}</p>
-				<button onClick={() => signIn()} className="bg-blue-500 p-2">
-					Sign in
-				</button>
-				<button onClick={() => signOut()} className="bg-red-500 p-2">
-					Sign out
-				</button>
 				<div className="flex flex-wrap justify-between gap-4">
 					<ColorPicker color="29 155 240" />
 					<ColorPicker color="255 212 0" />
@@ -24,6 +17,15 @@ const Settings: React.FC = () => {
 					<ColorPicker color="254 122 0" />
 					<ColorPicker color="10 186 124" />
 				</div>
+				{data ? (
+					<button onClick={() => signOut()} className="bg-red-500 p-2">
+						Sign out
+					</button>
+				) : (
+					<button onClick={() => signIn()} className="bg-blue-500 p-2">
+						Sign in
+					</button>
+				)}
 			</div>
 			<ThemeButtonWrapper />
 		</div>

@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({ value, onChange, label, maxLength, requir
 						name={label}
 						type="text"
 						value={value}
-						className="w-full text-lg outline-none"
+						className="w-full bg-transparent text-lg text-text outline-none"
 						onChange={(e) => onChange(e.target.value.length > maxLength ? value : e.target.value)}
 					/>
 				</div>

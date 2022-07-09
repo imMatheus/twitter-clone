@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/context/ThemeContext'
 import Layout from '@/components/layout/index'
 import FocusedLayout from '@/components/layout/FocusedLayout'
 import Sidebar from '@/components/sidebar'
+import ExploreSidebar from '@/components/sidebar/explore'
 import Head from 'next/head'
 import { SessionProvider } from 'next-auth/react'
 import RoomList from '@/components/messages/RoomList'
@@ -38,7 +39,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
 								<div className="min-h-screen w-full min-w-0 border-x border-x-border">
 									<Component {...pageProps} />
 								</div>
-								{!isFocusedLayout && <Sidebar />}
+								{!isFocusedLayout && <ExploreSidebar />}
 							</LayoutComponent>
 						</div>
 					</ModalProvider>
