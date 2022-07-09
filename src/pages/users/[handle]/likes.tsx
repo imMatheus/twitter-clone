@@ -21,26 +21,25 @@ const Likes: NextPage = () => {
 
 	const user = data?.user
 
+	if (isLoading)
+		return (
+			<div className="flex h-screen items-center justify-center">
+				<Spinner />
+			</div>
+		)
+
+	if (!user) return <UserNotFoundBanner />
+
 	return (
 		<div className="">
-			{isLoading ? (
-				<div className="flex h-screen items-center justify-center">
+			<HeaderBox goBack title={user.name} subtitle={user.numberOfTweets + ' tweets'} />
+			<UserBanner user={user} />
+			{loadingTweets ? (
+				<div className="flex items-center justify-center p-4">
 					<Spinner />
 				</div>
-			) : user ? (
-				<>
-					<HeaderBox goBack title={user.name} subtitle={user.numberOfTweets + ' tweets'} />
-					<UserBanner user={user} />
-					{loadingTweets ? (
-						<div className="flex items-center justify-center p-4">
-							<Spinner />
-						</div>
-					) : (
-						tweetsData?.tweets && tweetsData.tweets.length && <TweetsContainer tweets={tweetsData.tweets} />
-					)}
-				</>
 			) : (
-				<UserNotFoundBanner />
+				tweetsData?.tweets && tweetsData.tweets.length && <TweetsContainer tweets={tweetsData.tweets} />
 			)}
 		</div>
 	)
