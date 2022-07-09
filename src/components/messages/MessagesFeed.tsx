@@ -11,7 +11,7 @@ interface MessagesFeedProps {
 
 const MessagesFeed: React.FC<MessagesFeedProps> = ({ roomId }) => {
 	const dummyRef = useRef<HTMLDivElement>(null)
-	const { data, isLoading } = trpc.useQuery(['messages.getMessages', { roomId: roomId, limit: 80 }])
+	const { data, isLoading } = trpc.useQuery(['messages.getMessages', { roomId: roomId, limit: 20 }])
 	const messages = data?.messages
 	const isFirstRender = useRef(true)
 	console.log('helelelele')
@@ -30,7 +30,7 @@ const MessagesFeed: React.FC<MessagesFeedProps> = ({ roomId }) => {
 				<Spinner />
 			</div>
 		)
-	// refetch()
+
 	return (
 		<div className="flex flex-col-reverse py-4">
 			<div ref={dummyRef}></div>

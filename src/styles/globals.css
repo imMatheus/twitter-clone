@@ -15,7 +15,7 @@
 
 body {
 	font-size: 15px;
-	@apply bg-bg;
+	@apply bg-bg text-text accent-accent;
 }
 
 html[data-theme='light'] {

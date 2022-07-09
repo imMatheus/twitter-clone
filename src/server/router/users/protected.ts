@@ -30,6 +30,25 @@ export const protectedUserRouter = createProtectedRouter()
 			}
 		}
 	})
+	.mutation('updatePrivacy', {
+		input: z.object({
+			privacy: z.enum(['PRIVATE', 'PUBLIC'])
+		}),
+		resolve: async ({ ctx, input }) => {
+			await prisma.user.update({
+				where: {
+					id: ctx.session.userId
+				},
+				data: {
+					...input
+				}
+			})
+
+			return {
+				success: true
+			}
+		}
+	})
 	.mutation('follow', {
 		input: z.object({
 			id: z.string()
