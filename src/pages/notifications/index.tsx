@@ -10,38 +10,38 @@ import Option from '@/components/sectionPicker/Option'
 import ProfileCard from '@/components/profileCard'
 import NotFound from '@/components/error/notFound'
 
-const Followers: NextPage = () => {
+const Notifications: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
 
-	const { data, isLoading } = trpc.useQuery(['users.getFollowers', { handle: unCastArray(handle) }])
+	// const { data, isLoading } = trpc.useQuery(['users.getFollowers', { handle: unCastArray(handle) }])
 
-	const user = data?.user
+	// const user = data?.user
 
-	if (isLoading)
-		return (
-			<div className="flex h-screen items-center justify-center">
-				<Spinner />
-			</div>
-		)
+	// if (isLoading)
+	// 	return (
+	// 		<div className="flex h-screen items-center justify-center">
+	// 			<Spinner />
+	// 		</div>
+	// 	)
 
-	if (!user) return <NotFound />
+	// if (!user) return <NotFound />
 
 	return (
 		<>
-			<HeaderBox goBack goBackHref={`/users/${user.handle}`} title={user.name} subtitle={'@' + user.handle} />
+			<HeaderBox title={'Notifications'} />
 			<SectionPicker>
-				<Option href={`/users/${user.handle}/followers`} text="Followers" />
-				<Option href={`/users/${user.handle}/following`} text="Following" />
+				<Option href="/notifications" text="All" />
+				<Option href="/notifications/mentions" text="Mentions" />
 			</SectionPicker>
-
-			{user?.followers.length > 0 ? (
+			hej
+			{/* {user?.followers.length > 0 ? (
 				user.followers.map(({ follower }) => <ProfileCard key={follower.id} user={follower} />)
 			) : (
 				<h2 className="p-4 text-lg font-semibold">Seems like {user.name} does not follow anyone</h2>
-			)}
+			)} */}
 		</>
 	)
 }
 
-export default Followers
+export default Notifications

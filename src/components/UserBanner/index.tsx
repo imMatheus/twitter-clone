@@ -146,9 +146,9 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 				</div>
 			</div>
 			<SectionPicker>
-				<Option handle={user.handle} href="" text="Tweets" />
-				<Option handle={user.handle} href="/with_replies" text="Tweets & replies" />
-				<Option handle={user.handle} href="/likes" text="Likes" />
+				<Option href={`/users/${user.handle}`} text="Tweets" />
+				<Option href={`/users/${user.handle}/with_replies`} text="Tweets & replies" />
+				<Option href={`/users/${user.handle}/likes`} text="Likes" />
 			</SectionPicker>
 		</div>
 	)

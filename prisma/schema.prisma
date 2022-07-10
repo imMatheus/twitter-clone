@@ -61,7 +61,7 @@ model User {
     updatedAt     DateTime  @default(now()) @updatedAt
     name          String    @db.VarChar(50)
     image         String
-    handle        String    @unique
+    handle        String    @unique @db.VarChar(30)
     email         String    @unique
     emailVerified DateTime?
     bio           String?   @db.VarChar(191)

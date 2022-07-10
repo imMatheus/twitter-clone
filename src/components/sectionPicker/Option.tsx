@@ -5,15 +5,14 @@ import Link from 'next/link'
 export interface OptionProps {
 	text: React.ReactNode
 	href: string
-	handle: string
 }
 
-const Option: React.FC<OptionProps> = ({ text, href, handle }) => {
+const Option: React.FC<OptionProps> = ({ text, href }) => {
 	const router = useRouter()
-	const fullHref = `/users/${handle}${href}`
-	const isActive = router.asPath === fullHref
+
+	const isActive = router.asPath === href
 	return (
-		<Link href={fullHref} passHref>
+		<Link href={href} passHref>
 			<a className="relative flex flex-shrink-0 grow items-center justify-center px-4 font-medium transition-colors hover:bg-bg-grayed-dark">
 				<div
 					className={classNames(
@@ -22,7 +21,9 @@ const Option: React.FC<OptionProps> = ({ text, href, handle }) => {
 					)}
 				>
 					{text}
-					{isActive && <div className="absolute bottom-0 left-0 right-0 h-1 rounded-md bg-accent"></div>}
+					{isActive && (
+						<div className="absolute bottom-0 left-1/2 h-1 w-full min-w-[2.5rem] -translate-x-1/2 rounded-md bg-accent"></div>
+					)}
 				</div>
 			</a>
 		</Link>

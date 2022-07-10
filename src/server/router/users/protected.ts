@@ -1,14 +1,15 @@
 import { z } from 'zod'
 import { createProtectedRouter } from '@/server/utils/create-protected-router'
 import prisma from '@/server/utils/prisma'
+import { MAX_LENGTHS } from '@/constants'
 
 export const protectedUserRouter = createProtectedRouter()
 	.mutation('update', {
 		input: z.object({
-			name: z.string(),
-			bio: z.string().nullable(),
-			location: z.string().nullable(),
-			website: z.string().nullable()
+			name: z.string().max(MAX_LENGTHS.name),
+			bio: z.string().max(MAX_LENGTHS.bio).nullable(),
+			location: z.string().max(MAX_LENGTHS.location).nullable(),
+			website: z.string().max(MAX_LENGTHS.website).nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
 			console.log('hello world')

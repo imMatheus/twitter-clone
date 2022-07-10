@@ -31,8 +31,8 @@ const Following: NextPage = () => {
 		<>
 			<HeaderBox goBack goBackHref={`/users/${user.handle}`} title={user.name} subtitle={'@' + user.handle} />
 			<SectionPicker>
-				<Option handle={user.handle} href="/followers" text="Followers" />
-				<Option handle={user.handle} href="/following" text="Following" />
+				<Option href={`/users/${user.handle}/followers`} text="Followers" />
+				<Option href={`/users/${user.handle}/following`} text="Following" />
 			</SectionPicker>
 			{user?.following.length > 0 ? (
 				user.following.map(({ following }) => <ProfileCard key={following.id} user={following} />)

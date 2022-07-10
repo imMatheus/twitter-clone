@@ -6,6 +6,7 @@ import { Image as ImageIcon, BarChart2, Smile, Calendar, MapPin } from 'react-fe
 import LengthCircleTracker from './LengthCircleTracker'
 import { trpc } from '@/utils/trpc'
 import { useAuth } from '@/context/AuthContext'
+import { MAX_LENGTHS } from '@/constants'
 
 interface TweetBoxProps {
 	tweetId?: string
@@ -13,7 +14,7 @@ interface TweetBoxProps {
 }
 
 const TweetBox: React.FC<TweetBoxProps> = ({ tweetId, placeholder }) => {
-	const MAX_TEXT_LENGTH = 280
+	const MAX_TEXT_LENGTH = MAX_LENGTHS.tweet
 	const { currentUser } = useAuth()
 	const utils = trpc.useContext()
 	const postMutation = trpc.useMutation('tweets.post', {

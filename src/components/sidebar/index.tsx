@@ -6,9 +6,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 // import {ReactComponent} from ''
 import { useAuth } from '@/context/AuthContext'
+import { useSession } from 'next-auth/react'
 
 const Sidebar: React.FC = ({}) => {
 	const { currentUser } = useAuth()
+	const { data: session } = useSession()
 
 	return (
 		<section className={styles.sidebar}>
@@ -16,9 +18,9 @@ const Sidebar: React.FC = ({}) => {
 				<Row src="/twitter.svg" href="/" />
 				<Row Icon={Home} text="Home" href="/" />
 				<Row Icon={Hash} text="Explore" href="/explore" />
-				<Row Icon={Bell} text="Notifications" href="/" />
+				<Row Icon={Bell} text="Notifications" href="/notifications" />
 				<Row Icon={Mail} text="Messages" href="/messages" />
-				{currentUser && <Row Icon={User} text="Profile" href={`/users/${currentUser.handle}`} />}
+				{session && <Row Icon={User} text="Profile" href={`/users/${currentUser?.handle}`} />}
 				<Row Icon={Settings} text="Settings" href="/settings" />
 			</ul>
 			<button className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-lg font-bold text-white transition-opacity hover:opacity-80 lg:w-full lg:px-4 lg:py-3">

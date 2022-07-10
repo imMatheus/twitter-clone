@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { createProtectedRouter } from '@/server/utils/create-protected-router'
 import prisma from '@/server/utils/prisma'
+import { MAX_LENGTHS } from '@/constants'
 
 export const protectedTweetRouter = createProtectedRouter()
 	.mutation('post', {
@@ -19,7 +20,7 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			console.log(cleanedText)
 			console.log(cleanedText.length)
-			if (cleanedText.length > 280) {
+			if (cleanedText.length > MAX_LENGTHS.tweet) {
 				console.log('too long man')
 
 				return new Error('Text length to long')
