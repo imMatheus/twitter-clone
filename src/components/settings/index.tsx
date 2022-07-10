@@ -1,9 +1,8 @@
 import React from 'react'
-import ColorPicker from './ColorPicker'
 import ThemeButtonWrapper from './ThemeButtonWrapper'
-import Header from './Header'
 import Account from './Account'
 import Accent from './Accent'
+import About from './About'
 
 const Settings: React.FC = () => {
 	return (
@@ -11,6 +10,7 @@ const Settings: React.FC = () => {
 			<Accent />
 			<ThemeButtonWrapper />
 			<Account />
+			<About />
 		</div>
 	)
 }
