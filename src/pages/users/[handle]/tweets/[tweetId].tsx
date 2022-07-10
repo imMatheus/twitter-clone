@@ -21,7 +21,6 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 	])
 	const tweet = data?.tweet
 	const replies = repliesData?.replies
-	console.log(replies)
 
 	return (
 		<div>

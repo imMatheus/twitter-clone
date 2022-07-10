@@ -17,21 +17,13 @@ export const protectedTweetRouter = createProtectedRouter()
 				.filter((n, i, arr) => n !== '' || (n === '' && arr[i + 1] && arr[i + 1] !== ''))
 				.join('\r\n')
 
-			console.log('made ot sda')
-
 			if (cleanedText.length > MAX_LENGTHS.tweet) {
-				console.log('too long man')
-
 				return new Error('Text length to long')
 			}
 
 			const mentions = [...new Set(twttr.extractMentions(input.text))]
 			const hashtags = [...new Set(twttr.extractHashtags(input.text))]
 			const d = twttr.extractHashtagsWithIndices(input.text)
-
-			console.log(mentions)
-			console.log(d)
-			console.log(hashtags)
 
 			// create the tweet
 			const tweetCreated = await prisma.tweet.create({
@@ -51,8 +43,6 @@ export const protectedTweetRouter = createProtectedRouter()
 					repliedToId: input.tweetId || null
 				}
 			})
-
-			console.log(tweetCreated)
 
 			if (mentions.length > 0) {
 				await prisma.mentions.createMany({

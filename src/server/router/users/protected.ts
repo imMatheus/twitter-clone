@@ -12,10 +12,6 @@ export const protectedUserRouter = createProtectedRouter()
 			website: z.string().max(MAX_LENGTHS.website).nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
-			console.log('hello world')
-			console.log(ctx)
-			console.log(input)
-
 			const user = await prisma.user.update({
 				where: {
 					id: ctx.session.userId
@@ -24,7 +20,6 @@ export const protectedUserRouter = createProtectedRouter()
 					...input
 				}
 			})
-			console.log(user)
 
 			return {
 				success: true

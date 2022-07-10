@@ -60,7 +60,7 @@ export const tweetRouter = createRouter()
 						}
 					}
 				},
-				take: 6,
+				take: 1,
 				orderBy: {
 					createdAt: 'desc'
 				}
@@ -169,9 +169,6 @@ export const tweetRouter = createRouter()
 			// WHERE text LIKE '%e%'
 			// LIMIT ${maxResults}
 			// ;`
-
-			// console.log('ids')
-			// console.log(ids)
 
 			// const tweets = await prisma.tweet.findMany({
 			// 	where: { id: { in: ids.map((row) => row.id) } }

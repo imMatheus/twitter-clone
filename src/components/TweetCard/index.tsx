@@ -17,8 +17,6 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 	const router = useRouter()
 	const isReplied = 'repliedTo' in tweet && tweet.repliedTo?.owner
 
-	// console.log(mentionsAndHashtags)
-
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
@@ -65,12 +63,9 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
 								{showPopUp && <Popup toggle={setShowPopUp} tweet={tweet} />}
 							</div>
 						</div>
-						<pre
-							className="min-w-0 whitespace-pre-wrap break-words break-all font-inter"
-							dangerouslySetInnerHTML={{
-								__html: generateTweetText(tweet.text)
-							}}
-						></pre>
+						<pre className="min-w-0 whitespace-pre-wrap break-words break-all font-inter">
+							{generateTweetText(tweet.text)}
+						</pre>
 						<MetaData tweet={tweet} />
 					</div>
 				</div>

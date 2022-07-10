@@ -19,8 +19,6 @@ const EditProfile: React.FC = ({}) => {
 	const updateMutation = trpc.useMutation('users.update')
 	const utils = trpc.useContext()
 	function handleUpdate() {
-		console.log('ggg')
-
 		updateMutation.mutate(
 			{
 				name,
@@ -30,16 +28,9 @@ const EditProfile: React.FC = ({}) => {
 			},
 			{
 				onSuccess() {
-					console.log('sss')
-
 					setShowModal(false)
 					utils.invalidateQueries(['me'])
 					utils.invalidateQueries(['users.byId'])
-				},
-				onError(s) {
-					console.log('errrorrrr')
-
-					console.log(s)
 				}
 			}
 		)

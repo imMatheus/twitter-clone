@@ -14,8 +14,6 @@ const MessagesFeed: React.FC<MessagesFeedProps> = ({ roomId }) => {
 	const { data, isLoading } = trpc.useQuery(['messages.getMessages', { roomId: roomId, limit: 20 }])
 	const messages = data?.messages
 	const isFirstRender = useRef(true)
-	console.log('helelelele')
-	console.log(messages)
 
 	useEffect(() => {
 		if (isFirstRender.current && messages) {
