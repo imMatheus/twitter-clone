@@ -27,8 +27,10 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			const mentions = [...new Set(twttr.extractMentions(input.text))]
 			const hashtags = [...new Set(twttr.extractHashtags(input.text))]
+			const d = twttr.extractHashtagsWithIndices(input.text)
 
 			console.log(mentions)
+			console.log(d)
 			console.log(hashtags)
 
 			// create the tweet

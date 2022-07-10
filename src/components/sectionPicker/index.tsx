@@ -2,7 +2,7 @@ import React from 'react'
 import type { OptionProps } from './Option'
 
 interface SectionPickerProps {
-	children: React.ReactElement<OptionProps> | Array<React.ReactElement<OptionProps>>
+	children: React.ReactNode
 }
 
 const SectionPicker: React.FC<SectionPickerProps> = ({ children }) => {

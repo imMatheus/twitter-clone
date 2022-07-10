@@ -9,26 +9,16 @@ import SectionPicker from '@/components/sectionPicker'
 import Option from '@/components/sectionPicker/Option'
 import TweetCard from '@/components/TweetCard'
 import NotFound from '@/components/error/notFound'
+import { useAuth } from '@/context/AuthContext'
 
 const Mentions: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
+	const { currentUser } = useAuth()
 
 	const { data, isLoading } = trpc.useQuery(['notifications.getMentions'])
 
-	console.log('bbiiaudsahdabsd')
-	console.log(data)
-
 	const mentions = data?.mentions
-
-	// if (isLoading)
-	// 	return (
-	// 		<div className="flex h-screen items-center justify-center">
-	// 			<Spinner />
-	// 		</div>
-	// 	)
-
-	// if (!user) return <NotFound />
 
 	return (
 		<>
@@ -36,6 +26,9 @@ const Mentions: NextPage = () => {
 			<SectionPicker>
 				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
+				{currentUser?.privacy === 'PRIVATE' && (
+					<Option href="/notifications/follow_request" text="Follow requests" />
+				)}
 			</SectionPicker>
 			{isLoading ? (
 				<div className="flex items-center justify-center p-4">

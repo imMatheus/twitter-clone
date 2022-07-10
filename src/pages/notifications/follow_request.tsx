@@ -11,7 +11,7 @@ import ProfileCard from '@/components/profileCard'
 import NotFound from '@/components/error/notFound'
 import { useAuth } from '@/context/AuthContext'
 
-const Notifications: NextPage = () => {
+const FollowRequest: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
 	const { currentUser } = useAuth()
@@ -32,4 +32,4 @@ const Notifications: NextPage = () => {
 	)
 }
 
-export default Notifications
+export default FollowRequest

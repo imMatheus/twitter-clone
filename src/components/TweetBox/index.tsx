@@ -7,6 +7,7 @@ import LengthCircleTracker from './LengthCircleTracker'
 import { trpc } from '@/utils/trpc'
 import { useAuth } from '@/context/AuthContext'
 import { MAX_LENGTHS } from '@/constants'
+import { generateTweetText } from '@/utils/generateTweetText'
 
 interface TweetBoxProps {
 	tweetId?: string
@@ -53,6 +54,9 @@ const TweetBox: React.FC<TweetBoxProps> = ({ tweetId, placeholder }) => {
 					<Textarea
 						placeholder={placeholder || 'Whats happening'}
 						autosize
+						// dangerouslySetInnerHTML={{
+						// 	__html: generateTweetText(text)
+						// }}
 						value={text}
 						onChange={(e) => setText(e.currentTarget.value)}
 						minRows={1}
