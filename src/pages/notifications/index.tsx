@@ -34,7 +34,7 @@ const Notifications: NextPage = () => {
 				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
 			</SectionPicker>
-			hej
+			handleJoinChatRoomMutation
 			{/* {user?.followers.length > 0 ? (
 				user.followers.map(({ follower }) => <ProfileCard key={follower.id} user={follower} />)
 			) : (

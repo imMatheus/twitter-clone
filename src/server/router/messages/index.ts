@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { createProtectedRouter } from '@/server/utils/create-protected-router'
 import prisma from '@/server/utils/prisma'
-import { transformDocument } from '@prisma/client/runtime'
 
 export const messagesRouter = createProtectedRouter()
 	.query('getRooms', {

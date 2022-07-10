@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { createProtectedRouter } from '@/server/utils/create-protected-router'
 import prisma from '@/server/utils/prisma'
 import { MAX_LENGTHS } from '@/constants'
+import twttr from 'twitter-text'
 
 export const protectedTweetRouter = createProtectedRouter()
 	.mutation('post', {
@@ -18,27 +19,48 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			console.log('made ot sda')
 
-			console.log(cleanedText)
-			console.log(cleanedText.length)
 			if (cleanedText.length > MAX_LENGTHS.tweet) {
 				console.log('too long man')
 
 				return new Error('Text length to long')
 			}
 
+			const mentions = [...new Set(twttr.extractMentions(input.text))]
+			const hashtags = [...new Set(twttr.extractHashtags(input.text))]
+
+			console.log(mentions)
+			console.log(hashtags)
+
 			// create the tweet
 			const tweetCreated = await prisma.tweet.create({
-				data: input.tweetId
-					? {
-							text: cleanedText,
-							ownerId: ctx.session.userId,
-							repliedToId: input.tweetId
-					  }
-					: {
-							text: cleanedText,
-							ownerId: ctx.session.userId
-					  }
+				data: {
+					text: cleanedText,
+					ownerId: ctx.session.userId,
+					hashtags: {
+						connectOrCreate: hashtags.map((hashtag) => ({
+							create: {
+								name: hashtag
+							},
+							where: {
+								name: hashtag
+							}
+						}))
+					},
+					repliedToId: input.tweetId || null
+				}
 			})
+
+			console.log(tweetCreated)
+
+			if (mentions.length > 0) {
+				await prisma.mentions.createMany({
+					data: mentions.map((mentioned) => ({
+						tweetId: tweetCreated.id,
+						mentionedUserHandle: mentioned
+					}))
+					// skipDuplicates: true
+				})
+			}
 
 			// increment number of tweets for user
 			await prisma.user.update({

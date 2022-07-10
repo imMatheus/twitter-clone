@@ -7,16 +7,19 @@ import { trpc } from '@/utils/trpc'
 import { unCastArray } from '@/utils/unCastArray'
 import SectionPicker from '@/components/sectionPicker'
 import Option from '@/components/sectionPicker/Option'
-import ProfileCard from '@/components/profileCard'
+import TweetCard from '@/components/TweetCard'
 import NotFound from '@/components/error/notFound'
 
 const Mentions: NextPage = () => {
 	const router = useRouter()
 	const { handle } = router.query
 
-	// const { data, isLoading } = trpc.useQuery(['users.getFollowers', { handle: unCastArray(handle) }])
+	const { data, isLoading } = trpc.useQuery(['notifications.getMentions'])
 
-	// const user = data?.user
+	console.log('bbiiaudsahdabsd')
+	console.log(data)
+
+	const mentions = data?.mentions
 
 	// if (isLoading)
 	// 	return (
@@ -34,12 +37,15 @@ const Mentions: NextPage = () => {
 				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
 			</SectionPicker>
-			mentjoms
-			{/* {user?.followers.length > 0 ? (
-				user.followers.map(({ follower }) => <ProfileCard key={follower.id} user={follower} />)
+			{isLoading ? (
+				<div className="flex items-center justify-center p-4">
+					<Spinner />
+				</div>
+			) : mentions!.length > 0 ? (
+				mentions?.map(({ tweet }) => <TweetCard key={tweet.id} tweet={tweet} />)
 			) : (
-				<h2 className="p-4 text-lg font-semibold">Seems like {user.name} does not follow anyone</h2>
-			)} */}
+				<h2 className="p-4 text-center text-lg font-semibold">Seems like you don&apos;t have any mentions</h2>
+			)}
 		</>
 	)
 }
