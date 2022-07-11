@@ -4,6 +4,7 @@ import { usersRouter } from './users'
 import { messagesRouter } from './messages'
 import { notificationsRouter } from './notifications'
 import { meRouter } from './me'
+import { trendsRouter } from './trends'
 
 // Merge your api routes here
 export const appRouter = createRouter()
@@ -11,6 +12,7 @@ export const appRouter = createRouter()
 	.merge('messages.', messagesRouter)
 	.merge('notifications.', notificationsRouter)
 	.merge('users.', usersRouter)
+	.merge('trends.', trendsRouter)
 	.merge('', meRouter)
 
 // export type definition of API

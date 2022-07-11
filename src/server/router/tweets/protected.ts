@@ -21,6 +21,7 @@ export const protectedTweetRouter = createProtectedRouter()
 				return new Error('Text length to long')
 			}
 
+			// clears duplicates
 			const mentions = [...new Set(twttr.extractMentions(input.text))]
 			const hashtags = [...new Set(twttr.extractHashtags(input.text))]
 
