@@ -20,7 +20,7 @@ const About: React.FC = ({}) => {
 					<a
 						target="_blank"
 						rel="noreferrer"
-						className="flex min-w-0 items-center gap-2 rounded border border-border bg-black p-3 text-white transition-opacity hover:opacity-80"
+						className="flex min-w-0 items-center gap-2 rounded border bg-black p-3 text-white transition-opacity hover:opacity-80"
 					>
 						<GitHub className="h-4 w-4" />
 						Source code

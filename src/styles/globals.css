@@ -18,6 +18,16 @@ body {
 	@apply bg-bg text-text accent-accent;
 }
 
+*,
+*::before,
+*::after {
+	@apply border-border;
+}
+
+pre {
+	@apply font-inter;
+}
+
 html[data-theme='light'] {
 	--bg: 255 255 255;
 	--bg-grayed: 247 249 249;

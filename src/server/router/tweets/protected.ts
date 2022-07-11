@@ -23,7 +23,6 @@ export const protectedTweetRouter = createProtectedRouter()
 
 			const mentions = [...new Set(twttr.extractMentions(input.text))]
 			const hashtags = [...new Set(twttr.extractHashtags(input.text))]
-			const d = twttr.extractHashtagsWithIndices(input.text)
 
 			// create the tweet
 			const tweetCreated = await prisma.tweet.create({
@@ -41,6 +40,19 @@ export const protectedTweetRouter = createProtectedRouter()
 						}))
 					},
 					repliedToId: input.tweetId || null
+				}
+			})
+
+			await prisma.hashtag.updateMany({
+				where: {
+					name: {
+						in: hashtags
+					}
+				},
+				data: {
+					numberOfTweets: {
+						increment: 1
+					}
 				}
 			})
 

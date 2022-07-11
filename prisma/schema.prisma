@@ -83,7 +83,7 @@ model User {
 
     message   Message[]
     chatRooms ChatRoom[]
-    @@index([handle])
+    @@index([handle, createdAt])
     @@fulltext([name, handle, bio])
 }
 
@@ -96,7 +96,7 @@ model Follows {
     updatedAt   DateTime @default(now()) @updatedAt
 
     @@id([followerId, followingId])
-    @@index([followerId, followingId])
+    @@index([followerId, followingId, createdAt])
 }
 
 model Tweet {
@@ -130,7 +130,7 @@ model Mentions {
     updatedAt           DateTime @default(now()) @updatedAt
 
     @@id([tweetId, mentionedUserHandle])
-    @@index([tweetId, mentionedUserHandle])
+    @@index([tweetId, mentionedUserHandle, createdAt])
     @@fulltext([mentionedUserHandle])
 }
 
@@ -144,7 +144,7 @@ model Hashtag {
     numberOfTweets Int     @default(0)
     tweets         Tweet[] @relation("hashtags")
 
-    @@index([name])
+    @@index([name, createdAt, numberOfTweets])
 }
 
 // relationship beetween a user liking a post
@@ -157,7 +157,7 @@ model Like {
     updatedAt DateTime @default(now()) @updatedAt
 
     @@id([tweetId, userId])
-    @@index([tweetId, userId])
+    @@index([tweetId, userId, createdAt])
 }
 
 enum ROOMTYPE {
@@ -173,6 +173,7 @@ model ChatRoom {
     messages  Message[]
 
     typeOfRoom ROOMTYPE @default(DM)
+    @@index([createdAt])
 }
 
 model Message {

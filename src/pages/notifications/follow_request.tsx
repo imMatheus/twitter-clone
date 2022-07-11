@@ -24,6 +24,7 @@ const FollowRequest: NextPage = () => {
 			<SectionPicker>
 				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
+				<Option href="/notifications/likes" text="Likes" />
 				{currentUser?.privacy === 'PRIVATE' && (
 					<Option href="/notifications/follow_request" text="Follow requests" />
 				)}

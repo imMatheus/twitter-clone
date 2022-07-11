@@ -12,8 +12,6 @@ import NotFound from '@/components/error/notFound'
 import { useAuth } from '@/context/AuthContext'
 
 const Mentions: NextPage = () => {
-	const router = useRouter()
-	const { handle } = router.query
 	const { currentUser } = useAuth()
 
 	const { data, isLoading } = trpc.useQuery(['notifications.getMentions'])
@@ -26,6 +24,7 @@ const Mentions: NextPage = () => {
 			<SectionPicker>
 				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
+				<Option href="/notifications/likes" text="Likes" />
 				{currentUser?.privacy === 'PRIVATE' && (
 					<Option href="/notifications/follow_request" text="Follow requests" />
 				)}

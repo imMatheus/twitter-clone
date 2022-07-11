@@ -85,7 +85,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 							<>
 								<button
 									onClick={handleJoinChatRoomMutation}
-									className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg transition-colors hover:bg-bg-grayed-dark"
+									className="flex h-9 w-9 items-center justify-center rounded-full border bg-bg transition-colors hover:bg-bg-grayed-dark"
 								>
 									<Mail className="h-5 w-5 text-text" />
 								</button>

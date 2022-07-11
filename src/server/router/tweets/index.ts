@@ -60,7 +60,7 @@ export const tweetRouter = createRouter()
 						}
 					}
 				},
-				take: 1,
+				take: 30,
 				orderBy: {
 					createdAt: 'desc'
 				}

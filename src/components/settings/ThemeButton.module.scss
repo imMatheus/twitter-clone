@@ -5,7 +5,7 @@
 	cursor: pointer;
 	min-height: 64px;
 
-	@apply gap-4 rounded-md border-2 border-border bg-bg px-5 py-2 text-text;
+	@apply gap-4 rounded-md border-2 bg-bg px-5 py-2 text-text;
 
 	.circle-wrapper {
 		position: relative;
@@ -22,7 +22,7 @@
 		.circle {
 			position: relative;
 			z-index: 10;
-			@apply flex h-5 w-5 items-center justify-center rounded-full border-2 border-border;
+			@apply flex h-5 w-5 items-center justify-center rounded-full border-2;
 		}
 	}
 
