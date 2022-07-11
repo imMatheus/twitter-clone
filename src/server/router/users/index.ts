@@ -19,6 +19,7 @@ export const usersRouter = createRouter()
 					name: true,
 					handle: true,
 					bio: true,
+					privacy: true,
 					location: true,
 					website: true,
 					followersCount: true,

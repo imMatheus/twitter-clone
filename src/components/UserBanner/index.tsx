@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Mail, MapPin, Link as LinkIcon, Calendar } from 'react-feather'
+import { Mail, MapPin, Link as LinkIcon, Calendar, Lock } from 'react-feather'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
@@ -103,7 +103,10 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 					</div>
 				</div>
 				<div className="px-1">
-					<h1 className="text-xl font-extrabold">{user.name}</h1>
+					<h1 className="flex items-center text-xl font-extrabold">
+						{user.name}{' '}
+						{user.privacy === 'PRIVATE' && <Lock className="ml-1 inline h-4 w-4" strokeWidth={2.4} />}
+					</h1>
 					<p className="text-sm font-normal text-text-grayed">@{user.handle}</p>
 					{user.bio && <pre className="font-inter">{user.bio}</pre>}
 					<div className="flex flex-wrap items-center gap-4 py-2 text-sm text-text-grayed">
