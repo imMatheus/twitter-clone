@@ -171,7 +171,7 @@ export const messagesRouter = createProtectedRouter()
 						}
 					}
 				},
-				take: limit + 1,
+				take: 80,
 				cursor: cursor ? { id: cursor } : undefined,
 				orderBy: {
 					createdAt: 'desc'
