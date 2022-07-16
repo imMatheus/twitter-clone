@@ -7,11 +7,13 @@ interface InputProps {
 	label: string
 	maxLength: number
 	required?: boolean
+	error?: string
+	noSpaces?: boolean
 }
 
-const Input: React.FC<InputProps> = ({ value, onChange, label, maxLength, required }) => {
+const Input: React.FC<InputProps> = ({ value, onChange, label, maxLength, required, error, noSpaces }) => {
 	const textEmpty = value.length < 1
-	const invalidText = required && textEmpty
+	const invalidText = (required && textEmpty) || error
 	const inputId = useId()
 	return (
 		<div className="my-6">
@@ -46,11 +48,17 @@ const Input: React.FC<InputProps> = ({ value, onChange, label, maxLength, requir
 						type="text"
 						value={value}
 						className="w-full bg-transparent text-lg text-text outline-none"
-						onChange={(e) => onChange(e.target.value.length > maxLength ? value : e.target.value)}
+						onChange={(e) =>
+							onChange(
+								e.target.value.length > maxLength
+									? value.split(' ').join('')
+									: e.target.value.split(' ').join('')
+							)
+						}
 					/>
 				</div>
 			</label>
-			{invalidText && <p className="pl-2 text-xs text-danger">This field can not be empty</p>}
+			{invalidText && <p className="pl-2 text-xs text-danger">{error || 'This field can not be empty'}</p>}
 		</div>
 	)
 }

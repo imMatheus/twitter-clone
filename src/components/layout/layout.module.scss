@@ -7,7 +7,7 @@
 	@apply max-w-7xl divide-x divide-border md:grid-cols-[auto_1fr_auto];
 
 	> *:nth-child(3) {
-		@apply hidden md:block;
+		@apply hidden lg:block;
 	}
 }
 
@@ -19,7 +19,7 @@
 	@apply max-w-7xl divide-x divide-border md:grid-cols-[auto_auto_1fr];
 
 	> *:nth-child(2) {
-		@apply hidden w-96 md:block;
+		@apply hidden w-96 lg:block;
 	}
 	> *:nth-child(3) {
 		border-right-width: 1px !important;

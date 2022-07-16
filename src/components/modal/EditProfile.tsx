@@ -7,20 +7,27 @@ import { useModal } from '@/context/ModalContext'
 import Image from 'next/image'
 import UserBannerImage from '@/../public/user-banner-white.svg'
 import Input from '@/components/input'
+import { MAX_LENGTHS } from '@/constants'
 import { trpc } from '@/utils/trpc'
+import { useRouter } from 'next/router'
 
 const EditProfile: React.FC = ({}) => {
 	const { currentUser } = useAuth()
+	const router = useRouter()
 	const { setShowModal } = useModal()
+	const [handle, setHandle] = useState(currentUser!.handle || '')
+	const [handleError, setHandleError] = useState('')
 	const [name, setName] = useState(currentUser!.name || '')
 	const [bio, setBio] = useState(currentUser!.bio || '')
 	const [location, setLocation] = useState(currentUser!.location || '')
 	const [website, setWebsite] = useState(currentUser!.website || '')
 	const updateMutation = trpc.useMutation('users.update')
+
 	const utils = trpc.useContext()
 	function handleUpdate() {
 		updateMutation.mutate(
 			{
+				handle,
 				name,
 				bio,
 				location,
@@ -31,6 +38,12 @@ const EditProfile: React.FC = ({}) => {
 					setShowModal(false)
 					utils.invalidateQueries(['me'])
 					utils.invalidateQueries(['users.byId'])
+					if (handle !== currentUser?.handle) return router.replace(`/users/${handle}`)
+				},
+				onError(...ctx) {
+					console.log('errored')
+					console.log(ctx)
+					setHandleError(`A user with the handle ${handle} already exist or the name is to small`)
 				}
 			}
 		)
@@ -49,7 +62,7 @@ const EditProfile: React.FC = ({}) => {
 							<IconButton Icon={X} onClick={() => setShowModal(false)} />
 							<h2 className="text-xl font-semibold">Edit profile</h2>
 						</div>
-						<Button variant="dark" onClick={handleUpdate} size="small">
+						<Button variant="dark" onClick={handleUpdate} size="small" disabled={!handle || !name}>
 							Save
 						</Button>
 					</div>
@@ -69,10 +82,18 @@ const EditProfile: React.FC = ({}) => {
 							/>
 						</div>
 					</div>
-					<Input value={name} onChange={setName} label="Name" maxLength={50} required />
-					<Input value={bio} onChange={setBio} label="Bio" maxLength={160} />
-					<Input value={location} onChange={setLocation} label="Location" maxLength={30} />
-					<Input value={website} onChange={setWebsite} label="Website" maxLength={100} />
+					<Input
+						value={handle}
+						onChange={setHandle}
+						label="Handle"
+						maxLength={MAX_LENGTHS.handle}
+						required
+						error={handleError}
+					/>
+					<Input value={name} onChange={setName} label="Name" maxLength={MAX_LENGTHS.name} required />
+					<Input value={bio} onChange={setBio} label="Bio" maxLength={MAX_LENGTHS.bio} />
+					<Input value={location} onChange={setLocation} label="Location" maxLength={MAX_LENGTHS.location} />
+					<Input value={website} onChange={setWebsite} label="Website" maxLength={MAX_LENGTHS.website} />
 				</div>
 			</div>
 		</div>

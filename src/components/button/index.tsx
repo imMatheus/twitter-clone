@@ -7,14 +7,15 @@ interface ButtonProps {
 	size?: 'small' | 'medium' | 'large'
 	onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 	loading?: boolean
+	disabled?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant, size = 'medium', onClick, loading }) => {
+const Button: React.FC<ButtonProps> = ({ children, variant, size = 'medium', onClick, disabled, loading }) => {
 	return (
 		<button
 			className={classNames(styles['button'], styles[variant], styles[size])}
 			onClick={onClick}
-			disabled={loading}
+			disabled={loading || disabled}
 		>
 			{children}
 		</button>

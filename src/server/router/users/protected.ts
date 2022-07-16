@@ -6,13 +6,18 @@ import { MAX_LENGTHS } from '@/constants'
 export const protectedUserRouter = createProtectedRouter()
 	.mutation('update', {
 		input: z.object({
+			handle: z
+				.string()
+				.min(2, { message: 'Handle needs to be between 2 and 30 characters' })
+				.max(MAX_LENGTHS.handle)
+				.trim(),
 			name: z.string().max(MAX_LENGTHS.name),
 			bio: z.string().max(MAX_LENGTHS.bio).nullable(),
 			location: z.string().max(MAX_LENGTHS.location).nullable(),
-			website: z.string().max(MAX_LENGTHS.website).nullable()
+			website: z.string().url().max(MAX_LENGTHS.website).nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
-			const user = await prisma.user.update({
+			await prisma.user.update({
 				where: {
 					id: ctx.session.userId
 				},
