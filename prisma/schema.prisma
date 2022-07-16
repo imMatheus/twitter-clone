@@ -76,6 +76,9 @@ model User {
     following      Follows[] @relation("follower")
     followingCount Int       @default(0)
 
+    followRequestsSent     FollowRequest[] @relation("request_sender")
+    followRequestsRecieved FollowRequest[] @relation("request_receiver")
+
     likedTweets Like[] @relation("likedBy")
 
     accounts Account[]
@@ -83,6 +86,8 @@ model User {
 
     message   Message[]
     chatRooms ChatRoom[]
+    Follows   Follows[]
+
     @@index([handle, createdAt])
     @@fulltext([name, handle, bio])
 }
@@ -95,8 +100,23 @@ model Follows {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @default(now()) @updatedAt
 
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
     @@id([followerId, followingId])
     @@index([followerId, followingId, createdAt])
+}
+
+model FollowRequest {
+    sender     User     @relation("request_sender", fields: [senderId], references: [id])
+    senderId   String
+    receiver   User     @relation("request_receiver", fields: [receiverId], references: [id])
+    receiverId String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @default(now()) @updatedAt
+
+    @@id([senderId, receiverId])
+    @@index([senderId, receiverId, createdAt])
 }
 
 model Tweet {
@@ -173,6 +193,7 @@ model ChatRoom {
     messages  Message[]
 
     typeOfRoom ROOMTYPE @default(DM)
+
     @@index([createdAt])
 }
 

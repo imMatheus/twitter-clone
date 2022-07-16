@@ -2,6 +2,30 @@ import { z } from 'zod'
 import { createRouter } from '@/server/utils/create-router'
 import prisma from '@/server/utils/prisma'
 import { protectedUserRouter } from './protected'
+import type {} from '@/server/utils/prisma'
+
+async function getUserFromHandle(handle: string, currentUserId: string | undefined) {
+	const user = await prisma.user.findFirstOrThrow({
+		where: {
+			handle: handle,
+			OR: [
+				{
+					privacy: 'PUBLIC'
+				},
+				{
+					followers: {
+						some: {
+							followerId: currentUserId
+						}
+					}
+				}
+			]
+		},
+		select: { id: true }
+	})
+
+	return user
+}
 
 export const usersRouter = createRouter()
 	.query('byId', {
@@ -42,7 +66,19 @@ export const usersRouter = createRouter()
 			const tweets = await prisma.tweet.findMany({
 				where: {
 					owner: {
-						handle: input.handle
+						handle: input.handle,
+						OR: [
+							{
+								privacy: 'PUBLIC'
+							},
+							{
+								followers: {
+									some: {
+										followerId: ctx.session?.userId
+									}
+								}
+							}
+						]
 					},
 					repliedToId: null
 				},
@@ -85,7 +121,19 @@ export const usersRouter = createRouter()
 			const tweets = await prisma.tweet.findMany({
 				where: {
 					owner: {
-						handle: input.handle
+						handle: input.handle,
+						OR: [
+							{
+								privacy: 'PUBLIC'
+							},
+							{
+								followers: {
+									some: {
+										followerId: ctx.session?.userId
+									}
+								}
+							}
+						]
 					}
 				},
 
@@ -135,12 +183,11 @@ export const usersRouter = createRouter()
 			handle: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
-			const user = await prisma.user.findUniqueOrThrow({
-				where: {
-					handle: input.handle
-				},
-				select: { id: true }
-			})
+			console.log('bgbgbg')
+
+			const user = await getUserFromHandle(input.handle, ctx.session?.userId)
+
+			console.log('lölölöl')
 
 			const tweets = await prisma.like.findMany({
 				where: {

@@ -22,7 +22,6 @@ const Mentions: NextPage = () => {
 		<>
 			<HeaderBox title={'Notifications'} />
 			<SectionPicker>
-				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
 				<Option href="/notifications/likes" text="Likes" />
 				{currentUser?.privacy === 'PRIVATE' && (

@@ -8,7 +8,7 @@ interface UserSuggestionsProps {}
 const UserSuggestions: React.FC<UserSuggestionsProps> = ({}) => {
 	const { data: followSuggestion, isLoading } = trpc.useQuery(['users.followSuggestion'])
 
-	if (followSuggestion?.users.length === 0) return null
+	if (followSuggestion?.users?.length === 0 && !isLoading) return null
 
 	if (isLoading)
 		return (

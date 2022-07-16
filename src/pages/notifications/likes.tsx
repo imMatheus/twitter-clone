@@ -25,7 +25,6 @@ const Likes: NextPage = () => {
 		<>
 			<HeaderBox title={'Notifications'} />
 			<SectionPicker>
-				<Option href="/notifications" text="All" />
 				<Option href="/notifications/mentions" text="Mentions" />
 				<Option href="/notifications/likes" text="Likes" />
 				{currentUser?.privacy === 'PRIVATE' && (
@@ -45,12 +44,12 @@ const Likes: NextPage = () => {
 						<Link href={`/users/${tweet.owner.handle}/tweets/${tweet.id}`} passHref>
 							<div className="flex gap-4 p-4">
 								<Heart className="ml-4 h-8 w-8 fill-candy-pink text-candy-pink" />
-								<div className="min-w-0 flex-1 space-y-3">
+								<div className="min-w-0 flex-1">
 									<ProfileImage user={user} size="8" />
-									<div className="">
+									<div className="mt-2">
 										<span className="font-bold">{user.name}</span> liked your Tweet
 									</div>
-									<pre className="text-text-grayed">{tweet.text}</pre>
+									<pre className="p0 text-text-grayed">{tweet.text}</pre>
 								</div>
 							</div>
 						</Link>

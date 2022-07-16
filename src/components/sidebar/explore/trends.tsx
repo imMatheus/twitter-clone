@@ -7,7 +7,7 @@ interface TrendsProps {}
 const Trends: React.FC<TrendsProps> = ({}) => {
 	const { data: trends, isLoading } = trpc.useQuery(['trends.getTopTrends'])
 
-	if (trends?.trends.length === 0 || isLoading) return null
+	if (trends?.trends?.length === 0 || isLoading) return null
 
 	return (
 		<div className="overflow-x-hidden rounded-2xl bg-bg-grayed">

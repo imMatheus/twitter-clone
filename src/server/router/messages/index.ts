@@ -161,7 +161,12 @@ export const messagesRouter = createProtectedRouter()
 					}
 				},
 
-				include: {
+				select: {
+					id: true,
+					createdAt: true,
+					ownerId: true,
+					text: true,
+
 					owner: {
 						select: {
 							id: true,
