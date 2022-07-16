@@ -27,5 +27,7 @@ export const generateTweetText = (text: string) => {
 		i = occurrence.indices[1]
 	})
 
+	arr.push(text.substring(mentionsAndHashtags[mentionsAndHashtags.length - 1]?.indices[1], text.length))
+
 	return arr
 }
