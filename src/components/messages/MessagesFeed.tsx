@@ -11,7 +11,7 @@ interface MessagesFeedProps {
 
 const MessagesFeed: React.FC<MessagesFeedProps> = ({ roomId }) => {
 	const dummyRef = useRef<HTMLDivElement>(null)
-	const { data, isLoading } = trpc.useQuery(['messages.getMessages', { roomId: roomId, limit: 20 }])
+	const { data, isLoading } = trpc.useQuery(['messages.getMessages', { roomId: roomId, limit: 100 }])
 	const messages = data?.messages
 	const isFirstRender = useRef(true)
 
@@ -38,14 +38,14 @@ const MessagesFeed: React.FC<MessagesFeedProps> = ({ roomId }) => {
 				const nextMessage = arr[index + 1]
 
 				const isFirstInMessageBatch =
-					previousMessage?.ownerId !== message.ownerId ||
-					(previousMessage?.ownerId === message.ownerId &&
-						dateFormat(previousMessage.createdAt, 'mmmm d, yyyy, h:MM TT') !==
-							dateFormat(message.createdAt, 'mmmm d, yyyy, h:MM TT'))
-				const isLastInMessageBatch =
 					nextMessage?.ownerId !== message.ownerId ||
 					(nextMessage?.ownerId === message.ownerId &&
 						dateFormat(nextMessage.createdAt, 'mmmm d, yyyy, h:MM TT') !==
+							dateFormat(message.createdAt, 'mmmm d, yyyy, h:MM TT'))
+				const isLastInMessageBatch =
+					previousMessage?.ownerId !== message.ownerId ||
+					(previousMessage?.ownerId === message.ownerId &&
+						dateFormat(previousMessage.createdAt, 'mmmm d, yyyy, h:MM TT') !==
 							dateFormat(message.createdAt, 'mmmm d, yyyy, h:MM TT'))
 				return (
 					<Message
