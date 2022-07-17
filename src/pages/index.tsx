@@ -6,9 +6,10 @@ import { useAuth } from '@/context/AuthContext'
 import { trpc } from '@/utils/trpc'
 import Spinner from '@/components/Spinner'
 import ProfileCard from '@/components/profileCard'
+import Button from '@/components/button'
 
 const Home: NextPage = () => {
-	const { currentUser } = useAuth()
+	const { currentUser, login } = useAuth()
 	const { data, isLoading } = trpc.useQuery(['tweets.feed'])
 	const { data: followSuggestion } = trpc.useQuery(['users.followSuggestion'])
 
@@ -21,13 +22,25 @@ const Home: NextPage = () => {
 					<Spinner />
 				</div>
 			)}
-			{data?.tweets && <TweetsContainer tweets={data.tweets} />}
-			<div>
-				<h2 className="">Seems like you have no more Tweets </h2>
-				{followSuggestion?.users.map((user) => (
-					<ProfileCard user={user} key={user.id} />
-				))}
-			</div>
+			{currentUser ? (
+				<>
+					{data?.tweets && <TweetsContainer tweets={data.tweets} />}
+
+					{followSuggestion?.users.map((user) => (
+						<ProfileCard user={user} key={user.id} />
+					))}
+				</>
+			) : (
+				<div className="p-4">
+					<h2 className="mb-2 text-3xl font-extrabold">
+						Welcome to my Twitter clone. Please sign in to get started
+					</h2>
+					<p className="mb-6 text-text-grayed">Sign in via a GitHub or Google account</p>
+					<Button variant="dark" size="large" onClick={() => login()}>
+						Sign in
+					</Button>
+				</div>
+			)}
 		</div>
 	)
 }
