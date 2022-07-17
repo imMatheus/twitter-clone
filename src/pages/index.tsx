@@ -26,6 +26,7 @@ const Home: NextPage = () => {
 				<>
 					{data?.tweets && <TweetsContainer tweets={data.tweets} />}
 
+					<h2 className="border-t border-t-border p-4 pt-8 text-xl font-bold">You might like</h2>
 					{followSuggestion?.users.map((user) => (
 						<ProfileCard user={user} key={user.id} />
 					))}
