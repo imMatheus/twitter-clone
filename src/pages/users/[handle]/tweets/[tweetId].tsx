@@ -26,7 +26,7 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 		<div>
 			<HeaderBox title="Thread" goBack />
 			{isLoading ? (
-				<div className="mx-auto">
+				<div className="flex justify-center p-4">
 					<Spinner />
 				</div>
 			) : tweet ? (

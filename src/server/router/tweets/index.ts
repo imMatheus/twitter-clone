@@ -156,39 +156,5 @@ export const tweetRouter = createRouter()
 			}
 		}
 	})
-	.query('search', {
-		input: z.object({
-			text: z.string()
-		}),
-		resolve: async ({ input }) => {
-			const maxResults = 10
 
-			// Have to use queryRaw because "LIKE" is not supported in prisma yet
-			// const ids = await prisma.$queryRaw<{ id: string }[]>`
-			// SELECT id FROM Tweet
-			// WHERE text LIKE '%e%'
-			// LIMIT ${maxResults}
-			// ;`
-
-			// const tweets = await prisma.tweet.findMany({
-			// 	where: { id: { in: ids.map((row) => row.id) } }
-			// })
-
-			const tweets = await prisma.tweet.findMany({
-				where: {
-					text: {
-						search: input.text || 'tilte'
-						// search: input.text
-					}
-				},
-				include: {
-					owner: true
-				}
-			})
-
-			return {
-				tweets
-			}
-		}
-	})
 	.merge('', protectedTweetRouter)

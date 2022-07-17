@@ -15,7 +15,7 @@ type RowProps = {
 const Row: React.FC<RowProps> = ({ Icon, text, src, href }) => {
 	const router = useRouter()
 
-	const isActive = router.asPath === href
+	const isActive = router.asPath === href || (router.route.startsWith(href) && href !== '/')
 
 	return (
 		<li className={styles.sidebar__list}>

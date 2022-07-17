@@ -1,11 +1,14 @@
 import { unCastArray } from '@/utils/unCastArray'
+import { route } from 'next/dist/server/router'
 import { useRouter } from 'next/router'
 import React, { useState, useId, useEffect } from 'react'
 import { Search, X } from 'react-feather'
 
-interface SearchBarProps {}
+interface SearchBarProps {
+	base: string
+}
 
-const SearchBar: React.FC<SearchBarProps> = ({}) => {
+const SearchBar: React.FC<SearchBarProps> = ({ base }) => {
 	const router = useRouter()
 	const id = useId()
 	const { q } = router.query
@@ -24,7 +27,8 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 			onSubmit={(e) => {
 				e.preventDefault()
 
-				router.push('/explore', {
+				router.push({
+					pathname: base,
 					query: {
 						q: text
 					}
@@ -44,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 				/>
 				<div
 					onClick={(e) => {
-						e.preventDefault()
+						// e.preventDefault()
 						setText('')
 					}}
 					className="mr-3 hidden h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-accent text-white group-focus-within:flex"
