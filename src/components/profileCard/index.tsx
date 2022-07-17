@@ -13,7 +13,7 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 	const followMutation = trpc.useMutation('users.follow')
 	const { data } = useSession()
-	const [isFollowing, setIsFollowing] = useState(user.followers.length > 0)
+	const [isFollowing, setIsFollowing] = useState(user.followers?.length > 0)
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
 			<Link href={`/users/${user.handle}`} passHref>

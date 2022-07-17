@@ -24,7 +24,9 @@ const UserBanner: React.FC<UserBannerProps> = ({ user, hasAccess }) => {
 	const utils = trpc.useContext()
 	const followMutation = trpc.useMutation('users.follow')
 	const getChatRoomMutation = trpc.useMutation(['messages.createOrJoinChatRoom'])
-	const { data: follows } = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
+	const { data } = trpc.useQuery(['users.currentUserFollowsUser', { id: user?.id || null }])
+	const follows = data?.follows
+	const pendingRequest = data?.pendingRequest
 	const [loading, setLoading] = useState(false)
 	const router = useRouter()
 
@@ -68,7 +70,7 @@ const UserBanner: React.FC<UserBannerProps> = ({ user, hasAccess }) => {
 			<div className="p-4">
 				<div className="flex items-start justify-between">
 					<div className="h-[5.5rem]">
-						<div className="relative h-44 w-44 -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white">
+						<div className="w-30 h-30 relative -translate-y-1/2 overflow-hidden rounded-full border-4 border-bg bg-white sm:h-36 sm:w-36 lg:h-44 lg:w-44">
 							<Image layout="fill" src={user.image} alt={`${user.name} profile image`} />
 						</div>
 					</div>
@@ -84,15 +86,21 @@ const UserBanner: React.FC<UserBannerProps> = ({ user, hasAccess }) => {
 							</Button>
 						) : (
 							<>
-								<button
-									onClick={handleJoinChatRoomMutation}
-									className="flex h-9 w-9 items-center justify-center rounded-full border bg-bg transition-colors hover:bg-bg-grayed-dark"
-								>
-									<Mail className="h-5 w-5 text-text" />
-								</button>
+								{hasAccess && (
+									<button
+										onClick={handleJoinChatRoomMutation}
+										className="flex h-9 w-9 items-center justify-center rounded-full border bg-bg transition-colors hover:bg-bg-grayed-dark"
+									>
+										<Mail className="h-5 w-5 text-text" />
+									</button>
+								)}
 								{follows ? (
 									<Button variant="light" onClick={handleFollowMutation} loading={loading}>
 										Unfollow
+									</Button>
+								) : pendingRequest ? (
+									<Button variant="light" onClick={handleFollowMutation} loading={loading}>
+										Pending
 									</Button>
 								) : (
 									<Button variant="dark" onClick={handleFollowMutation} loading={loading}>
@@ -134,18 +142,33 @@ const UserBanner: React.FC<UserBannerProps> = ({ user, hasAccess }) => {
 						</div>
 					</div>
 					<div className="my-2 flex gap-4 text-sm">
-						<Link href={`/users/${user.handle}/following`} passHref>
-							<a className="min-w-0 hover:underline">
-								<span className="font-bold">{user.followingCount}</span>{' '}
-								<span className="text-text-grayed">Following</span>
-							</a>
-						</Link>
-						<Link href={`/users/${user.handle}/followers`} passHref>
-							<a className="min-w-0 hover:underline">
-								<span className="font-bold">{user.followersCount}</span>{' '}
-								<span className="text-text-grayed">Followers</span>
-							</a>
-						</Link>
+						{hasAccess ? (
+							<>
+								<Link href={`/users/${user.handle}/following`} passHref>
+									<a className="min-w-0 hover:underline">
+										<span className="font-bold">{user.followingCount}</span>{' '}
+										<span className="text-text-grayed">Following</span>
+									</a>
+								</Link>
+								<Link href={`/users/${user.handle}/followers`} passHref>
+									<a className="min-w-0 hover:underline">
+										<span className="font-bold">{user.followersCount}</span>{' '}
+										<span className="text-text-grayed">Followers</span>
+									</a>
+								</Link>
+							</>
+						) : (
+							<>
+								<span className="min-w-0">
+									<span className="font-bold">{user.followingCount}</span>{' '}
+									<span className="text-text-grayed">Following</span>
+								</span>
+								<span className="min-w-0">
+									<span className="font-bold">{user.followersCount}</span>{' '}
+									<span className="text-text-grayed">Followers</span>
+								</span>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

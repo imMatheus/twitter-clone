@@ -65,8 +65,9 @@ export const protectedUserRouter = createProtectedRouter()
 					}
 				}
 			})
+
 			if (follows) {
-				const x = await prisma.follows.delete({
+				await prisma.follows.delete({
 					where: {
 						followerId_followingId: {
 							followerId: ctx.session.userId,
@@ -88,6 +89,51 @@ export const protectedUserRouter = createProtectedRouter()
 					where: { id: input.id },
 					data: {
 						followersCount: { decrement: 1 }
+					}
+				})
+				return {
+					success: true
+				}
+			}
+			const isPrivate = await prisma.user.findFirst({
+				where: {
+					id: input.id,
+					privacy: 'PRIVATE'
+				}
+			})
+			if (isPrivate) {
+				console.log('gg')
+
+				const alreadyHasRequest = await prisma.followRequest.findUnique({
+					where: {
+						senderId_receiverId: {
+							receiverId: input.id,
+							senderId: ctx.session.userId
+						}
+					}
+				})
+
+				if (alreadyHasRequest) {
+					console.log('4444')
+
+					await prisma.followRequest.delete({
+						where: {
+							senderId_receiverId: {
+								receiverId: input.id,
+								senderId: ctx.session.userId
+							}
+						}
+					})
+					return {
+						success: true
+					}
+				}
+				console.log('99999')
+
+				await prisma.followRequest.create({
+					data: {
+						receiverId: input.id,
+						senderId: ctx.session.userId
 					}
 				})
 				return {
@@ -128,7 +174,11 @@ export const protectedUserRouter = createProtectedRouter()
 			id: z.string().nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
-			if (!input.id) return false
+			if (!input.id)
+				return {
+					follows: false,
+					pendingRequest: false
+				}
 			const follows = await prisma.follows.findUnique({
 				where: {
 					followerId_followingId: {
@@ -138,7 +188,16 @@ export const protectedUserRouter = createProtectedRouter()
 				}
 			})
 
-			return !!follows
+			const pendingRequest = await prisma.followRequest.findUnique({
+				where: {
+					senderId_receiverId: {
+						senderId: ctx.session.userId,
+						receiverId: input.id
+					}
+				}
+			})
+
+			return { follows, pendingRequest }
 		}
 	})
 	.query('followSuggestion', {

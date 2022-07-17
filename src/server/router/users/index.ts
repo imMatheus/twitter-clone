@@ -46,6 +46,9 @@ export const usersRouter = createRouter()
 									followerId: ctx.session?.userId
 								}
 							}
+						},
+						{
+							id: ctx.session?.userId
 						}
 					]
 				},
@@ -99,6 +102,9 @@ export const usersRouter = createRouter()
 										followerId: ctx.session?.userId
 									}
 								}
+							},
+							{
+								id: ctx.session?.userId
 							}
 						]
 					},
@@ -154,6 +160,9 @@ export const usersRouter = createRouter()
 										followerId: ctx.session?.userId
 									}
 								}
+							},
+							{
+								id: ctx.session?.userId
 							}
 						]
 					}
