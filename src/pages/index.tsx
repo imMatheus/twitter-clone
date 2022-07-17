@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 						<ProfileCard user={user} key={user.id} />
 					))}
 				</>
-			) : (
+			) : !isLoading ? (
 				<div className="p-4">
 					<h2 className="mb-2 text-3xl font-extrabold">
 						Welcome to my Twitter clone. Please sign in to get started
@@ -41,6 +41,8 @@ const Home: NextPage = () => {
 						Sign in
 					</Button>
 				</div>
+			) : (
+				<></>
 			)}
 		</div>
 	)
