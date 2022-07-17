@@ -30,9 +30,8 @@ export default NextAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 			profile(profile, tokens) {
 				return {
-					id: 'cl4os8dbw0020rhhjlh9nufgg', // will be set by prisma
-					// id: profile.at_hash, // will be set by prisma
-					handle: profile.email,
+					id: profile.at_hash, // will be set by prisma
+					handle: profile.email.split('@')[0],
 					email: profile.email?.toLowerCase(),
 					image: profile.picture || 'http://',
 					name: profile.given_name || profile.login || 'freeddeee'
