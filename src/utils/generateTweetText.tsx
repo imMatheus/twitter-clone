@@ -17,7 +17,9 @@ export const generateTweetText = (text: string) => {
 			<a
 				className="text-accent hover:underline"
 				href={
-					'hashtag' in occurrence ? `/explore?q=%23${occurrence.hashtag}` : `/users/${occurrence.screenName}`
+					'hashtag' in occurrence
+						? `/explore/hashtags?q=%23${occurrence.hashtag}`
+						: `/users/${occurrence.screenName}`
 				}
 				onClick={(e) => {
 					e.stopPropagation()

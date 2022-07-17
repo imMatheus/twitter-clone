@@ -8,6 +8,7 @@ import Spinner from '@/components/Spinner'
 import { unCastArray } from '@/utils/unCastArray'
 import TweetBox from '@/components/TweetBox'
 import TweetsContainer from '@/components/TweetsContainer'
+import { generateTweetText } from '@/utils/generateTweetText'
 
 interface TweetScreenProps {}
 
@@ -46,7 +47,7 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 							</div>
 						</div>
 						<pre className="min-w-0 whitespace-pre-wrap break-words break-all font-inter text-xl font-medium md:text-xl">
-							{tweet.text}
+							{generateTweetText(tweet.text)}
 						</pre>
 						<div className="flex items-center gap-1 text-text-grayed">
 							<p>12:53 AM</p>

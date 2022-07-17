@@ -9,12 +9,13 @@ import Spinner from '@/components/Spinner'
 import Nav from '@/components/container/nav'
 import SectionPicker from '@/components/sectionPicker'
 import Option from '@/components/sectionPicker/Option'
+import ProfileCard from '@/components/profileCard'
 
 const ExploreUsers: NextPage = () => {
 	const router = useRouter()
 	const { q } = router.query
-	const { data, isLoading } = trpc.useQuery(['explore.search', { text: unCastArray(q) }])
-	const tweets = data?.tweets
+	const { data, isLoading } = trpc.useQuery(['explore.searchUsers', { text: unCastArray(q) }])
+	const users = data?.users
 
 	return (
 		<div>
@@ -24,6 +25,7 @@ const ExploreUsers: NextPage = () => {
 			<SectionPicker>
 				<Option href="/explore" text="Tweets" />
 				<Option href="/explore/users" text="Users" />
+				<Option href="/explore/hashtags" text="Hashtags" />
 			</SectionPicker>
 
 			{isLoading ? (
@@ -31,8 +33,8 @@ const ExploreUsers: NextPage = () => {
 					<Spinner />
 				</div>
 			) : q ? (
-				tweets && tweets.length > 0 ? (
-					<TweetsContainer tweets={tweets} />
+				users && users.length > 0 ? (
+					users.map((user) => <ProfileCard user={user} key={user.id} />)
 				) : (
 					<h2 className="p-4 text-center text-lg font-semibold">Could not find anything</h2>
 				)

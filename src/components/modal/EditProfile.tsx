@@ -89,6 +89,7 @@ const EditProfile: React.FC = ({}) => {
 						maxLength={MAX_LENGTHS.handle}
 						required
 						error={handleError}
+						noSpaces
 					/>
 					<Input value={name} onChange={setName} label="Name" maxLength={MAX_LENGTHS.name} required />
 					<Input value={bio} onChange={setBio} label="Bio" maxLength={MAX_LENGTHS.bio} />

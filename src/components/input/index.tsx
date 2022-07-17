@@ -51,8 +51,12 @@ const Input: React.FC<InputProps> = ({ value, onChange, label, maxLength, requir
 						onChange={(e) =>
 							onChange(
 								e.target.value.length > maxLength
-									? value.split(' ').join('')
-									: e.target.value.split(' ').join('')
+									? noSpaces
+										? value.split(' ').join('')
+										: value
+									: noSpaces
+									? e.target.value.split(' ').join('')
+									: e.target.value
 							)
 						}
 					/>

@@ -9,7 +9,7 @@ interface TrendsRowProps {
 const TrendsRow: React.FC<TrendsRowProps> = ({ trend }) => {
 	return (
 		<article className="cursor-pointer transition-colors hover:bg-text/[0.03]">
-			<Link href={`/explore?q=${'%23' + trend.name}`} passHref>
+			<Link href={`/explore/hashtags?q=${'%23' + trend.name}`} passHref>
 				<div className="flex items-center gap-3 px-4 py-3">
 					<div className="w-full flex-1">
 						<div className="flex items-center justify-between">

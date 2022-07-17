@@ -10,16 +10,16 @@ import Nav from '@/components/container/nav'
 import SectionPicker from '@/components/sectionPicker'
 import Option from '@/components/sectionPicker/Option'
 
-const Explore: NextPage = () => {
+const Hashtag: NextPage = () => {
 	const router = useRouter()
 	const { q } = router.query
-	const { data, isLoading } = trpc.useQuery(['explore.search', { text: unCastArray(q) }])
+	const { data, isLoading } = trpc.useQuery(['explore.searchHashtags', { text: unCastArray(q) }])
 	const tweets = data?.tweets
 
 	return (
 		<div>
 			<Nav>
-				<SearchBar base="/explore" />
+				<SearchBar base="/explore/hashtags" />
 			</Nav>
 			<SectionPicker>
 				<Option href="/explore" text="Tweets" />
@@ -44,4 +44,4 @@ const Explore: NextPage = () => {
 	)
 }
 
-export default Explore
+export default Hashtag
