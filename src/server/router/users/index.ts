@@ -33,6 +33,27 @@ export const usersRouter = createRouter()
 			handle: z.string()
 		}),
 		resolve: async ({ ctx, input }) => {
+			const userHasAccess = await prisma.user.findFirst({
+				where: {
+					handle: input.handle,
+					OR: [
+						{
+							privacy: 'PUBLIC'
+						},
+						{
+							followers: {
+								some: {
+									followerId: ctx.session?.userId
+								}
+							}
+						}
+					]
+				},
+				select: {
+					id: true
+				}
+			})
+
 			const user = await prisma.user.findFirst({
 				where: {
 					handle: input.handle
@@ -54,7 +75,8 @@ export const usersRouter = createRouter()
 			})
 
 			return {
-				user
+				user,
+				hasAccess: !!userHasAccess
 			}
 		}
 	})

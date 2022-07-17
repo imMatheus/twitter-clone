@@ -20,6 +20,7 @@ const Likes: NextPage = () => {
 	])
 
 	const user = data?.user
+	const hasAccess = data?.hasAccess || false
 
 	if (isLoading)
 		return (
@@ -33,13 +34,23 @@ const Likes: NextPage = () => {
 	return (
 		<div className="">
 			<HeaderBox goBack title={user.name} subtitle={user.numberOfTweets + ' tweets'} />
-			<UserBanner user={user} />
+			<UserBanner user={user} hasAccess={hasAccess} />
 			{loadingTweets ? (
 				<div className="flex items-center justify-center p-4">
 					<Spinner />
 				</div>
-			) : (
+			) : hasAccess ? (
 				tweetsData?.tweets && tweetsData.tweets.length && <TweetsContainer tweets={tweetsData.tweets} />
+			) : (
+				<div className="flex justify-center p-4">
+					<div className="max-w-sm">
+						<h2 className="mb-2 text-3xl font-extrabold">These Tweets are protected</h2>
+						<p className="mb-6 text-text-grayed">
+							Only approved followers can see @{user.handle}&apos;s Tweets. To request access, click
+							Follow.
+						</p>
+					</div>
+				</div>
 			)}
 		</div>
 	)

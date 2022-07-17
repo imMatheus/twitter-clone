@@ -15,9 +15,10 @@ import { useModal } from '@/context/ModalContext'
 
 interface UserBannerProps {
 	user: inferQueryResponse<'users.byId'>['user']
+	hasAccess: boolean
 }
 
-const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
+const UserBanner: React.FC<UserBannerProps> = ({ user, hasAccess }) => {
 	const { currentUser } = useAuth()
 	const { setShowModal } = useModal()
 	const utils = trpc.useContext()
@@ -148,11 +149,13 @@ const UserBanner: React.FC<UserBannerProps> = ({ user }) => {
 					</div>
 				</div>
 			</div>
-			<SectionPicker>
-				<Option href={`/users/${user.handle}`} text="Tweets" />
-				<Option href={`/users/${user.handle}/with_replies`} text="Tweets & replies" />
-				<Option href={`/users/${user.handle}/likes`} text="Likes" />
-			</SectionPicker>
+			{hasAccess && (
+				<SectionPicker>
+					<Option href={`/users/${user.handle}`} text="Tweets" />
+					<Option href={`/users/${user.handle}/with_replies`} text="Tweets & replies" />
+					<Option href={`/users/${user.handle}/likes`} text="Likes" />
+				</SectionPicker>
+			)}
 		</div>
 	)
 }
