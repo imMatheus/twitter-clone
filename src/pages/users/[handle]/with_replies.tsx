@@ -37,7 +37,7 @@ const WithReplies: NextPage = () => {
 							<Spinner />
 						</div>
 					) : hasAccess ? (
-						tweetsData?.tweets && tweetsData.tweets.length && <TweetsContainer tweets={tweetsData.tweets} />
+						tweetsData?.tweets && <TweetsContainer tweets={tweetsData.tweets} />
 					) : (
 						<div className="flex justify-center p-4">
 							<div className="max-w-sm">
