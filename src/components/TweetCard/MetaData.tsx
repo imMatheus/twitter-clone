@@ -23,6 +23,7 @@ const MetaData: React.FC<MetaDataProps> = ({ tweet }) => {
 				</div>
 				<span className="text-sm">{tweet.numberOfReplies}</span>
 			</div>
+
 			<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-olive">
 				<div className="relative">
 					<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-olive/20"></div>
@@ -47,6 +48,7 @@ const MetaData: React.FC<MetaDataProps> = ({ tweet }) => {
 				</div>
 				<span className="text-sm">{tweet.numberOfLikes + likeIncrementor}</span>
 			</div>
+
 			<div className="group flex cursor-pointer items-center gap-3 transition-colors hover:text-carolina">
 				<div className="relative">
 					<div className="absolute top-1/2 left-1/2 h-7 w-7 -translate-y-1/2 -translate-x-1/2 rounded-full bg-transparent transition-colors group-hover:bg-carolina/20"></div>

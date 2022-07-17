@@ -9,11 +9,13 @@ import { unCastArray } from '@/utils/unCastArray'
 import TweetBox from '@/components/TweetBox'
 import TweetsContainer from '@/components/TweetsContainer'
 import { generateTweetText } from '@/utils/generateTweetText'
+import { useAuth } from '@/context/AuthContext'
 
 interface TweetScreenProps {}
 
 const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 	const router = useRouter()
+	const { currentUser } = useAuth()
 	const { tweetId } = router.query
 	const { data, isLoading } = trpc.useQuery(['tweets.byId', { id: unCastArray(tweetId) }])
 	const { data: repliesData, isLoading: isLoadingReplies } = trpc.useQuery([
@@ -55,7 +57,19 @@ const TweetScreen: React.FC<TweetScreenProps> = ({}) => {
 							<p>May 12, 2021</p>
 						</div>
 					</div>
-					<TweetBox tweetId={tweet.id} placeholder={`Reply to ${tweet.owner.name}`} />
+
+					<div className="my-2 flex gap-4 px-4 text-sm">
+						<span className="min-w-0">
+							<span className="font-bold">{tweet.numberOfReplies}</span>{' '}
+							<span className="text-text-grayed">Replies</span>
+						</span>
+						<span className="min-w-0">
+							<span className="font-bold">{tweet.numberOfLikes}</span>{' '}
+							<span className="text-text-grayed">Likes</span>
+						</span>
+					</div>
+
+					{currentUser && <TweetBox tweetId={tweet.id} placeholder={`Reply to ${tweet.owner.name}`} />}
 					{replies && <TweetsContainer tweets={replies} />}
 				</>
 			) : (

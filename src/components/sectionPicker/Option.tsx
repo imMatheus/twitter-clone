@@ -10,7 +10,7 @@ export interface OptionProps {
 const Option: React.FC<OptionProps> = ({ text, href }) => {
 	const router = useRouter()
 
-	const isActive = router.asPath === href || (router.route.startsWith(href) && href !== '/')
+	const isActive = router.asPath === href || (router.route === href && href !== '/')
 	return (
 		<Link href={href} passHref>
 			<a className="relative flex flex-shrink-0 grow items-center justify-center px-4 font-medium transition-colors hover:bg-bg-grayed-dark">
