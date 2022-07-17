@@ -146,7 +146,7 @@ export const messagesRouter = createProtectedRouter()
 		}),
 		resolve: async ({ ctx, input }) => {
 			const userId = ctx.session.userId
-			const limit = input.limit ?? 50
+			const limit = input.limit ?? 100
 			const { cursor } = input
 
 			const messages = await prisma.message.findMany({

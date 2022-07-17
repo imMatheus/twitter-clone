@@ -70,7 +70,7 @@ export const notificationsRouter = createProtectedRouter()
 						}
 					}
 				},
-				take: 80,
+				take: 100,
 				orderBy: {
 					createdAt: 'desc'
 				}
@@ -112,7 +112,7 @@ export const notificationsRouter = createProtectedRouter()
 						}
 					}
 				},
-				take: 80,
+				take: 100,
 				orderBy: {
 					createdAt: 'desc'
 				}
@@ -140,7 +140,7 @@ export const notificationsRouter = createProtectedRouter()
 						}
 					}
 				},
-				take: 80,
+				take: 100,
 				orderBy: {
 					createdAt: 'desc'
 				}

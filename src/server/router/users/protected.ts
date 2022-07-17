@@ -36,6 +36,15 @@ export const protectedUserRouter = createProtectedRouter()
 			privacy: z.enum(['PRIVATE', 'PUBLIC'])
 		}),
 		resolve: async ({ ctx, input }) => {
+			// accept all currently pending follow requests
+			if (input.privacy === 'PUBLIC') {
+				await prisma.followRequest.deleteMany({
+					where: {
+						receiverId: ctx.session.userId
+					}
+				})
+			}
+
 			await prisma.user.update({
 				where: {
 					id: ctx.session.userId
