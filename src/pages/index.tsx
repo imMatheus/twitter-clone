@@ -16,14 +16,10 @@ const Home: NextPage = () => {
 	return (
 		<div>
 			<HeaderBox title="Home" />
-			{currentUser && <TweetBox />}
-			{isLoading && (
-				<div className="flex h-screen items-center justify-center">
-					<Spinner />
-				</div>
-			)}
-			{currentUser ? (
+
+			{currentUser && (
 				<>
+					<TweetBox />
 					{data?.tweets && <TweetsContainer tweets={data.tweets} />}
 
 					<h2 className="border-t border-t-border p-4 pt-8 text-xl font-bold">You might like</h2>
@@ -31,7 +27,12 @@ const Home: NextPage = () => {
 						<ProfileCard user={user} key={user.id} />
 					))}
 				</>
-			) : !isLoading ? (
+			)}
+			{isLoading ? (
+				<div className="flex h-screen items-center justify-center">
+					<Spinner />
+				</div>
+			) : (
 				<div className="p-4">
 					<h2 className="mb-2 text-3xl font-extrabold">
 						Welcome to my Twitter clone. Please sign in to get started
@@ -41,8 +42,6 @@ const Home: NextPage = () => {
 						Sign in
 					</Button>
 				</div>
-			) : (
-				<></>
 			)}
 		</div>
 	)
