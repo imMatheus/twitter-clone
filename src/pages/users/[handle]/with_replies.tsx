@@ -37,7 +37,13 @@ const WithReplies: NextPage = () => {
 							<Spinner />
 						</div>
 					) : hasAccess ? (
-						tweetsData?.tweets && <TweetsContainer tweets={tweetsData.tweets} />
+						tweetsData?.tweets && tweetsData.tweets.length > 0 ? (
+							<TweetsContainer tweets={tweetsData.tweets} />
+						) : (
+							<h2 className="p-4 text-lg font-semibold">
+								Seems like {user.name} does not have any tweets
+							</h2>
+						)
 					) : (
 						<div className="flex justify-center p-4">
 							<div className="max-w-sm">
