@@ -14,7 +14,7 @@ export const protectedUserRouter = createProtectedRouter()
 			name: z.string().max(MAX_LENGTHS.name),
 			bio: z.string().max(MAX_LENGTHS.bio).nullable(),
 			location: z.string().max(MAX_LENGTHS.location).nullable(),
-			website: z.string().url().max(MAX_LENGTHS.website).nullable()
+			website: z.string().max(MAX_LENGTHS.website).nullable()
 		}),
 		resolve: async ({ ctx, input }) => {
 			await prisma.user.update({
