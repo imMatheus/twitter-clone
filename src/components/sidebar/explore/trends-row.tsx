@@ -16,7 +16,9 @@ const TrendsRow: React.FC<TrendsRowProps> = ({ trend }) => {
 							<div className="flex flex-col">
 								<p className="text-xs text-text-grayed">Trending</p>
 								<h3 className="font-bold">#{trend.name}</h3>
-								<p className="text-sm text-text-grayed">{trend.numberOfTweets} Tweets</p>
+								<p className="text-sm text-text-grayed">
+									{trend.numberOfTweets} {trend.numberOfTweets > 1 ? 'Tweets' : 'Tweet'}
+								</p>
 							</div>
 						</div>
 					</div>
