@@ -7,9 +7,12 @@ import { trpc } from '@/utils/trpc'
 import Spinner from '@/components/Spinner'
 import ProfileCard from '@/components/profileCard'
 import Button from '@/components/button'
+import { useSession } from 'next-auth/react'
 
 const Home: NextPage = () => {
 	const { currentUser, login } = useAuth()
+
+	const { data: session } = useSession()
 	const { data, isLoading } = trpc.useQuery(['tweets.feed'])
 	const { data: followSuggestion } = trpc.useQuery(['users.followSuggestion'])
 
@@ -32,7 +35,7 @@ const Home: NextPage = () => {
 				<div className="flex h-screen items-center justify-center">
 					<Spinner />
 				</div>
-			) : (
+			) : !session ? (
 				<div className="p-4">
 					<h2 className="mb-2 text-3xl font-extrabold">
 						Welcome to my Twitter clone. Please sign in to get started
@@ -42,6 +45,8 @@ const Home: NextPage = () => {
 						Sign in
 					</Button>
 				</div>
+			) : (
+				<></>
 			)}
 		</div>
 	)
