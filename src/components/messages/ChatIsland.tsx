@@ -10,7 +10,7 @@ interface ChatIslandProps {
 }
 
 const ChatIsland: React.FC<ChatIslandProps> = ({ room }) => {
-	const member = room.members[0]
+	const member = room.members[1]
 	if (!member) return <></>
 
 	return (
