@@ -7,7 +7,7 @@ import { trpc } from '@/utils/trpc'
 import Spinner from '@/components/Spinner'
 import ProfileCard from '@/components/profileCard'
 import Button from '@/components/button'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 
 const Home: NextPage = () => {
 	const { currentUser, login } = useAuth()
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
 						Welcome to my Twitter clone. Please sign in to get started
 					</h2>
 					<p className="mb-6 text-text-grayed">Sign in via a GitHub or Google account</p>
-					<Button variant="dark" size="large" onClick={() => login()}>
+					<Button variant="dark" size="large" onClick={() => signIn()}>
 						Sign in
 					</Button>
 				</div>
